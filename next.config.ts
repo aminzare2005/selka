@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: ["@tix-theme/shalom", "@tix/theme-sdk"],
 };
 
 export default nextConfig;
