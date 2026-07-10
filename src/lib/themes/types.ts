@@ -1,0 +1,20 @@
+// Re-export SDK types for app-internal use
+export type {
+  ThemeTokens,
+  GoogleFontConfig,
+  ThemeSection,
+  StoreSettings,
+  ThemeDefinition,
+  ResolvedTheme,
+  StorefrontContext,
+  StorefrontProduct,
+  StorefrontPage,
+  SectionProps,
+  ProductPageProps,
+  CartPageProps,
+  CheckoutPageProps,
+  CheckoutResultPageProps,
+  StorefrontLayoutProps,
+  ThemeComponents,
+  ThemePackage,
+} from "@tix/theme-sdk";
