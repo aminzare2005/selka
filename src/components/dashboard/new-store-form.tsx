@@ -9,15 +9,21 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import slugify from "slugify";
 
-export function NewStoreForm({ onSuccess }: { onSuccess?: (store: { id: string }) => void }) {
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
+type StoreFormProps = {
+  store?: { id: string; name: string; slug: string };
+  onSuccess?: (store: { id: string }) => void;
+};
 
-  const createStore = useMutation({
+export function StoreForm({ store, onSuccess }: StoreFormProps) {
+  const router = useRouter();
+  const isEditing = !!store;
+  const [name, setName] = useState(store?.name ?? "");
+  const [slug, setSlug] = useState(store?.slug ?? "");
+
+  const saveStore = useMutation({
     mutationFn: async (data: { name: string; slug: string }) => {
-      const res = await fetch("/api/stores", {
-        method: "POST",
+      const res = await fetch(isEditing ? `/api/stores/${store.id}` : "/api/stores", {
+        method: isEditing ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -25,12 +31,12 @@ export function NewStoreForm({ onSuccess }: { onSuccess?: (store: { id: string }
       if (!res.ok) throw new Error(json.error ?? "خطا");
       return json;
     },
-    onSuccess: (store) => {
-      toast.success("فروشگاه ساخته شد!");
+    onSuccess: (savedStore) => {
+      toast.success(isEditing ? "فروشگاه به‌روزرسانی شد" : "فروشگاه ساخته شد!");
       if (onSuccess) {
-        onSuccess(store);
-      } else {
-        router.push(`/dashboard/stores/${store.id}`);
+        onSuccess(savedStore);
+      } else if (!isEditing) {
+        router.push(`/dashboard/stores/${savedStore.id}`);
       }
     },
     onError: (err: Error) => toast.error(err.message),
@@ -38,17 +44,19 @@ export function NewStoreForm({ onSuccess }: { onSuccess?: (store: { id: string }
 
   function handleNameChange(value: string) {
     setName(value);
-    setSlug(
-      slugify(value, { lower: true, strict: true, locale: "fa" }) ||
-        value.toLowerCase().replace(/\s+/g, "-"),
-    );
+    if (!isEditing) {
+      setSlug(
+        slugify(value, { lower: true, strict: true, locale: "fa" }) ||
+          value.toLowerCase().replace(/\s+/g, "-"),
+      );
+    }
   }
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        createStore.mutate({ name, slug });
+        saveStore.mutate({ name, slug });
       }}
       className="space-y-5"
     >
@@ -77,9 +85,18 @@ export function NewStoreForm({ onSuccess }: { onSuccess?: (store: { id: string }
           />
         </div>
       </div>
-      <Button type="submit" className="w-full" size="lg" disabled={createStore.isPending}>
-        {createStore.isPending ? "در حال ساخت..." : "ساخت فروشگاه"}
+      <Button type="submit" className="w-full" size="lg" disabled={saveStore.isPending}>
+        {saveStore.isPending
+          ? isEditing
+            ? "در حال ذخیره..."
+            : "در حال ساخت..."
+          : isEditing
+            ? "ذخیره تغییرات"
+            : "ساخت فروشگاه"}
       </Button>
     </form>
   );
 }
+
+/** @deprecated Use StoreForm */
+export const NewStoreForm = StoreForm;

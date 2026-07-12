@@ -25,7 +25,7 @@ export default async function StoreProductsPage({ params }: Props) {
         description="افزودن، ویرایش و حذف محصولات فروشگاه"
       />
       <div className="mt-6">
-        <StoreProducts storeId={storeId} />
+        <StoreProducts storeId={storeId} storeSlug={store.slug} />
       </div>
     </div>
   );

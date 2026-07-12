@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react";
 import { AppShell } from "@/components/layout/app-shell";
 import { buildDashboardSections, dashboardNavItems, type NavItem } from "@/components/layout/dashboard-nav";
 import { Button } from "@/components/ui/button";
+import { EditStoreSheet } from "@/components/dashboard/edit-store-sheet";
 
 type Store = {
   id: string;
@@ -30,12 +31,15 @@ export function StoreDashboardLayout({ user, store, children, extraNavItems }: P
           <h1 className="text-h2">{store.name}</h1>
           <p className="mt-1 text-caption" dir="ltr">/s/{store.slug}</p>
         </div>
-        <Button variant="outline" size="sm" asChild>
-          <Link href={`/s/${store.slug}`} target="_blank">
-            مشاهده فروشگاه
-            <ExternalLink className="h-3.5 w-3.5" />
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <EditStoreSheet store={store} />
+          <Button variant="outline" size="sm" asChild>
+            <Link href={`/s/${store.slug}`} target="_blank">
+              مشاهده فروشگاه
+              <ExternalLink className="h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="mt-8 animate-fade-in">{children}</div>

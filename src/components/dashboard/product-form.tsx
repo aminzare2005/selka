@@ -9,47 +9,68 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import slugify from "slugify";
 
+type ProductData = {
+  id: string;
+  title: string;
+  slug: string;
+  price: number;
+  stock: number;
+  description: string;
+  images: string[];
+};
+
 type ProductFormProps = {
   storeId: string;
+  product?: ProductData;
   onSuccess?: () => void;
 };
 
-export function ProductForm({ storeId, onSuccess }: ProductFormProps) {
+export function ProductForm({ storeId, product, onSuccess }: ProductFormProps) {
   const queryClient = useQueryClient();
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("0");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const isEditing = !!product;
+  const [title, setTitle] = useState(product?.title ?? "");
+  const [slug, setSlug] = useState(product?.slug ?? "");
+  const [price, setPrice] = useState(product ? String(product.price) : "");
+  const [stock, setStock] = useState(product ? String(product.stock) : "0");
+  const [description, setDescription] = useState(product?.description ?? "");
+  const [imageUrl, setImageUrl] = useState(product?.images[0] ?? "");
 
-  const createProduct = useMutation({
+  const saveProduct = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`/api/stores/${storeId}/products`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          slug,
-          price: parseInt(price, 10),
-          stock: parseInt(stock, 10),
-          description,
-          images: imageUrl ? [imageUrl] : [],
-        }),
-      });
+      const payload = {
+        title,
+        slug,
+        price: parseInt(price, 10),
+        stock: parseInt(stock, 10),
+        description,
+        images: imageUrl ? [imageUrl] : [],
+      };
+
+      const res = await fetch(
+        isEditing
+          ? `/api/stores/${storeId}/products/${product.id}`
+          : `/api/stores/${storeId}/products`,
+        {
+          method: isEditing ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
       const json = await res.json();
       if (!res.ok) throw new Error(json.error);
       return json;
     },
     onSuccess: () => {
-      toast.success("محصول اضافه شد");
+      toast.success(isEditing ? "محصول به‌روزرسانی شد" : "محصول اضافه شد");
       queryClient.invalidateQueries({ queryKey: ["products", storeId] });
-      setTitle("");
-      setSlug("");
-      setPrice("");
-      setStock("0");
-      setDescription("");
-      setImageUrl("");
+      if (!isEditing) {
+        setTitle("");
+        setSlug("");
+        setPrice("");
+        setStock("0");
+        setDescription("");
+        setImageUrl("");
+      }
       onSuccess?.();
     },
     onError: (err: Error) => toast.error(err.message),
@@ -80,7 +101,9 @@ export function ProductForm({ storeId, onSuccess }: ProductFormProps) {
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
-              setSlug(slugify(e.target.value, { lower: true, strict: true, locale: "fa" }));
+              if (!isEditing) {
+                setSlug(slugify(e.target.value, { lower: true, strict: true, locale: "fa" }));
+              }
             }}
           />
         </div>
@@ -109,8 +132,12 @@ export function ProductForm({ storeId, onSuccess }: ProductFormProps) {
           <img src={imageUrl} alt="preview" className="mt-2 h-20 w-20 rounded object-cover" />
         )}
       </div>
-      <Button onClick={() => createProduct.mutate()} disabled={createProduct.isPending} className="w-full">
-        {createProduct.isPending ? "در حال ذخیره..." : "ذخیره محصول"}
+      <Button onClick={() => saveProduct.mutate()} disabled={saveProduct.isPending} className="w-full">
+        {saveProduct.isPending
+          ? "در حال ذخیره..."
+          : isEditing
+            ? "ذخیره تغییرات"
+            : "ذخیره محصول"}
       </Button>
     </div>
   );
