@@ -1,12 +1,11 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Store, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 import { getSession } from "@/lib/auth-server";
 import { db } from "@/lib/db";
 import { AppShell } from "@/components/layout/app-shell";
 import { buildDashboardSections, dashboardNavItems, type NavItem } from "@/components/layout/dashboard-nav";
 import { PageHeader } from "@/components/ui/page-header";
-import { Button } from "@/components/ui/button";
+import { CreateStoreSheet } from "@/components/dashboard/create-store-sheet";
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -22,11 +21,7 @@ export default async function DashboardPage() {
       <PageHeader
         title="داشبورد"
         description="فروشگاه های خودتو مدیریت کن"
-        action={
-          <Button asChild>
-            <Link href="/dashboard/stores/new">ساخت فروشگاه</Link>
-          </Button>
-        }
+        action={<CreateStoreSheet />}
       />
     </AppShell>
   );

@@ -10,6 +10,7 @@ import {
   type NavItem,
 } from "@/components/layout/dashboard-nav";
 import { PageHeader } from "@/components/ui/page-header";
+import { CreateStoreSheet } from "@/components/dashboard/create-store-sheet";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -40,11 +41,7 @@ export default async function StoresPage() {
       <PageHeader
         title="فروشگاه‌ها"
         description="فروشگاه‌های شما"
-        action={
-          <Button asChild>
-            <Link href="/dashboard/stores/new">ساخت فروشگاه</Link>
-          </Button>
-        }
+        action={<CreateStoreSheet />}
       />
 
       {stores.length === 0 ? (
@@ -56,9 +53,9 @@ export default async function StoresPage() {
           <p className="mt-2 max-w-sm text-sm text-muted-foreground">
             اولین فروشگاه آنلاین خود را بسازید و شروع به فروش کنید.
           </p>
-          <Button className="mt-6" asChild>
-            <Link href="/dashboard/stores/new">ساخت فروشگاه</Link>
-          </Button>
+          <div className="mt-6">
+            <CreateStoreSheet />
+          </div>
         </div>
       ) : (
         <div className="mt-8 grid gap-4 sm:grid-cols-2">

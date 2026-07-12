@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import slugify from "slugify";
 
-export function NewStoreForm() {
+export function NewStoreForm({ onSuccess }: { onSuccess?: (store: { id: string }) => void }) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -27,7 +27,11 @@ export function NewStoreForm() {
     },
     onSuccess: (store) => {
       toast.success("فروشگاه ساخته شد!");
-      router.push(`/dashboard/stores/${store.id}`);
+      if (onSuccess) {
+        onSuccess(store);
+      } else {
+        router.push(`/dashboard/stores/${store.id}`);
+      }
     },
     onError: (err: Error) => toast.error(err.message),
   });

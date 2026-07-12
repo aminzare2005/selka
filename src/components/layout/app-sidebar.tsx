@@ -20,8 +20,7 @@ function isItemActive(item: NavItem, pathname: string) {
   if (item.activeRule === "dashboard-stores-list") {
     return (
       pathname === "/dashboard" ||
-      pathname === "/dashboard/stores" ||
-      pathname === "/dashboard/stores/new"
+      pathname === "/dashboard/stores"
     );
   }
   if (item.exact || item.activeRule === "exact") {
