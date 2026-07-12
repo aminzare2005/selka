@@ -22,9 +22,9 @@ export default async function StoreThemePage({ params }: Props) {
     <div>
       <PageHeader
         title="تنظیمات تم"
-        description="تم، رنگ‌ها و ظاهر فروشگاه را شخصی‌سازی کنید"
+        description="رنگ‌ها، متن‌ها و تم کلی فروشگاه را مدیریت کنید"
       />
-      <div className="mt-6">
+      <div className="mt-6 max-w-5xl">
         <StoreThemeSettings
           store={{
             id: store.id,

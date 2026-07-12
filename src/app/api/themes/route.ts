@@ -8,6 +8,7 @@ export async function GET() {
       id: t.id,
       name: t.name,
       description: t.description,
+      previewColor: t.tokens.colors.primary,
     })),
   );
 }
