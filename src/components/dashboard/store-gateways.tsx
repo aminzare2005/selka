@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { GatewayListSkeleton } from "@/components/ui/dashboard-skeletons";
 import { toast } from "sonner";
 
 type Gateway = {
@@ -49,7 +50,7 @@ export function StoreGateways({ storeId }: { storeId: string }) {
     onError: (err: Error) => toast.error(err.message),
   });
 
-  if (isLoading) return <p>در حال بارگذاری...</p>;
+  if (isLoading) return <GatewayListSkeleton />;
 
   if (gateways.length === 0) {
     return <p className="text-muted-foreground">درگاه پرداختی در پلتفرم فعال نیست. با ادمین تماس بگیرید.</p>;
