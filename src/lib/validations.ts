@@ -10,6 +10,8 @@ export const createStoreSchema = z.object({
     .regex(/^[a-z0-9-]+$/, "فقط حروف انگلیسی کوچک، اعداد و خط تیره مجاز است"),
 });
 
+export const updateStoreSchema = createStoreSchema.partial();
+
 export const updateStoreThemeSchema = z.object({
   themeId: z.string().refine(isRegisteredTheme, "تم انتخاب‌شده معتبر نیست"),
   settings: z
@@ -73,6 +75,10 @@ export const checkoutSchema = z.object({
   customerPhone: z.string().min(10, "شماره تماس معتبر نیست"),
   customerAddress: z.string().min(5, "آدرس الزامی است"),
   gatewaySlug: z.string().min(1, "درگاه پرداخت را انتخاب کنید"),
+});
+
+export const updateOrderStatusSchema = z.object({
+  status: z.enum(["PENDING", "PAID", "FAILED", "CANCELLED"]),
 });
 
 export const storeGatewaySchema = z.object({

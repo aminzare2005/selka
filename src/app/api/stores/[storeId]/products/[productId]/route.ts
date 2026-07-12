@@ -25,6 +25,13 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     return apiError(parsed.error.issues[0]?.message ?? "داده نامعتبر", 400);
   }
 
+  if (parsed.data.slug && parsed.data.slug !== product.slug) {
+    const existing = await db.product.findFirst({
+      where: { storeId, slug: parsed.data.slug, NOT: { id: productId } },
+    });
+    if (existing) return apiError("این آدرس محصول قبلاً استفاده شده", 409);
+  }
+
   const updated = await db.product.update({
     where: { id: productId },
     data: parsed.data,
@@ -32,6 +39,9 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
   revalidateTag(`store:${product.store.slug}`, "max");
   revalidateTag(`product:${product.store.slug}:${product.slug}`, "max");
+  if (updated.slug !== product.slug) {
+    revalidateTag(`product:${product.store.slug}:${updated.slug}`, "max");
+  }
 
   return apiSuccess(updated);
 }
