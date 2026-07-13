@@ -49,7 +49,7 @@ const SheetContent = React.forwardRef<
     <SheetPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition-transform duration-300 ease-in-out",
+        "fixed z-50 border-border flex flex-col gap-4 bg-background shadow-lg transition-transform duration-300 ease-in-out",
         sheetVariants.side[side],
         className,
       )}
