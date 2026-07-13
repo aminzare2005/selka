@@ -2,8 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { getSession } from "@/lib/auth-server";
-import { AppShell } from "@/components/layout/app-shell";
-import { buildDashboardSections, dashboardNavItems } from "@/components/layout/dashboard-nav";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,11 +11,8 @@ export default async function ContactPage() {
   if (!session) redirect("/login");
 
   return (
-    <AppShell user={session.user} sections={buildDashboardSections(dashboardNavItems)}>
-      <PageHeader
-        title="ارتباط با ما"
-        description="تیم پشتیبانی تیکس آماده پاسخگویی است"
-      />
+    <div>
+      <PageHeader title="ارتباط با ما" description="تیم پشتیبانی تیکس آماده پاسخگویی است" />
 
       <div className="mt-8 max-w-lg space-y-6">
         <Card>
@@ -28,8 +23,8 @@ export default async function ContactPage() {
             <div>
               <h2 className="font-semibold">به زودی...</h2>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                فرم تماس، تیکت پشتیبانی و چت آنلاین به‌زودی در این بخش فعال می‌شود.
-                فعلاً می‌توانید از طریق ایمیل با ما در ارتباط باشید.
+                فرم تماس، تیکت پشتیبانی و چت آنلاین به‌زودی در این بخش فعال می‌شود. فعلاً
+                می‌توانید از طریق ایمیل با ما در ارتباط باشید.
               </p>
             </div>
             <Button variant="outline" asChild>
@@ -48,6 +43,6 @@ export default async function ContactPage() {
           </Link>
         </Button>
       </div>
-    </AppShell>
+    </div>
   );
 }

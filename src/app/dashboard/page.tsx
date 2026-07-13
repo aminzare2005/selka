@@ -2,274 +2,160 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
   ArrowLeft,
-  HelpCircle,
-  Mail,
+  Clock,
+  CreditCard,
   Package,
-  Shield,
+  Palette,
   ShoppingBag,
   Store,
   TrendingUp,
 } from "lucide-react";
 import { getSession } from "@/lib/auth-server";
 import { db } from "@/lib/db";
-import { AppShell } from "@/components/layout/app-shell";
-import { buildDashboardSections, dashboardNavItems, type NavItem } from "@/components/layout/dashboard-nav";
-import { PageHeader } from "@/components/ui/page-header";
+import { getPrimaryStoreForUser } from "@/lib/store-access";
 import { CreateStoreSheet } from "@/components/dashboard/create-store-sheet";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { cn, formatPrice } from "@/lib/utils";
-
-const orderStatusStyle: Record<string, { dot: string; label: string }> = {
-  PAID: { dot: "bg-emerald-500", label: "پرداخت شده" },
-  PENDING: { dot: "bg-amber-500", label: "در انتظار" },
-  FAILED: { dot: "bg-red-500", label: "ناموفق" },
-  CANCELLED: { dot: "bg-neutral-400", label: "لغو شده" },
-};
-
-function formatOrderDate(date: Date | string) {
-  return new Intl.DateTimeFormat("fa-IR", { month: "short", day: "numeric" }).format(new Date(date));
-}
+import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils";
 
 export default async function DashboardPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const navItems: NavItem[] =
-    session.user.role === "PLATFORM_ADMIN"
-      ? [...dashboardNavItems, { href: "/admin", label: "پنل ادمین", icon: <Shield className="h-4 w-4" /> }]
-      : dashboardNavItems;
+  const store = await getPrimaryStoreForUser(session.user.id);
 
-  const stores = await db.store.findMany({
-    where: { ownerId: session.user.id },
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: { select: { products: true, orders: true } },
-    },
-  });
+  if (!store) {
+    return (
+      <div className="flex flex-col items-center py-16 text-center animate-slide-up">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary">
+          <Store className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <h2 className="mt-6 text-lg font-semibold">فروشگاهت رو بساز</h2>
+        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+          اولین فروشگاه آنلاین خود را بساز و محصولاتت را بفروش.
+        </p>
+        <div className="mt-6">
+          <CreateStoreSheet />
+        </div>
+      </div>
+    );
+  }
 
-  const storeIds = stores.map((s) => s.id);
+  const storeId = store.id;
 
-  const [totalProducts, paidOrders, pendingOrders, totalRevenue, recentOrders] = await Promise.all([
-    db.product.count({ where: { storeId: { in: storeIds } } }),
-    db.order.count({ where: { storeId: { in: storeIds }, status: "PAID" } }),
-    db.order.count({ where: { storeId: { in: storeIds }, status: "PENDING" } }),
+  const [productCount, orderCount, pendingOrders, paidOrders, revenue] = await Promise.all([
+    db.product.count({ where: { storeId } }),
+    db.order.count({ where: { storeId } }),
+    db.order.count({ where: { storeId, status: "PENDING" } }),
+    db.order.count({ where: { storeId, status: "PAID" } }),
     db.order.aggregate({
-      where: { storeId: { in: storeIds }, status: "PAID" },
+      where: { storeId, status: "PAID" },
       _sum: { totalAmount: true },
-    }),
-    db.order.findMany({
-      where: { storeId: { in: storeIds } },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      include: { store: { select: { id: true, name: true } } },
     }),
   ]);
 
-  const revenue = totalRevenue._sum.totalAmount ?? 0;
-  const firstName = session.user.name?.split(" ")[0] ?? "کاربر";
+  const totalRevenue = revenue._sum.totalAmount ?? 0;
 
   const stats = [
-    { label: "فروشگاه‌ها", value: stores.length.toLocaleString("fa-IR"), icon: Store },
-    { label: "محصولات", value: totalProducts.toLocaleString("fa-IR"), icon: Package },
+    { label: "محصولات", value: productCount.toLocaleString("fa-IR"), icon: Package },
     { label: "سفارش موفق", value: paidOrders.toLocaleString("fa-IR"), icon: ShoppingBag },
-    { label: "درآمد کل", value: formatPrice(revenue), icon: TrendingUp },
+    { label: "در انتظار پرداخت", value: pendingOrders.toLocaleString("fa-IR"), icon: Clock },
+    { label: "درآمد", value: formatPrice(totalRevenue), icon: TrendingUp },
   ];
 
-  const tips = [
-    "اولین محصولت رو اضافه کن و لینک فروشگاه رو به مشتری‌ها بفرست.",
-    "درگاه پرداخت زیبال رو از بخش درگاه‌ها فعال کن.",
-    "تم و رنگ فروشگاه رو از تنظیمات تم شخصی‌سازی کن.",
+  const quickLinks = [
+    {
+      href: "/dashboard/products",
+      label: "محصولات",
+      description: "افزودن، ویرایش و مدیریت موجودی",
+      icon: Package,
+      count: productCount,
+      countLabel: "محصول",
+    },
+    {
+      href: "/dashboard/orders",
+      label: "سفارش‌ها",
+      description: "پیگیری و مدیریت سفارش‌های مشتریان",
+      icon: ShoppingBag,
+      count: orderCount,
+      countLabel: "سفارش",
+    },
+    {
+      href: "/dashboard/theme",
+      label: "تنظیمات تم",
+      description: "ظاهر، رنگ و تم فروشگاه",
+      icon: Palette,
+    },
+    {
+      href: "/dashboard/gateways",
+      label: "درگاه‌های پرداخت",
+      description: "فعال‌سازی زیبال و سایر درگاه‌ها",
+      icon: CreditCard,
+    },
   ];
 
   return (
-    <AppShell user={session.user} sections={buildDashboardSections(navItems)}>
-      <PageHeader
-        title={`سلام ${firstName}`}
-        description="خلاصه وضعیت فروشگاه‌هات اینجاست"
-        action={<CreateStoreSheet />}
-      />
-
-      <div className="mt-8 space-y-8">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <Card key={stat.label}>
-              <CardContent className="flex items-center gap-4 p-5">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
-                  <stat.icon className="h-5 w-5 text-muted-foreground" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <p className="mt-0.5 text-xl font-bold">{stat.value}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {pendingOrders > 0 && (
-          <Card variant="flat">
-            <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm">
-                <span className="font-medium">{pendingOrders.toLocaleString("fa-IR")} سفارش</span>{" "}
-                در انتظار پرداخت است.
-              </p>
-              {stores.length === 1 && (
-                <Button variant="outline" size="sm" asChild>
-                  <Link href={`/dashboard/stores/${stores[0].id}/orders`}>مشاهده سفارش‌ها</Link>
-                </Button>
-              )}
+    <div className="space-y-8">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <Card key={stat.label}>
+            <CardContent className="flex items-center gap-4 p-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                <stat.icon className="h-5 w-5 text-muted-foreground" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <p className="mt-0.5 truncate text-xl font-bold">{stat.value}</p>
+              </div>
             </CardContent>
           </Card>
-        )}
+        ))}
+      </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
-          <div className="space-y-4 lg:col-span-2">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">فروشگاه‌های شما</h2>
-              {stores.length > 0 && (
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/dashboard/stores">
-                    همه
-                    <ArrowLeft className="h-4 w-4" />
-                  </Link>
-                </Button>
-              )}
-            </div>
+      {pendingOrders > 0 && (
+        <Card variant="flat" className="border-amber-200 bg-amber-50">
+          <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-amber-900">
+              <span className="font-medium">{pendingOrders.toLocaleString("fa-IR")} سفارش</span>{" "}
+              در انتظار پرداخت است.
+            </p>
+            <Button variant="outline" size="sm" asChild className="border-amber-300 bg-white hover:bg-amber-50">
+              <Link href="/dashboard/orders">مشاهده سفارش‌ها</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
-            {stores.length === 0 ? (
-              <Card variant="flat">
-                <CardContent className="flex flex-col items-center py-12 text-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary">
-                    <Store className="h-7 w-7 text-muted-foreground" />
+      <div>
+        <h2 className="text-lg font-semibold">مدیریت فروشگاه</h2>
+        <p className="mt-1 text-sm text-muted-foreground">بخش‌های مختلف فروشگاه را از اینجا مدیریت کنید.</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {quickLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="group">
+              <Card variant="interactive" className="h-full">
+                <CardContent className="flex items-center gap-4 p-5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-foreground/5">
+                    <link.icon className="h-5 w-5" />
                   </div>
-                  <h3 className="mt-4 font-semibold">هنوز فروشگاهی ندارید</h3>
-                  <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                    اولین فروشگاه آنلاین خود را بسازید و شروع به فروش کنید.
-                  </p>
-                  <div className="mt-6">
-                    <CreateStoreSheet />
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-3">
-                {stores.slice(0, 4).map((store) => (
-                  <Card key={store.id} variant="interactive">
-                    <CardContent className="flex items-center justify-between gap-4 p-4">
-                      <div className="min-w-0">
-                        <p className="font-medium truncate">{store.name}</p>
-                        <p className="text-caption" dir="ltr">
-                          /s/{store.slug}
-                        </p>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {store._count.products.toLocaleString("fa-IR")} محصول ·{" "}
-                          {store._count.orders.toLocaleString("fa-IR")} سفارش
-                        </p>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-2">
-                        <Badge variant={store.status === "ACTIVE" ? "success" : "secondary"}>
-                          {store.status === "ACTIVE" ? "فعال" : "غیرفعال"}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium">{link.label}</p>
+                      {link.count !== undefined && link.count > 0 && (
+                        <Badge variant="secondary" className="text-[10px]">
+                          {link.count.toLocaleString("fa-IR")} {link.countLabel}
                         </Badge>
-                        <Button size="sm" asChild>
-                          <Link href={`/dashboard/stores/${store.id}`}>مدیریت</Link>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-
-            {recentOrders.length > 0 && (
-              <Card>
-                <CardContent className="p-0">
-                  <div className="flex items-center justify-between px-5 py-4">
-                    <h2 className="font-semibold">آخرین سفارش‌ها</h2>
-                    {stores.length === 1 && (
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/dashboard/stores/${stores[0].id}/orders`}>
-                          همه
-                          <ArrowLeft className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    )}
+                      )}
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">{link.description}</p>
                   </div>
-                  <ul className="divide-y divide-border">
-                    {recentOrders.map((order) => {
-                      const status = orderStatusStyle[order.status] ?? {
-                        dot: "bg-neutral-400",
-                        label: order.status,
-                      };
-                      return (
-                        <li key={order.id}>
-                          <Link
-                            href={`/dashboard/stores/${order.store.id}/orders`}
-                            className="flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-secondary/50"
-                          >
-                            <div className="min-w-0">
-                              <p className="font-medium truncate">{order.customerName}</p>
-                              <p className="mt-0.5 text-xs text-muted-foreground truncate">
-                                {order.store.name} · {formatOrderDate(order.createdAt)}
-                              </p>
-                            </div>
-                            <div className="shrink-0 text-left">
-                              <p className="text-sm font-medium">{formatPrice(order.totalAmount)}</p>
-                              <p className="mt-1 flex items-center justify-end gap-1.5 text-xs text-muted-foreground">
-                                <span className={cn("h-1.5 w-1.5 rounded-full", status.dot)} />
-                                {status.label}
-                              </p>
-                            </div>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <ArrowLeft className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-x-0.5" />
                 </CardContent>
               </Card>
-            )}
-          </div>
-
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold">راهنمای شروع</h2>
-            <Card>
-              <CardContent className="space-y-3 p-5">
-                {tips.map((tip, i) => (
-                  <div key={i} className="flex gap-3 text-sm">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-xs font-medium">
-                      {i + 1}
-                    </span>
-                    <p className="text-muted-foreground">{tip}</p>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card variant="interactive">
-              <CardContent className="p-5">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
-                    <HelpCircle className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">ارتباط با ما</p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      سوال یا پیشنهادی داری؟ تیم پشتیبانی کنارت هست.
-                    </p>
-                    <Button variant="link" className="mt-2 h-auto p-0" asChild>
-                      <Link href="/dashboard/contact">
-                        <Mail className="h-3.5 w-3.5" />
-                        تماس با پشتیبانی
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+            </Link>
+          ))}
         </div>
       </div>
-    </AppShell>
+    </div>
   );
 }
