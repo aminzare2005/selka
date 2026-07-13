@@ -1,6 +1,5 @@
 import {
   LayoutDashboard,
-  Store,
   Shield,
   CreditCard,
   Palette,
@@ -8,7 +7,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 
-export type NavActiveRule = "exact" | "prefix" | "dashboard-stores-list";
+export type NavActiveRule = "exact" | "prefix";
 
 export type NavItem = {
   href: string;
@@ -25,34 +24,18 @@ export type NavSection = {
 
 export const dashboardNavItems: NavItem[] = [
   { href: "/dashboard", label: "داشبورد", icon: <LayoutDashboard className="h-4 w-4" />, exact: true },
-  {
-    href: "/dashboard/stores",
-    label: "فروشگاه‌ها",
-    icon: <Store className="h-4 w-4" />,
-    exact: true,
-  },
+  { href: "/dashboard/products", label: "محصولات", icon: <Package className="h-4 w-4" /> },
+  { href: "/dashboard/orders", label: "سفارش‌ها", icon: <ShoppingBag className="h-4 w-4" /> },
+  { href: "/dashboard/theme", label: "تم", icon: <Palette className="h-4 w-4" /> },
+  { href: "/dashboard/gateways", label: "درگاه‌ها", icon: <CreditCard className="h-4 w-4" /> },
 ];
-
-export function getStoreNavItems(storeId: string): NavItem[] {
-  const base = `/dashboard/stores/${storeId}`;
-  return [
-    { href: base, label: "نمای کلی", icon: <LayoutDashboard className="h-4 w-4" />, exact: true },
-    { href: `${base}/theme`, label: "تم", icon: <Palette className="h-4 w-4" /> },
-    { href: `${base}/products`, label: "محصولات", icon: <Package className="h-4 w-4" /> },
-    { href: `${base}/gateways`, label: "درگاه‌ها", icon: <CreditCard className="h-4 w-4" /> },
-    { href: `${base}/orders`, label: "سفارش‌ها", icon: <ShoppingBag className="h-4 w-4" /> },
-  ];
-}
 
 export function buildDashboardSections(
   items: NavItem[] = dashboardNavItems,
-  store?: { id: string; name: string },
+  extras?: NavItem[],
 ): NavSection[] {
-  const sections: NavSection[] = [{ items }];
-  if (store) {
-    sections.push({ title: store.name, items: getStoreNavItems(store.id) });
-  }
-  return sections;
+  const all = extras?.length ? [...items, ...extras] : items;
+  return [{ items: all }];
 }
 
 export const adminNavItems: NavItem[] = [

@@ -36,7 +36,7 @@ export function StoreForm({ store, onSuccess }: StoreFormProps) {
       if (onSuccess) {
         onSuccess(savedStore);
       } else if (!isEditing) {
-        router.push(`/dashboard/stores/${savedStore.id}`);
+        router.push("/dashboard");
       }
     },
     onError: (err: Error) => toast.error(err.message),

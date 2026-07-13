@@ -4,21 +4,16 @@ import { db } from "@/lib/db";
 import { apiError, apiSuccess } from "@/lib/api";
 import { createProductSchema } from "@/lib/validations";
 import { revalidateTag } from "next/cache";
+import { requireStoreAccess } from "@/lib/store-access";
 
 type Params = { params: Promise<{ storeId: string }> };
-
-async function getOwnedStore(storeId: string, userId: string) {
-  return db.store.findFirst({
-    where: { id: storeId, ownerId: userId },
-  });
-}
 
 export async function GET(_request: NextRequest, { params }: Params) {
   const session = await getSession();
   if (!session) return apiError("لطفاً وارد شوید", 401);
 
   const { storeId } = await params;
-  const store = await getOwnedStore(storeId, session.user.id);
+  const store = await requireStoreAccess(storeId, session.user.id);
   if (!store) return apiError("فروشگاه یافت نشد", 404);
 
   const products = await db.product.findMany({
@@ -34,7 +29,7 @@ export async function POST(request: NextRequest, { params }: Params) {
   if (!session) return apiError("لطفاً وارد شوید", 401);
 
   const { storeId } = await params;
-  const store = await getOwnedStore(storeId, session.user.id);
+  const store = await requireStoreAccess(storeId, session.user.id, ["OWNER", "ADMIN"]);
   if (!store) return apiError("فروشگاه یافت نشد", 404);
 
   const body = await request.json();

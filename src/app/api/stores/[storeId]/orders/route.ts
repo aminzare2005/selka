@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { getSession } from "@/lib/auth-server";
 import { db } from "@/lib/db";
 import { apiError, apiSuccess } from "@/lib/api";
+import { requireStoreAccess } from "@/lib/store-access";
 
 type Params = { params: Promise<{ storeId: string }> };
 
@@ -10,9 +11,7 @@ export async function GET(_request: NextRequest, { params }: Params) {
   if (!session) return apiError("لطفاً وارد شوید", 401);
 
   const { storeId } = await params;
-  const store = await db.store.findFirst({
-    where: { id: storeId, ownerId: session.user.id },
-  });
+  const store = await requireStoreAccess(storeId, session.user.id);
   if (!store) return apiError("فروشگاه یافت نشد", 404);
 
   const orders = await db.order.findMany({

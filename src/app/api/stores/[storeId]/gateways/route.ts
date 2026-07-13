@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { apiError, apiSuccess } from "@/lib/api";
 import { storeGatewaySchema } from "@/lib/validations";
 import { encrypt } from "@/lib/encryption";
+import { requireStoreAccess } from "@/lib/store-access";
 
 type Params = { params: Promise<{ storeId: string }> };
 
@@ -12,9 +13,7 @@ export async function GET(_request: NextRequest, { params }: Params) {
   if (!session) return apiError("لطفاً وارد شوید", 401);
 
   const { storeId } = await params;
-  const store = await db.store.findFirst({
-    where: { id: storeId, ownerId: session.user.id },
-  });
+  const store = await requireStoreAccess(storeId, session.user.id);
   if (!store) return apiError("فروشگاه یافت نشد", 404);
 
   const gateways = await db.paymentGateway.findMany({
@@ -43,9 +42,7 @@ export async function POST(request: NextRequest, { params }: Params) {
   if (!session) return apiError("لطفاً وارد شوید", 401);
 
   const { storeId } = await params;
-  const store = await db.store.findFirst({
-    where: { id: storeId, ownerId: session.user.id },
-  });
+  const store = await requireStoreAccess(storeId, session.user.id, ["OWNER", "ADMIN"]);
   if (!store) return apiError("فروشگاه یافت نشد", 404);
 
   const body = await request.json();
@@ -60,7 +57,12 @@ export async function POST(request: NextRequest, { params }: Params) {
   if (!gateway || !gateway.isActive) return apiError("درگاه یافت نشد", 404);
 
   if (parsed.data.isEnabled && !parsed.data.merchantId) {
-    return apiError("شناسه پذیرنده الزامی است", 400);
+    const existing = await db.storePaymentGateway.findUnique({
+      where: { storeId_gatewayId: { storeId, gatewayId: parsed.data.gatewayId } },
+    });
+    if (!existing?.credentials) {
+      return apiError("شناسه پذیرنده الزامی است", 400);
+    }
   }
 
   const credentials = parsed.data.merchantId

@@ -4,16 +4,16 @@ import { db } from "@/lib/db";
 import { apiError, apiSuccess } from "@/lib/api";
 import { createStoreSchema } from "@/lib/validations";
 import { revalidateTag } from "next/cache";
+import {
+  createStoreWithOwnerMembership,
+  getAccessibleStoresForUser,
+} from "@/lib/store-access";
 
 export async function GET() {
   const session = await getSession();
   if (!session) return apiError("لطفاً وارد شوید", 401);
 
-  const stores = await db.store.findMany({
-    where: { ownerId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
-
+  const stores = await getAccessibleStoresForUser(session.user.id);
   return apiSuccess(stores);
 }
 
@@ -30,14 +30,10 @@ export async function POST(request: NextRequest) {
   const existing = await db.store.findUnique({ where: { slug: parsed.data.slug } });
   if (existing) return apiError("این آدرس قبلاً استفاده شده است", 409);
 
-  const store = await db.store.create({
-    data: {
-      name: parsed.data.name,
-      slug: parsed.data.slug,
-      ownerId: session.user.id,
-      themeId: "modern",
-      settings: {},
-    },
+  const store = await createStoreWithOwnerMembership({
+    name: parsed.data.name,
+    slug: parsed.data.slug,
+    ownerId: session.user.id,
   });
 
   revalidateTag(`store:${store.slug}`, "max");

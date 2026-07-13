@@ -17,12 +17,6 @@ import type { NavItem, NavSection } from "@/components/layout/dashboard-nav";
 export type { NavItem, NavSection } from "@/components/layout/dashboard-nav";
 
 function isItemActive(item: NavItem, pathname: string) {
-  if (item.activeRule === "dashboard-stores-list") {
-    return (
-      pathname === "/dashboard" ||
-      pathname === "/dashboard/stores"
-    );
-  }
   if (item.exact || item.activeRule === "exact") {
     return pathname === item.href;
   }

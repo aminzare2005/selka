@@ -34,9 +34,10 @@ export function CreateStoreSheet({
         description="نام و آدرس فروشگاه خود را وارد کنید"
       >
         <StoreForm
-          onSuccess={(store) => {
+          onSuccess={() => {
             setOpen(false);
-            router.push(`/dashboard/stores/${store.id}`);
+            router.push("/dashboard");
+            router.refresh();
           }}
         />
       </FormSheet>

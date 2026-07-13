@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth-server";
 import { db } from "@/lib/db";
 import { apiError, apiSuccess } from "@/lib/api";
 import { updateOrderStatusSchema } from "@/lib/validations";
+import { requireStoreAccess } from "@/lib/store-access";
 
 type Params = { params: Promise<{ storeId: string; orderId: string }> };
 
@@ -12,8 +13,11 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
   const { storeId, orderId } = await params;
 
+  const store = await requireStoreAccess(storeId, session.user.id, ["OWNER", "ADMIN"]);
+  if (!store) return apiError("سفارش یافت نشد", 404);
+
   const order = await db.order.findFirst({
-    where: { id: orderId, storeId, store: { ownerId: session.user.id } },
+    where: { id: orderId, storeId },
   });
   if (!order) return apiError("سفارش یافت نشد", 404);
 

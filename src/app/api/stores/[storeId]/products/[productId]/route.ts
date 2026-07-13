@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { apiError, apiSuccess } from "@/lib/api";
 import { updateProductSchema } from "@/lib/validations";
 import { revalidateTag } from "next/cache";
+import { requireStoreAccess } from "@/lib/store-access";
 
 type Params = { params: Promise<{ storeId: string; productId: string }> };
 
@@ -13,9 +14,11 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
   const { storeId, productId } = await params;
 
+  const store = await requireStoreAccess(storeId, session.user.id, ["OWNER", "ADMIN"]);
+  if (!store) return apiError("محصول یافت نشد", 404);
+
   const product = await db.product.findFirst({
-    where: { id: productId, storeId, store: { ownerId: session.user.id } },
-    include: { store: true },
+    where: { id: productId, storeId },
   });
   if (!product) return apiError("محصول یافت نشد", 404);
 
@@ -37,10 +40,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     data: parsed.data,
   });
 
-  revalidateTag(`store:${product.store.slug}`, "max");
-  revalidateTag(`product:${product.store.slug}:${product.slug}`, "max");
+  revalidateTag(`store:${store.slug}`, "max");
+  revalidateTag(`product:${store.slug}:${product.slug}`, "max");
   if (updated.slug !== product.slug) {
-    revalidateTag(`product:${product.store.slug}:${updated.slug}`, "max");
+    revalidateTag(`product:${store.slug}:${updated.slug}`, "max");
   }
 
   return apiSuccess(updated);
@@ -52,15 +55,17 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
 
   const { storeId, productId } = await params;
 
+  const store = await requireStoreAccess(storeId, session.user.id, ["OWNER", "ADMIN"]);
+  if (!store) return apiError("محصول یافت نشد", 404);
+
   const product = await db.product.findFirst({
-    where: { id: productId, storeId, store: { ownerId: session.user.id } },
-    include: { store: true },
+    where: { id: productId, storeId },
   });
   if (!product) return apiError("محصول یافت نشد", 404);
 
   await db.product.delete({ where: { id: productId } });
 
-  revalidateTag(`store:${product.store.slug}`, "max");
+  revalidateTag(`store:${store.slug}`, "max");
 
   return apiSuccess({ success: true });
 }
