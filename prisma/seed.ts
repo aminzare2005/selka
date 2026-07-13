@@ -58,6 +58,9 @@ async function main() {
           heroSubtitle: "بهترین محصولات با بهترین قیمت",
           tokens: { colors: { primary: "#0F766E" } },
         },
+        memberships: {
+          create: { userId: demo.id, role: "OWNER" },
+        },
       },
     });
 
@@ -94,7 +97,18 @@ async function main() {
       ],
     });
     console.log("✅ Demo store: /s/demo-shop");
+  } else {
+    await db.storeMembership.upsert({
+      where: { storeId_userId: { storeId: demoStore.id, userId: demo.id } },
+      create: { storeId: demoStore.id, userId: demo.id, role: "OWNER" },
+      update: {},
+    });
   }
+
+  // Backfill any legacy stores without membership rows
+  const { backfillOwnerMemberships } = await import("../src/lib/store-access");
+  await backfillOwnerMemberships();
+  console.log("✅ Owner memberships backfilled");
 
   console.log("🎉 Seed completed!");
 }

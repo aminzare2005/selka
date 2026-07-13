@@ -17,6 +17,12 @@ enum StoreStatus {
   INACTIVE
 }
 
+enum StoreRole {
+  OWNER
+  ADMIN
+  STAFF
+}
+
 enum OrderStatus {
   PENDING
   PAID
@@ -40,11 +46,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  sessions Session[]
-  accounts Account[]
-  stores   Store[]
-  carts    Cart[]
-  orders   Order[]
+  sessions    Session[]
+  accounts    Account[]
+  stores      Store[]
+  memberships StoreMembership[]
+  carts       Cart[]
+  orders      Order[]
 
   @@map("user")
 }
@@ -109,8 +116,24 @@ model Store {
   carts                 Cart[]
   orders                Order[]
   storePaymentGateways  StorePaymentGateway[]
+  memberships           StoreMembership[]
 
   @@map("store")
+}
+
+model StoreMembership {
+  id        String    @id @default(cuid())
+  storeId   String
+  store     Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      StoreRole @default(STAFF)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([storeId, userId])
+  @@index([userId])
+  @@map("store_membership")
 }
 
 model Product {
