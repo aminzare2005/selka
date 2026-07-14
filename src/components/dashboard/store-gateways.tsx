@@ -37,7 +37,7 @@ function GatewayCard({
             <div className="min-w-0">
               <p className="font-semibold">{gateway.name}</p>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{gateway.description}</p>
-              <p className="mt-1 text-caption" dir="ltr">
+              <p className="mt-1 w-fit text-caption" dir="ltr">
                 {gateway.slug}
               </p>
             </div>
@@ -96,7 +96,7 @@ export function StoreGateways({ storeId }: { storeId: string }) {
 
   if (gateways.length === 0) {
     return (
-      <div className="flex flex-col items-center rounded-xl border border-dashed py-16 text-center">
+      <div className="flex flex-col items-center rounded-xl border border-dashed border-border py-16 text-center">
         <CreditCard className="h-10 w-10 text-muted-foreground" />
         <p className="mt-4 font-medium">درگاه پرداختی فعال نیست</p>
         <p className="mt-1 max-w-sm text-sm text-muted-foreground">

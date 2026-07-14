@@ -4,11 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
@@ -30,7 +26,12 @@ type AppSidebarProps = {
   brandHref?: string;
 };
 
-export function AppSidebar({ sections, user, brand = "تیکس", brandHref = "/dashboard" }: AppSidebarProps) {
+export function AppSidebar({
+  sections,
+  user,
+  brand = "مارتی",
+  brandHref = "/dashboard",
+}: AppSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -46,7 +47,10 @@ export function AppSidebar({ sections, user, brand = "تیکس", brandHref = "/d
   const sidebarContent = (
     <>
       <div className="flex h-16 items-center border-b border-border px-6">
-        <Link href={brandHref} className="font-display text-lg font-bold tracking-tight">
+        <Link
+          href={brandHref}
+          className="font-display text-lg font-bold tracking-tight"
+        >
           {brand}
         </Link>
       </div>
@@ -82,7 +86,9 @@ export function AppSidebar({ sections, user, brand = "تیکس", brandHref = "/d
       <div className="border-t border-border p-4">
         <div className="mb-3 px-3">
           <p className="text-sm font-medium truncate">{user.name}</p>
-          <p className="text-xs text-muted-foreground truncate" dir="ltr">{user.email}</p>
+          <p className="text-xs text-muted-foreground truncate" dir="ltr">
+            {user.email}
+          </p>
         </div>
         <Button
           variant="ghost"
@@ -90,8 +96,8 @@ export function AppSidebar({ sections, user, brand = "تیکس", brandHref = "/d
           className="w-full justify-start gap-2 text-muted-foreground"
           onClick={handleLogout}
         >
-          <LogOut className="h-4 w-4" />
           خروج
+          <LogOut className="h-4 w-4 -scale-x-100" />
         </Button>
       </div>
     </>
@@ -100,10 +106,20 @@ export function AppSidebar({ sections, user, brand = "تیکس", brandHref = "/d
   return (
     <>
       {/* Mobile toggle */}
-      <div className="fixed top-0 right-0 left-0 z-40 flex h-14 items-center justify-between border-b border-border bg-background px-4 lg:hidden">
-        <Link href={brandHref} className="font-display font-bold">{brand}</Link>
-        <Button variant="ghost" size="icon" onClick={() => setMobileOpen(!mobileOpen)}>
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      <div className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-border bg-background px-4 lg:hidden">
+        <Link href={brandHref} className="font-display font-bold">
+          {brand}
+        </Link>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          {mobileOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </Button>
       </div>
 
@@ -116,7 +132,7 @@ export function AppSidebar({ sections, user, brand = "تیکس", brandHref = "/d
       )}
       <aside
         className={cn(
-          "fixed top-0 right-0 z-40 flex h-full w-64 flex-col border-l border-border bg-background transition-transform duration-200 lg:translate-x-0",
+          "fixed inset-y-0 right-0 z-40 flex h-full w-64 flex-col border-l border-border bg-background transition-transform duration-200 lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0",
         )}
       >

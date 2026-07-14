@@ -156,11 +156,11 @@ function OrderCard({
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
             <div>
               <p className="text-xs text-muted-foreground">شماره سفارش</p>
-              <p className="mt-0.5 font-mono text-sm font-medium" dir="ltr">
+              <p className="mt-0.5 w-fit font-mono text-sm font-medium" dir="ltr">
                 #{shortOrderId(order.id)}
               </p>
             </div>
-            <div className="text-left">
+            <div className="text-end">
               <Badge variant={status.variant}>{status.label}</Badge>
               <p className="mt-1.5 text-xs text-muted-foreground">{formatDate(order.createdAt)}</p>
             </div>
@@ -179,7 +179,7 @@ function OrderCard({
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                 <div>
                   <p className="text-xs text-muted-foreground">تلفن</p>
-                  <p className="font-medium" dir="ltr">
+                  <p className="w-fit font-medium" dir="ltr">
                     {order.customerPhone}
                   </p>
                 </div>
@@ -332,7 +332,7 @@ export function StoreOrders({ storeId }: { storeId: string }) {
 
   if (orders.length === 0) {
     return (
-      <div className="flex flex-col items-center rounded-xl border border-dashed py-16 text-center">
+      <div className="flex flex-col items-center rounded-xl border border-dashed border-border py-16 text-center">
         <Package className="h-10 w-10 text-muted-foreground" />
         <p className="mt-4 font-medium">هنوز سفارشی ثبت نشده</p>
         <p className="mt-1 text-sm text-muted-foreground">سفارش‌های مشتریان اینجا نمایش داده می‌شوند.</p>

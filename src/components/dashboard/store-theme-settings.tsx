@@ -39,7 +39,7 @@ function ThemeGridSkeleton() {
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="space-y-3 rounded-xl border p-3">
+        <div key={i} className="space-y-3 rounded-xl border border-border p-3">
           <Skeleton className="aspect-[4/3] w-full rounded-lg" />
           <Skeleton className="h-4 w-20" />
           <Skeleton className="h-3 w-full" />
@@ -175,7 +175,7 @@ export function StoreThemeSettings({ store }: { store: Store }) {
               onChange={(e) => setPrimary(e.target.value)}
               className="h-11 w-14 rounded-xl p-1"
             />
-            <Input value={primary} onChange={(e) => setPrimary(e.target.value)} dir="ltr" />
+            <Input value={primary} onChange={(e) => setPrimary(e.target.value)} dir="ltr" className="text-end" />
           </div>
         </div>
 

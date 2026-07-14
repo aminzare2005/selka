@@ -64,7 +64,7 @@ export function GatewayForm({ storeId, gateway, onSuccess }: GatewayFormProps) {
       <div className="rounded-xl bg-secondary/60 p-4">
         <p className="font-medium">{gateway.name}</p>
         <p className="mt-1 text-sm text-muted-foreground">{gateway.description}</p>
-        <p className="mt-2 text-caption" dir="ltr">
+        <p className="mt-2 w-fit text-caption" dir="ltr">
           {gateway.slug}
         </p>
       </div>
@@ -103,6 +103,7 @@ export function GatewayForm({ storeId, gateway, onSuccess }: GatewayFormProps) {
             onChange={(e) => setMerchantId(e.target.value)}
             placeholder={gateway.hasCredentials ? "برای تغییر، شناسه جدید وارد کنید" : "شناسه زیبال"}
             dir="ltr"
+            className="text-end"
           />
           {gateway.hasCredentials && !merchantId && (
             <p className="text-xs text-muted-foreground">شناسه قبلی ثبت شده است.</p>

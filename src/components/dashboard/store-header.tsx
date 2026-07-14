@@ -11,7 +11,7 @@ export function StoreHeader({ store }: { store: DashboardStore }) {
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 className="text-h2">{store.name}</h1>
-        <p className="mt-1 text-caption" dir="ltr">
+        <p className="mt-1 w-fit text-caption" dir="ltr">
           /s/{store.slug}
         </p>
       </div>

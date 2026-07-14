@@ -101,7 +101,7 @@ function ProductCard({
         <CardContent className="p-4">
           <div className="space-y-1">
             <h3 className="font-semibold leading-snug line-clamp-2">{product.title}</h3>
-            <p className="text-caption" dir="ltr">
+            <p className="w-fit text-caption" dir="ltr">
               /{product.slug}
             </p>
           </div>
@@ -219,6 +219,10 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <Button onClick={openCreate} className="rounded-full shrink-0">
+          <Plus className="h-4 w-4" />
+          افزودن محصول
+        </Button>
         <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <span>{products.length.toLocaleString("fa-IR")} محصول</span>
           {activeCount > 0 && (
@@ -237,10 +241,6 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
             </>
           )}
         </div>
-        <Button onClick={openCreate} className="rounded-full shrink-0">
-          <Plus className="h-4 w-4" />
-          افزودن محصول
-        </Button>
       </div>
 
       <FormSheet
@@ -262,7 +262,7 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
       </FormSheet>
 
       {products.length === 0 ? (
-        <div className="flex flex-col items-center rounded-xl border border-dashed py-16 text-center">
+        <div className="flex flex-col items-center rounded-xl border border-dashed border-border py-16 text-center">
           <Package className="h-10 w-10 text-muted-foreground" />
           <p className="mt-4 font-medium">هنوز محصولی ثبت نشده</p>
           <p className="mt-1 max-w-sm text-sm text-muted-foreground">

@@ -80,6 +80,7 @@ export function StoreForm({ store, onSuccess }: StoreFormProps) {
             onChange={(e) => setSlug(e.target.value)}
             required
             dir="ltr"
+            className="text-end"
             pattern="[a-z0-9-]+"
             placeholder="my-shop"
           />

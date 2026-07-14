@@ -109,15 +109,15 @@ export function ProductForm({ storeId, product, onSuccess }: ProductFormProps) {
         </div>
         <div className="space-y-2">
           <Label>آدرس (slug)</Label>
-          <Input value={slug} onChange={(e) => setSlug(e.target.value)} dir="ltr" />
+          <Input value={slug} onChange={(e) => setSlug(e.target.value)} dir="ltr" className="text-end" />
         </div>
         <div className="space-y-2">
           <Label>قیمت (تومان)</Label>
-          <Input value={price} onChange={(e) => setPrice(e.target.value)} type="number" dir="ltr" />
+          <Input value={price} onChange={(e) => setPrice(e.target.value)} type="number" dir="ltr" className="text-end" />
         </div>
         <div className="space-y-2">
           <Label>موجودی</Label>
-          <Input value={stock} onChange={(e) => setStock(e.target.value)} type="number" dir="ltr" />
+          <Input value={stock} onChange={(e) => setStock(e.target.value)} type="number" dir="ltr" className="text-end" />
         </div>
       </div>
       <div className="space-y-2">
