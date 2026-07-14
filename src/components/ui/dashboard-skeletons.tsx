@@ -37,7 +37,7 @@ export function ProductListSkeleton({ count = 6 }: { count?: number }) {
               <Skeleton className="h-5 w-3/4" />
               <Skeleton className="h-3 w-1/2" />
               <Skeleton className="h-6 w-24" />
-              <div className="flex gap-2 border-t pt-4">
+              <div className="flex gap-2 border-t border-divider pt-4">
                 <Skeleton className="h-9 w-16 rounded-full" />
                 <Skeleton className="h-9 w-16 rounded-full" />
               </div>
@@ -80,7 +80,7 @@ export function GatewayListSkeleton({ count = 2 }: { count?: number }) {
       <div className="grid gap-4 sm:grid-cols-2">
         {Array.from({ length: count }).map((_, i) => (
           <div key={i} className="overflow-hidden rounded-xl border border-border">
-            <div className="flex gap-3 border-b p-5">
+            <div className="flex gap-3 border-b border-divider p-5">
               <Skeleton className="h-11 w-11 shrink-0 rounded-xl" />
               <div className="flex-1 space-y-2">
                 <Skeleton className="h-4 w-24" />
