@@ -10,11 +10,21 @@ export default async function AdminGatewaysPage() {
   if (!session) redirect("/login");
   if (session.user.role !== "PLATFORM_ADMIN") redirect("/dashboard");
 
-  const gateways = await db.paymentGateway.findMany({ orderBy: { createdAt: "desc" } });
+  const gateways = await db.paymentGateway.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
-    <AppShell user={session.user} sections={[{ items: adminNavItems }]} brand="تیکس ادمین" brandHref="/admin">
-      <PageHeader title="درگاه‌های پرداخت" description="مدیریت درگاه‌های فعال پلتفرم" />
+    <AppShell
+      user={session.user}
+      sections={[{ items: adminNavItems }]}
+      brand="مارتی ادمین"
+      brandHref="/admin"
+    >
+      <PageHeader
+        title="درگاه‌های پرداخت"
+        description="مدیریت درگاه‌های فعال پلتفرم"
+      />
 
       <div className="mt-8 space-y-3">
         {gateways.map((g) => (
@@ -24,10 +34,16 @@ export default async function AdminGatewaysPage() {
           >
             <div>
               <p className="font-semibold">{g.name}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{g.description}</p>
-              <p className="mt-1 text-caption" dir="ltr">{g.slug}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {g.description}
+              </p>
+              <p className="mt-1 text-caption" dir="ltr">
+                {g.slug}
+              </p>
             </div>
-            <span className={`rounded-full px-3 py-1 text-xs font-medium ${g.isActive ? "bg-emerald-50 text-emerald-700" : "bg-secondary text-muted-foreground"}`}>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${g.isActive ? "bg-emerald-50 text-emerald-700" : "bg-secondary text-muted-foreground"}`}
+            >
               {g.isActive ? "فعال" : "غیرفعال"}
             </span>
           </div>

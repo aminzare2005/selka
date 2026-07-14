@@ -12,7 +12,10 @@ export default async function ContactPage() {
 
   return (
     <div>
-      <PageHeader title="ارتباط با ما" description="تیم پشتیبانی تیکس آماده پاسخگویی است" />
+      <PageHeader
+        title="ارتباط با ما"
+        description="تیم پشتیبانی مارتی آماده پاسخگویی است"
+      />
 
       <div className="mt-8 max-w-lg space-y-6">
         <Card>
@@ -23,8 +26,8 @@ export default async function ContactPage() {
             <div>
               <h2 className="font-semibold">به زودی...</h2>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                فرم تماس، تیکت پشتیبانی و چت آنلاین به‌زودی در این بخش فعال می‌شود. فعلاً
-                می‌توانید از طریق ایمیل با ما در ارتباط باشید.
+                فرم تماس، تیکت پشتیبانی و چت آنلاین به‌زودی در این بخش فعال
+                می‌شود. فعلاً می‌توانید از طریق ایمیل با ما در ارتباط باشید.
               </p>
             </div>
             <Button variant="outline" asChild>

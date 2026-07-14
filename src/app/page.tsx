@@ -26,7 +26,8 @@ export default async function HomePage() {
               بفروش.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-              در چند دقیقه فروشگاه آنلاین فارسی بساز، تم انتخاب کن، محصول اضافه کن و بفروش.
+              در چند دقیقه فروشگاه آنلاین فارسی بساز، تم انتخاب کن، محصول اضافه
+              کن و بفروش.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button size="lg" asChild>
@@ -46,8 +47,10 @@ export default async function HomePage() {
         {storeCount > 0 && (
           <div className="border-y border-border bg-secondary/30 py-6">
             <p className="text-center text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">{storeCount.toLocaleString("fa-IR")}</span>
-              {" "}فروشگاه روی تیکس ساخته شده
+              <span className="font-semibold text-foreground">
+                {storeCount.toLocaleString("fa-IR")}
+              </span>{" "}
+              فروشگاه روی مارتی ساخته شده
             </p>
           </div>
         )}
@@ -87,7 +90,9 @@ export default async function HomePage() {
                   <item.icon className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{item.desc}</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -103,9 +108,13 @@ export default async function HomePage() {
               { step: "۰۳", title: "فروش", desc: "محصول اضافه کن و بفروش" },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <p className="font-display text-5xl font-bold text-border">{item.step}</p>
+                <p className="font-display text-5xl font-bold text-border">
+                  {item.step}
+                </p>
                 <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>

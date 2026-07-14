@@ -1,4 +1,4 @@
-# تیکس (Tix) — پلتفرم فروشگاه‌ساز مولتی‌تننت
+# مارتی (Tix) — پلتفرم فروشگاه‌ساز مولتی‌تننت
 
 پلتفرم فروشگاهی فارسی با Next.js 16، PostgreSQL، Prisma، Better Auth و سیستم تم.
 
@@ -10,11 +10,13 @@
 ## راه‌اندازی
 
 1. کپی env:
+
 ```bash
 cp .env.example .env
 ```
 
 2. تنظیم `DATABASE_URL` در `.env`:
+
 ```
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/tix?schema=public"
 BETTER_AUTH_SECRET="یک-رشته-تصادفی-طولانی"
@@ -24,6 +26,7 @@ NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
 3. نصب و migrate:
+
 ```bash
 npm install
 npm run db:push
@@ -31,16 +34,17 @@ npm run db:seed
 ```
 
 4. اجرا:
+
 ```bash
 npm run dev
 ```
 
 ## حساب‌های نمونه (بعد از seed)
 
-| نقش | ایمیل | رمز |
-|-----|-------|-----|
-| ادمین پلتفرم | admin@tix.ir | admin123 |
-| فروشنده نمونه | demo@tix.ir | demo123 |
+| نقش           | ایمیل        | رمز      |
+| ------------- | ------------ | -------- |
+| ادمین پلتفرم  | admin@tix.ir | admin123 |
+| فروشنده نمونه | demo@tix.ir  | demo123  |
 
 ## مسیرها
 
@@ -71,6 +75,7 @@ shalom/                 ← تم خارجی نمونه (قابل انتقال ب
 ```
 
 هر تم یک `ThemePackage` export می‌کند:
+
 - `definition` — metadata، رنگ‌ها، فونت‌ها، sections
 - `Layout` — کامپوننت layout
 - `sections` — hero، product-grid، footer

@@ -26,10 +26,19 @@ async function createUserWithAuth(
 async function main() {
   console.log("🌱 Seeding database...");
 
-  const admin = await createUserWithAuth("admin@tix.ir", "admin123", "ادمین پلتفرم", "PLATFORM_ADMIN");
+  const admin = await createUserWithAuth(
+    "admin@tix.ir",
+    "admin123",
+    "ادمین پلتفرم",
+    "PLATFORM_ADMIN",
+  );
   console.log("✅ Admin: admin@tix.ir / admin123");
 
-  const demo = await createUserWithAuth("demo@tix.ir", "demo123", "فروشنده نمونه");
+  const demo = await createUserWithAuth(
+    "demo@tix.ir",
+    "demo123",
+    "فروشنده نمونه",
+  );
   console.log("✅ Demo: demo@tix.ir / demo123");
 
   await db.paymentGateway.upsert({
@@ -39,7 +48,14 @@ async function main() {
       name: "زیبال",
       description: "درگاه پرداخت زیبال",
       isActive: true,
-      configSchema: [{ key: "merchantId", label: "شناسه پذیرنده", type: "text", required: true }],
+      configSchema: [
+        {
+          key: "merchantId",
+          label: "شناسه پذیرنده",
+          type: "text",
+          required: true,
+        },
+      ],
     },
     update: { isActive: true },
   });
@@ -54,7 +70,7 @@ async function main() {
         ownerId: demo.id,
         themeId: "modern",
         settings: {
-          heroTitle: "فروشگاه نمونه تیکس",
+          heroTitle: "فروشگاه نمونه مارتی",
           heroSubtitle: "بهترین محصولات با بهترین قیمت",
           tokens: { colors: { primary: "#0F766E" } },
         },

@@ -18,7 +18,7 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "تیکس — پلتفرم فروشگاه‌ساز",
+  title: "مارتی — پلتفرم فروشگاه‌ساز",
   description: "فروشگاه آنلاین خود را بسازید و بفروشید",
 };
 
@@ -28,8 +28,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className={`${vazirmatn.variable} ${rubik.variable} h-full`}>
-      <body className="min-h-full flex flex-col antialiased" style={{ "--font-rubik": "var(--font-vazirmatn)" } as React.CSSProperties}>
+    <html
+      lang="fa"
+      dir="rtl"
+      className={`${vazirmatn.variable} ${rubik.variable} h-full`}
+    >
+      <body
+        className="min-h-full flex flex-col antialiased"
+        style={
+          { "--font-rubik": "var(--font-vazirmatn)" } as React.CSSProperties
+        }
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

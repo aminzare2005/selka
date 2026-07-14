@@ -19,7 +19,12 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <AppShell user={session.user} sections={[{ items: adminNavItems }]} brand="تیکس ادمین" brandHref="/admin">
+    <AppShell
+      user={session.user}
+      sections={[{ items: adminNavItems }]}
+      brand="مارتی ادمین"
+      brandHref="/admin"
+    >
       <PageHeader title="پنل ادمین" description="آمار کلی پلتفرم" />
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -52,9 +57,13 @@ export default async function AdminPage() {
               >
                 <div>
                   <p className="font-medium">{g.name}</p>
-                  <p className="text-caption" dir="ltr">{g.slug}</p>
+                  <p className="text-caption" dir="ltr">
+                    {g.slug}
+                  </p>
                 </div>
-                <span className={`text-sm font-medium ${g.isActive ? "text-emerald-600" : "text-muted-foreground"}`}>
+                <span
+                  className={`text-sm font-medium ${g.isActive ? "text-emerald-600" : "text-muted-foreground"}`}
+                >
                   {g.isActive ? "فعال" : "غیرفعال"}
                 </span>
               </div>
