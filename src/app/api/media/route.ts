@@ -6,7 +6,18 @@ import { getStorage } from "@/lib/storage";
 import { randomUUID } from "crypto";
 import path from "path";
 
-/** @deprecated Use /api/media instead */
+export async function GET() {
+  const session = await getSession();
+  if (!session) return apiError("لطفاً وارد شوید", 401);
+
+  const media = await db.media.findMany({
+    where: { userId: session.user.id },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return apiSuccess(media);
+}
+
 export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) return apiError("لطفاً وارد شوید", 401);
@@ -37,5 +48,5 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return apiSuccess({ url: media.url }, 201);
+  return apiSuccess(media, 201);
 }

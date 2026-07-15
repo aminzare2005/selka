@@ -52,6 +52,7 @@ model User {
   memberships StoreMembership[]
   carts       Cart[]
   orders      Order[]
+  media       Media[]
 
   @@map("user")
 }
@@ -264,4 +265,19 @@ model Payment {
   updatedAt DateTime      @updatedAt
 
   @@map("payment")
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filename  String
+  url       String
+  mimeType  String
+  size      Int
+  folder    String   @default("general")
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("media")
 }
