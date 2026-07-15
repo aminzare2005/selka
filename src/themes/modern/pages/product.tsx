@@ -7,6 +7,7 @@ import { useAddToCart } from "@/hooks/storefront/use-add-to-cart";
 import { Button } from "@/components/ui/button";
 import { PriceDisplay } from "@/components/storefront/price-display";
 import { QuantityStepper } from "@/components/storefront/quantity-stepper";
+import { storePath } from "@/lib/storefront-url";
 
 export function ModernProductPage({ product, store }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1);
@@ -48,7 +49,7 @@ export function ModernProductPage({ product, store }: ProductPageProps) {
             </div>
           )}
           <Button variant="outline" className="mt-4 rounded-full" asChild>
-            <Link href={`/s/${store.slug}/cart`}>مشاهده سبد خرید</Link>
+            <Link href={storePath(store.slug, "/cart")}>مشاهده سبد خرید</Link>
           </Button>
         </div>
       </div>

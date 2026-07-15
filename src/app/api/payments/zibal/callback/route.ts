@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getPaymentProvider } from "@/lib/payments";
 import { decrypt } from "@/lib/encryption";
+import { storePath } from "@/lib/storefront-url";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${appUrl}/checkout/failed`);
   }
 
-  const storeUrl = `${appUrl}/s/${order.store.slug}`;
+  const storeUrl = `${appUrl}${storePath(order.store.slug)}`;
 
   if (success !== "1") {
     await db.order.update({ where: { id: orderId }, data: { status: "FAILED" } });

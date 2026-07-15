@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PriceDisplay } from "./price-display";
+import { productPath } from "@/lib/storefront-url";
 
 type ProductCardProps = {
   title: string;
@@ -23,7 +24,7 @@ export function ProductCard({
   if (layout === "list") {
     return (
       <Link
-        href={`/s/${storeSlug}/products/${slug}`}
+        href={productPath(storeSlug, slug)}
         className="group flex gap-5 rounded-2xl p-4 transition-all duration-200 hover:bg-[var(--color-accent)]"
       >
         <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[var(--color-accent)]">
@@ -46,7 +47,7 @@ export function ProductCard({
 
   return (
     <Link
-      href={`/s/${storeSlug}/products/${slug}`}
+      href={productPath(storeSlug, slug)}
       className="group block"
     >
       <div className="aspect-square overflow-hidden rounded-2xl bg-[var(--color-accent)]">

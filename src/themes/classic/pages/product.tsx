@@ -6,6 +6,7 @@ import type { ProductPageProps } from "@marty/theme-sdk";
 import { useAddToCart } from "@/hooks/storefront/use-add-to-cart";
 import { PriceDisplay } from "@/components/storefront/price-display";
 import { QuantityStepper } from "@/components/storefront/quantity-stepper";
+import { storePath } from "@/lib/storefront-url";
 
 export function ClassicProductPage({ product, store }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1);
@@ -58,7 +59,7 @@ export function ClassicProductPage({ product, store }: ProductPageProps) {
             </div>
           )}
           <div className="mt-6 text-center">
-            <Link href={`/s/${store.slug}/cart`} className="text-sm text-[var(--color-primary)] underline">
+            <Link href={storePath(store.slug, "/cart")} className="text-sm text-[var(--color-primary)] underline">
               مشاهده سبد خرید
             </Link>
           </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { storePath } from "@/lib/storefront-url";
 
 export function CheckoutResult({
   storeSlug,
@@ -37,7 +38,7 @@ export function CheckoutResult({
         size="lg"
         asChild
       >
-        <Link href={`/s/${storeSlug}`}>بازگشت به فروشگاه</Link>
+        <Link href={storePath(storeSlug)}>بازگشت به فروشگاه</Link>
       </Button>
     </div>
   );

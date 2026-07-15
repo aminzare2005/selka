@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CheckCircle2, XCircle } from "lucide-react";
 import type { CheckoutResultPageProps } from "@marty/theme-sdk";
 import { Button } from "@/components/ui/button";
+import { storePath } from "@/lib/storefront-url";
 
 export function ModernCheckoutResultPage({ store, status, orderId }: CheckoutResultPageProps) {
   const isSuccess = status === "success";
@@ -21,7 +22,7 @@ export function ModernCheckoutResultPage({ store, status, orderId }: CheckoutRes
       </p>
       {orderId && <p className="mt-3 text-sm text-[var(--color-muted)]" dir="ltr">شماره سفارش: {orderId}</p>}
       <Button className="mt-8 rounded-full bg-[var(--color-primary)] text-white hover:opacity-90" size="lg" asChild>
-        <Link href={`/s/${store.slug}`}>بازگشت به فروشگاه</Link>
+        <Link href={storePath(store.slug)}>بازگشت به فروشگاه</Link>
       </Button>
     </div>
   );

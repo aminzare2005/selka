@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CheckoutResultPageProps } from "@marty/theme-sdk";
+import { storePath } from "@/lib/storefront-url";
 
 export function ClassicCheckoutResultPage({ store, status, orderId }: CheckoutResultPageProps) {
   const isSuccess = status === "success";
@@ -25,7 +26,7 @@ export function ClassicCheckoutResultPage({ store, status, orderId }: CheckoutRe
         </p>
       )}
       <Link
-        href={`/s/${store.slug}`}
+        href={storePath(store.slug)}
         className="mt-8 inline-block rounded-full bg-[var(--color-primary)] px-8 py-3 font-semibold text-white"
       >
         بازگشت به فروشگاه

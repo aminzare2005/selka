@@ -8,6 +8,7 @@ import { PriceDisplay } from "@/components/storefront/price-display";
 import { QuantityStepper } from "@/components/storefront/quantity-stepper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/utils";
+import { productPath, storePath } from "@/lib/storefront-url";
 import { toast } from "sonner";
 
 type CartItem = {
@@ -76,7 +77,7 @@ export function CartPage({ storeSlug }: { storeSlug: string }) {
         <div className="mt-16 text-center animate-fade-in">
           <p className="text-[var(--color-muted)]">سبد خرید خالی است</p>
           <Button className="mt-6 rounded-full" asChild>
-            <Link href={`/s/${storeSlug}`}>بازگشت به فروشگاه</Link>
+            <Link href={storePath(storeSlug)}>بازگشت به فروشگاه</Link>
           </Button>
         </div>
       ) : (
@@ -97,7 +98,7 @@ export function CartPage({ storeSlug }: { storeSlug: string }) {
                 )}
                 <div className="flex-1 min-w-0">
                   <Link
-                    href={`/s/${storeSlug}/products/${item.product.slug}`}
+                    href={productPath(storeSlug, item.product.slug)}
                     className="font-medium hover:text-[var(--color-primary)] transition-colors truncate block"
                   >
                     {item.product.title}
@@ -130,7 +131,7 @@ export function CartPage({ storeSlug }: { storeSlug: string }) {
                 size="lg"
                 asChild
               >
-                <Link href={`/s/${storeSlug}/checkout`}>ادامه خرید</Link>
+                <Link href={storePath(storeSlug, "/checkout")}>ادامه خرید</Link>
               </Button>
             </div>
           </div>

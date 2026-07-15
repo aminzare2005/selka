@@ -112,7 +112,7 @@ async function main() {
         },
       ],
     });
-    console.log("✅ Demo store: /s/demo-shop");
+    console.log("✅ Demo store: /@demo-shop");
   } else {
     await db.storeMembership.upsert({
       where: { storeId_userId: { storeId: demoStore.id, userId: demo.id } },

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
+import { storePath } from "@/lib/storefront-url";
 
 type StoreHeaderProps = {
   storeName: string;
@@ -12,7 +13,7 @@ export function StoreHeader({ storeName, storeSlug, logo }: StoreHeaderProps) {
     <header className="sticky top-0 z-50 border-b border-[var(--color-muted)]/10 bg-[var(--color-background)]/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
-          href={`/s/${storeSlug}`}
+          href={storePath(storeSlug)}
           className="text-lg font-bold tracking-tight"
           style={{ fontFamily: "var(--font-display)" }}
         >
@@ -25,19 +26,19 @@ export function StoreHeader({ storeName, storeSlug, logo }: StoreHeaderProps) {
         </Link>
         <nav className="flex items-center gap-6 text-sm">
           <Link
-            href={`/s/${storeSlug}`}
+            href={storePath(storeSlug)}
             className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
           >
             خانه
           </Link>
           <Link
-            href={`/s/${storeSlug}#products`}
+            href={`${storePath(storeSlug)}#products`}
             className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
           >
             محصولات
           </Link>
           <Link
-            href={`/s/${storeSlug}/cart`}
+            href={storePath(storeSlug, "/cart")}
             className="flex items-center gap-1.5 text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
           >
             <ShoppingBag className="h-4 w-4" />

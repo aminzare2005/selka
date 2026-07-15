@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { SectionProps } from "@marty/theme-sdk";
+import { storePath } from "@/lib/storefront-url";
 
 export function ModernHero({ store, settings }: SectionProps) {
   const heroTitle = (settings.heroTitle as string) || store.name;
@@ -23,7 +24,7 @@ export function ModernHero({ store, settings }: SectionProps) {
             className="mt-8 rounded-full bg-[var(--color-primary)] text-white hover:opacity-90"
             size="lg"
           >
-            <Link href={`/s/${store.slug}#products`}>مشاهده محصولات</Link>
+            <Link href={`${storePath(store.slug)}#products`}>مشاهده محصولات</Link>
           </Button>
         </div>
         {heroImage && (

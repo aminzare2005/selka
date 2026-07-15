@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EditStoreSheet } from "@/components/dashboard/edit-store-sheet";
 import type { DashboardStore } from "@/components/dashboard/store-context";
+import { storePath } from "@/lib/storefront-url";
 
 export function StoreHeader({ store }: { store: DashboardStore }) {
   return (
@@ -12,13 +13,13 @@ export function StoreHeader({ store }: { store: DashboardStore }) {
       <div>
         <h1 className="text-h2">{store.name}</h1>
         <p className="mt-1 w-fit text-caption" dir="ltr">
-          /s/{store.slug}
+          {storePath(store.slug)}
         </p>
       </div>
       <div className="flex gap-2">
         <EditStoreSheet store={store} />
         <Button variant="outline" size="sm" asChild>
-          <Link href={`/s/${store.slug}`} target="_blank">
+          <Link href={storePath(store.slug)} target="_blank">
             مشاهده فروشگاه
             <ExternalLink className="h-3.5 w-3.5" />
           </Link>

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { PriceDisplay } from "@/components/storefront/price-display";
 import { QuantityStepper } from "@/components/storefront/quantity-stepper";
 import { toast } from "sonner";
+import { storePath } from "@/lib/storefront-url";
 
 type Product = {
   id: string;
@@ -91,7 +92,7 @@ export function ProductDetail({ product, storeSlug }: { product: Product; storeS
           )}
 
           <Button variant="outline" className="mt-4 rounded-full" asChild>
-            <Link href={`/s/${storeSlug}/cart`}>مشاهده سبد خرید</Link>
+            <Link href={storePath(storeSlug, "/cart")}>مشاهده سبد خرید</Link>
           </Button>
         </div>
       </div>

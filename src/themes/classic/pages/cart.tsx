@@ -8,6 +8,7 @@ import { PriceDisplay } from "@/components/storefront/price-display";
 import { QuantityStepper } from "@/components/storefront/quantity-stepper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/utils";
+import { productPath, storePath } from "@/lib/storefront-url";
 
 export function ClassicCartPage({ store }: CartPageProps) {
   const { data, isLoading, updateItem } = useCart(store.slug);
@@ -35,7 +36,7 @@ export function ClassicCartPage({ store }: CartPageProps) {
         <div className="mt-16 text-center">
           <p className="text-[var(--color-muted)]">سبد خرید خالی است</p>
           <Link
-            href={`/s/${store.slug}`}
+            href={storePath(store.slug)}
             className="mt-6 inline-block rounded-full bg-[var(--color-primary)] px-6 py-2 text-white"
           >
             بازگشت به فروشگاه
@@ -51,7 +52,7 @@ export function ClassicCartPage({ store }: CartPageProps) {
                   <img src={item.product.images[0]} alt={item.product.title} className="h-16 w-16 rounded border border-[var(--color-primary)]/20 object-cover" />
                 )}
                 <div className="min-w-0 flex-1">
-                  <Link href={`/s/${store.slug}/products/${item.product.slug}`} className="font-semibold hover:text-[var(--color-primary)]">
+                  <Link href={productPath(store.slug, item.product.slug)} className="font-semibold hover:text-[var(--color-primary)]">
                     {item.product.title}
                   </Link>
                   <PriceDisplay amount={item.product.price} size="sm" className="mt-1" />
@@ -70,7 +71,7 @@ export function ClassicCartPage({ store }: CartPageProps) {
               {formatPrice(data?.total ?? 0)}
             </p>
             <Link
-              href={`/s/${store.slug}/checkout`}
+              href={storePath(store.slug, "/checkout")}
               className="mt-6 inline-block rounded-full bg-[var(--color-primary)] px-10 py-3 font-semibold text-white hover:opacity-90"
             >
               ادامه و پرداخت

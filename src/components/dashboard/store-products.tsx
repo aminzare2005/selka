@@ -26,6 +26,7 @@ import { FormSheet } from "@/components/ui/form-sheet";
 import { ProductForm } from "@/components/dashboard/product-form";
 import { ProductListSkeleton } from "@/components/ui/dashboard-skeletons";
 import { cn, formatPrice } from "@/lib/utils";
+import { productPath } from "@/lib/storefront-url";
 import { toast } from "sonner";
 
 type Product = {
@@ -141,7 +142,7 @@ function ProductCard({
                 className="rounded-full"
               >
                 <a
-                  href={`/s/${storeSlug}/products/${product.slug}`}
+                  href={productPath(storeSlug, product.slug)}
                   target="_blank"
                   rel="noreferrer"
                 >

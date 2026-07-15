@@ -52,14 +52,14 @@ npm run dev
 - `/login`, `/register` — احراز هویت
 - `/dashboard` — پنل صاحب فروشگاه
 - `/admin` — پنل ادمین پلتفرم
-- `/s/[slug]` — ویترین فروشگاه
-- `/s/[slug]/products/[slug]` — صفحه محصول
-- `/s/[slug]/cart` — سبد خرید
-- `/s/[slug]/checkout` — پرداخت
+- `/@slug` — ویترین فروشگاه
+- `/@slug/products/[slug]` — صفحه محصول
+- `/@slug/cart` — سبد خرید
+- `/@slug/checkout` — پرداخت
 
 ## فروشگاه نمونه
 
-بعد از seed: [http://localhost:3000/s/demo-shop](http://localhost:3000/s/demo-shop)
+بعد از seed: [http://localhost:3000/@demo-shop](http://localhost:3000/@demo-shop)
 
 ## تم‌ها
 

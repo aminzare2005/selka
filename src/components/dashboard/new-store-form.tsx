@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import slugify from "slugify";
+import { storePrefix } from "@/lib/storefront-url";
 
 type StoreFormProps = {
   store?: { id: string; name: string; slug: string };
@@ -73,7 +74,7 @@ export function StoreForm({ store, onSuccess }: StoreFormProps) {
       <div className="space-y-2">
         <Label htmlFor="slug">آدرس فروشگاه</Label>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">/s/</span>
+          <span className="text-sm text-muted-foreground">{storePrefix()}</span>
           <Input
             id="slug"
             value={slug}

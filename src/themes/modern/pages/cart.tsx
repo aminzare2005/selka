@@ -9,6 +9,7 @@ import { PriceDisplay } from "@/components/storefront/price-display";
 import { QuantityStepper } from "@/components/storefront/quantity-stepper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/lib/utils";
+import { productPath, storePath } from "@/lib/storefront-url";
 
 export function ModernCartPage({ store }: CartPageProps) {
   const { data, isLoading, updateItem } = useCart(store.slug);
@@ -32,7 +33,7 @@ export function ModernCartPage({ store }: CartPageProps) {
         <div className="mt-16 text-center">
           <p className="text-[var(--color-muted)]">سبد خرید خالی است</p>
           <Button className="mt-6 rounded-full" asChild>
-            <Link href={`/s/${store.slug}`}>بازگشت به فروشگاه</Link>
+            <Link href={storePath(store.slug)}>بازگشت به فروشگاه</Link>
           </Button>
         </div>
       ) : (
@@ -49,7 +50,7 @@ export function ModernCartPage({ store }: CartPageProps) {
                 )}
                 <div className="min-w-0 flex-1">
                   <Link
-                    href={`/s/${store.slug}/products/${item.product.slug}`}
+                    href={productPath(store.slug, item.product.slug)}
                     className="block truncate font-medium hover:text-[var(--color-primary)]"
                   >
                     {item.product.title}
@@ -76,7 +77,7 @@ export function ModernCartPage({ store }: CartPageProps) {
                 {formatPrice(data?.total ?? 0)}
               </p>
               <Button className="mt-6 w-full rounded-full bg-[var(--color-primary)] text-white hover:opacity-90" size="lg" asChild>
-                <Link href={`/s/${store.slug}/checkout`}>ادامه خرید</Link>
+                <Link href={storePath(store.slug, "/checkout")}>ادامه خرید</Link>
               </Button>
             </div>
           </div>

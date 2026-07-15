@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import type { SectionProps } from "@marty/theme-sdk";
+import { storePath } from "@/lib/storefront-url";
 
 export function ModernHeader({ store, theme }: SectionProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-muted)]/10 bg-[var(--color-background)]/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
-          href={`/s/${store.slug}`}
+          href={storePath(store.slug)}
           className="text-lg font-bold tracking-tight text-[var(--color-foreground)]"
           style={{ fontFamily: "var(--font-display)" }}
         >
@@ -19,14 +20,14 @@ export function ModernHeader({ store, theme }: SectionProps) {
           )}
         </Link>
         <nav className="flex items-center gap-6 text-sm">
-          <Link href={`/s/${store.slug}`} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
+          <Link href={storePath(store.slug)} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
             خانه
           </Link>
-          <Link href={`/s/${store.slug}#products`} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
+          <Link href={`${storePath(store.slug)}#products`} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
             محصولات
           </Link>
           <Link
-            href={`/s/${store.slug}/cart`}
+            href={storePath(store.slug, "/cart")}
             className="flex items-center gap-1.5 text-[var(--color-muted)] hover:text-[var(--color-foreground)]"
           >
             <ShoppingBag className="h-4 w-4" />

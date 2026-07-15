@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatPrice } from "@/lib/utils";
+import { storePath } from "@/lib/storefront-url";
 
 export function ClassicCheckoutPage({ store }: CheckoutPageProps) {
   const {
@@ -27,7 +28,7 @@ export function ClassicCheckoutPage({ store }: CheckoutPageProps) {
     return (
       <div className="mx-auto max-w-lg px-6 py-16 text-center">
         <p className="text-[var(--color-muted)]">سبد خرید خالی است</p>
-        <Link href={`/s/${store.slug}`} className="mt-6 inline-block text-[var(--color-primary)] underline">
+        <Link href={storePath(store.slug)} className="mt-6 inline-block text-[var(--color-primary)] underline">
           بازگشت
         </Link>
       </div>
