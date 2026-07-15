@@ -1,6 +1,6 @@
 "use client";
 
-import type { CartPageProps } from "@tix/theme-sdk";
+import type { CartPageProps } from "@marty/theme-sdk";
 import { useCart } from "../hooks/use-cart";
 import { formatPrice } from "../hooks/use-checkout";
 

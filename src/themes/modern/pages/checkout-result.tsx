@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CheckCircle2, XCircle } from "lucide-react";
-import type { CheckoutResultPageProps } from "@tix/theme-sdk";
+import type { CheckoutResultPageProps } from "@marty/theme-sdk";
 import { Button } from "@/components/ui/button";
 
 export function ModernCheckoutResultPage({ store, status, orderId }: CheckoutResultPageProps) {

@@ -5,7 +5,7 @@
 ## ThemePackage
 
 ```ts
-import type { ThemePackage } from "@tix/theme-sdk";
+import type { ThemePackage } from "@marty/theme-sdk";
 
 const myTheme: ThemePackage = {
   definition: {

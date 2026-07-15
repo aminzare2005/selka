@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
-import type { SectionProps } from "@tix/theme-sdk";
+import type { SectionProps } from "@marty/theme-sdk";
 
 export function ModernHeader({ store, theme }: SectionProps) {
   return (

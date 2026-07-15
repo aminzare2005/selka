@@ -1,4 +1,4 @@
-import type { SectionProps } from "@tix/theme-sdk";
+import type { SectionProps } from "@marty/theme-sdk";
 
 export function ShalomHeader({ store, theme }: SectionProps) {
   return (

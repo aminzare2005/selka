@@ -1,5 +1,5 @@
 import { StoreHeader } from "@/components/storefront/store-header";
-import type { ResolvedTheme } from "@tix/theme-sdk";
+import type { ResolvedTheme } from "@marty/theme-sdk";
 
 type StorefrontShellProps = {
   store: { name: string; slug: string };

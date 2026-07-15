@@ -1,4 +1,4 @@
-import type { ThemePackage } from "@tix/theme-sdk";
+import type { ThemePackage } from "@marty/theme-sdk";
 import { ShalomLayout } from "./layout";
 import { ShalomHero } from "./sections/hero";
 import { ShalomProductGrid } from "./sections/product-grid";

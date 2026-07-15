@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { SectionProps, StorefrontLayoutProps } from "@tix/theme-sdk";
+import type { SectionProps, StorefrontLayoutProps } from "@marty/theme-sdk";
 import { ShalomHeader } from "./components/header";
 import { ShalomFooter } from "./components/footer";
 import { ShalomHero } from "./sections/hero";

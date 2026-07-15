@@ -1,4 +1,4 @@
-# @tix-theme/shalom
+# @marty-theme/shalom
 
 تم خارجی برای پلتفرم مارتی — جن‌زی، رنگارنگ، با فونت Rubik.
 
@@ -7,7 +7,7 @@
 ```json
 {
   "dependencies": {
-    "@tix-theme/shalom": "file:./shalom"
+    "@marty-theme/shalom": "file:./shalom"
   }
 }
 ```
@@ -17,7 +17,7 @@
 ```json
 {
   "dependencies": {
-    "@tix-theme/shalom": "github:YOUR_USER/tix-theme-shalom"
+    "@marty-theme/shalom": "github:YOUR_USER/marty-theme-shalom"
   }
 }
 ```
@@ -37,7 +37,7 @@ shalom/
 
 ## قرارداد تم
 
-هر تم باید `ThemePackage` از `@tix/theme-sdk` export کند:
+هر تم باید `ThemePackage` از `@marty/theme-sdk` export کند:
 
 - `definition` — metadata، tokens، sections
 - `Layout` — کامپوننت layout اصلی

@@ -1,4 +1,4 @@
-import type { ThemePackage } from "@tix/theme-sdk";
+import type { ThemePackage } from "@marty/theme-sdk";
 import { createThemeLayout } from "@/themes/shared/create-theme-layout";
 import { ClassicHero } from "./sections/hero";
 import { ClassicProductGrid } from "./sections/product-grid";

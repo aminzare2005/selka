@@ -27,19 +27,19 @@ async function main() {
   console.log("🌱 Seeding database...");
 
   const admin = await createUserWithAuth(
-    "admin@tix.ir",
+    "admin@marty.ir",
     "admin123",
     "ادمین پلتفرم",
     "PLATFORM_ADMIN",
   );
-  console.log("✅ Admin: admin@tix.ir / admin123");
+  console.log("✅ Admin: admin@marty.ir / admin123");
 
   const demo = await createUserWithAuth(
-    "demo@tix.ir",
+    "demo@marty.ir",
     "demo123",
     "فروشنده نمونه",
   );
-  console.log("✅ Demo: demo@tix.ir / demo123");
+  console.log("✅ Demo: demo@marty.ir / demo123");
 
   await db.paymentGateway.upsert({
     where: { slug: "zibal" },

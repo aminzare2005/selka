@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { CheckoutPageProps } from "@tix/theme-sdk";
+import type { CheckoutPageProps } from "@marty/theme-sdk";
 import { useCheckout } from "@/hooks/storefront/use-checkout";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

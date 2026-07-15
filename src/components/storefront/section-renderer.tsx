@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { ResolvedTheme, SectionProps, StorefrontContext } from "@tix/theme-sdk";
+import type { ResolvedTheme, SectionProps, StorefrontContext } from "@marty/theme-sdk";
 
 type SectionRendererProps = {
   sections: ResolvedTheme["sections"];

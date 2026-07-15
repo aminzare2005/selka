@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { SectionProps } from "@tix/theme-sdk";
+import type { SectionProps } from "@marty/theme-sdk";
 
 function formatPrice(amount: number): string {
   return new Intl.NumberFormat("fa-IR").format(amount) + " تومان";

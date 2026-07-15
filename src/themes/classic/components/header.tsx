@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { SectionProps } from "@tix/theme-sdk";
+import type { SectionProps } from "@marty/theme-sdk";
 
 export function ClassicHeader({ store, theme }: SectionProps) {
   return (

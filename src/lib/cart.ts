@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { randomUUID } from "crypto";
 import { db } from "@/lib/db";
 
-const CART_SESSION_COOKIE = "tix_cart_session";
+const CART_SESSION_COOKIE = "marty_cart_session";
 
 export async function getCartSessionId(): Promise<string> {
   const cookieStore = await cookies();

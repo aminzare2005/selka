@@ -1,6 +1,6 @@
 "use client";
 
-import type { CheckoutPageProps } from "@tix/theme-sdk";
+import type { CheckoutPageProps } from "@marty/theme-sdk";
 import { useCheckout, formatPrice } from "../hooks/use-checkout";
 
 export function ShalomCheckoutPage({ store }: CheckoutPageProps) {

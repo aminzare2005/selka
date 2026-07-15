@@ -5,7 +5,7 @@ import type {
   StorefrontPage,
   ThemePageComponents,
   ThemeShellComponents,
-} from "@tix/theme-sdk";
+} from "@marty/theme-sdk";
 import { SectionRenderer } from "@/components/storefront/section-renderer";
 
 type CreateThemeLayoutOptions = ThemeShellComponents &

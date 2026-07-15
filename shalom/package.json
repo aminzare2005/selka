@@ -1,5 +1,5 @@
 {
-  "name": "@tix-theme/shalom",
+  "name": "@marty-theme/shalom",
   "version": "0.1.0",
   "private": true,
   "description": "تم شالوم — جن‌زی، رنگارنگ، با فونت Rubik",
@@ -9,12 +9,12 @@
     ".": "./src/index.ts"
   },
   "peerDependencies": {
-    "@tix/theme-sdk": "*",
+    "@marty/theme-sdk": "*",
     "@tanstack/react-query": "^5.0.0",
     "next": "^16.0.0",
     "react": "^19.0.0"
   },
   "dependencies": {
-    "@tix/theme-sdk": "file:../packages/theme-sdk"
+    "@marty/theme-sdk": "file:../packages/theme-sdk"
   }
 }

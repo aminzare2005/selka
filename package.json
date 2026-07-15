@@ -1,5 +1,5 @@
 {
-  "name": "tix",
+  "name": "marty",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -32,8 +32,8 @@
     "@radix-ui/react-tabs": "^1.1.17",
     "@radix-ui/react-toast": "^1.2.19",
     "@tanstack/react-query": "^5.101.2",
-    "@tix-theme/shalom": "file:./shalom",
-    "@tix/theme-sdk": "file:./packages/theme-sdk",
+    "@marty-theme/shalom": "file:./shalom",
+    "@marty/theme-sdk": "file:./packages/theme-sdk",
     "bcryptjs": "^3.0.3",
     "better-auth": "^1.6.23",
     "class-variance-authority": "^0.7.1",

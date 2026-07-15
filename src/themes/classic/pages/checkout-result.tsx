@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CheckoutResultPageProps } from "@tix/theme-sdk";
+import type { CheckoutResultPageProps } from "@marty/theme-sdk";
 
 export function ClassicCheckoutResultPage({ store, status, orderId }: CheckoutResultPageProps) {
   const isSuccess = status === "success";

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import type { SectionProps } from "@tix/theme-sdk";
+import type { SectionProps } from "@marty/theme-sdk";
 
 export function ModernHero({ store, settings }: SectionProps) {
   const heroTitle = (settings.heroTitle as string) || store.name;

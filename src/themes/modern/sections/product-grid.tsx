@@ -1,5 +1,5 @@
 import { ProductCard } from "@/components/storefront/product-card";
-import type { SectionProps } from "@tix/theme-sdk";
+import type { SectionProps } from "@marty/theme-sdk";
 
 export function ModernProductGrid({ store, products }: SectionProps) {
   return (

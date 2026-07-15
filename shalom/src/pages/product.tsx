@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { ProductPageProps } from "@tix/theme-sdk";
+import type { ProductPageProps } from "@marty/theme-sdk";
 import { useAddToCart } from "../hooks/use-add-to-cart";
 import { formatPrice } from "../hooks/use-checkout";
 

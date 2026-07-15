@@ -31,9 +31,9 @@ export default async function ContactPage() {
               </p>
             </div>
             <Button variant="outline" asChild>
-              <a href="mailto:support@tix.ir">
+              <a href="mailto:support@marty.ir">
                 <Mail className="h-4 w-4" />
-                support@tix.ir
+                support@marty.ir
               </a>
             </Button>
           </CardContent>

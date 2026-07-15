@@ -17,4 +17,4 @@ export type {
   StorefrontLayoutProps,
   ThemeComponents,
   ThemePackage,
-} from "@tix/theme-sdk";
+} from "@marty/theme-sdk";

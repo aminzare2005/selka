@@ -1,4 +1,4 @@
-import type { CheckoutResultPageProps } from "@tix/theme-sdk";
+import type { CheckoutResultPageProps } from "@marty/theme-sdk";
 
 export function ShalomCheckoutResultPage({ store, status, orderId }: CheckoutResultPageProps) {
   const isSuccess = status === "success";
