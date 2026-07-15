@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { MediaUploader } from "@/components/dashboard/media-uploader";
 
 const THEME_APPLY_DELAY_MS = 5000;
 
@@ -65,6 +66,8 @@ export function StoreThemeSettings({ store }: { store: Store }) {
   const [primary, setPrimary] = useState(colors.primary ?? "#0a0a0a");
   const [heroTitle, setHeroTitle] = useState((settings.heroTitle as string) ?? "");
   const [heroSubtitle, setHeroSubtitle] = useState((settings.heroSubtitle as string) ?? "");
+  const [logo, setLogo] = useState((settings.logo as string) ?? "");
+  const [heroImage, setHeroImage] = useState((settings.heroImage as string) ?? "");
 
   const { data: themes = [], isLoading: themesLoading } = useQuery<ThemeOption[]>({
     queryKey: ["themes"],
@@ -87,6 +90,8 @@ export function StoreThemeSettings({ store }: { store: Store }) {
             tokens: { colors: { primary } },
             heroTitle: heroTitle || undefined,
             heroSubtitle: heroSubtitle || undefined,
+            logo: logo || undefined,
+            heroImage: heroImage || undefined,
           },
         }),
       });
@@ -188,6 +193,20 @@ export function StoreThemeSettings({ store }: { store: Store }) {
           <Label htmlFor="heroSubtitle">زیرعنوان</Label>
           <Input id="heroSubtitle" value={heroSubtitle} onChange={(e) => setHeroSubtitle(e.target.value)} />
         </div>
+
+        <MediaUploader
+          label="لوگوی فروشگاه"
+          value={logo}
+          onChange={setLogo}
+          folder={`stores/${store.id}/branding`}
+        />
+
+        <MediaUploader
+          label="تصویر پس‌زمینه صفحه اصلی"
+          value={heroImage}
+          onChange={setHeroImage}
+          folder={`stores/${store.id}/branding`}
+        />
 
         <Button
           onClick={() => saveAppearance.mutate()}

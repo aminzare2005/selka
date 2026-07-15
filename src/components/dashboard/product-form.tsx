@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { MediaUploader } from "@/components/dashboard/media-uploader";
 import { toast } from "sonner";
 import slugify from "slugify";
 
@@ -76,22 +77,6 @@ export function ProductForm({ storeId, product, onSuccess }: ProductFormProps) {
     onError: (err: Error) => toast.error(err.message),
   });
 
-  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("folder", `stores/${storeId}`);
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-    const json = await res.json();
-    if (!res.ok) {
-      toast.error(json.error);
-      return;
-    }
-    setImageUrl(json.url);
-    toast.success("تصویر آپلود شد");
-  }
-
   return (
     <div className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2">
@@ -124,14 +109,12 @@ export function ProductForm({ storeId, product, onSuccess }: ProductFormProps) {
         <Label>توضیحات</Label>
         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
-      <div className="space-y-2">
-        <Label>تصویر</Label>
-        <Input type="file" accept="image/*" onChange={handleImageUpload} />
-        {imageUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={imageUrl} alt="preview" className="mt-2 h-20 w-20 rounded object-cover" />
-        )}
-      </div>
+      <MediaUploader
+        label="تصویر"
+        value={imageUrl}
+        onChange={setImageUrl}
+        folder={`stores/${storeId}`}
+      />
       <Button onClick={() => saveProduct.mutate()} disabled={saveProduct.isPending} className="w-full">
         {saveProduct.isPending
           ? "در حال ذخیره..."
