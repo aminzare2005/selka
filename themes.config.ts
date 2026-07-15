@@ -7,7 +7,7 @@
  * 3. Register it here with a dynamic import
  * 4. Add the package name to transpilePackages in next.config.ts
  */
-import type { ThemePackage } from "@marty/theme-sdk";
+import type { ThemePackage } from "./packages/theme-sdk/src";
 
 export type ThemeConfigEntry = {
   id: string;
@@ -22,10 +22,6 @@ export const themesConfig: ThemeConfigEntry[] = [
   {
     id: "classic",
     loader: () => import("@/themes/classic"),
-  },
-  {
-    id: "shalom",
-    loader: () => import("@marty-theme/shalom"),
   },
 ];
 
