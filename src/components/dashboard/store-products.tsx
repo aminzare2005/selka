@@ -56,7 +56,9 @@ function ProductCard({
 
   const deleteProduct = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`/api/stores/${storeId}/products/${product.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/stores/${storeId}/products/${product.id}`, {
+        method: "DELETE",
+      });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error);
       return json;
@@ -94,44 +96,55 @@ function ProductCard({
               {product.isActive ? "فعال" : "غیرفعال"}
             </Badge>
             {isOutOfStock && <Badge variant="destructive">ناموجود</Badge>}
-            {isLowStock && !isOutOfStock && <Badge variant="warning">موجودی کم</Badge>}
+            {isLowStock && !isOutOfStock && (
+              <Badge variant="warning">موجودی کم</Badge>
+            )}
           </div>
         </div>
 
         <CardContent className="p-4">
-          <div className="space-y-1">
-            <h3 className="font-semibold leading-snug line-clamp-2">{product.title}</h3>
-            <p className="w-fit text-caption" dir="ltr">
-              /{product.slug}
+          <h3 className="font-semibold leading-snug line-clamp-2">
+            {product.title}
+          </h3>
+
+          <div>
+            <p className="text-lg font-bold">{formatPrice(product.price)}</p>
+            <p
+              className={cn(
+                "text-xs",
+                isOutOfStock
+                  ? "text-destructive"
+                  : isLowStock
+                    ? "text-amber-700"
+                    : "text-muted-foreground",
+              )}
+            >
+              موجودی: {product.stock.toLocaleString("fa-IR")}
             </p>
           </div>
 
-          {product.description && (
-            <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{product.description}</p>
-          )}
-
-          <div className="mt-4 flex items-end justify-between gap-2">
-            <div>
-              <p className="text-lg font-bold">{formatPrice(product.price)}</p>
-              <p
-                className={cn(
-                  "text-xs",
-                  isOutOfStock ? "text-destructive" : isLowStock ? "text-amber-700" : "text-muted-foreground",
-                )}
-              >
-                موجودی: {product.stock.toLocaleString("fa-IR")}
-              </p>
-            </div>
-          </div>
-
           <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
-            <Button variant="outline" size="sm" onClick={() => onEdit(product)} className="rounded-full">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onEdit(product)}
+              className="rounded-full"
+            >
               <Pencil className="h-3.5 w-3.5" />
               ویرایش
             </Button>
             {storeSlug && product.isActive && (
-              <Button variant="outline" size="sm" asChild className="rounded-full">
-                <a href={`/s/${storeSlug}/products/${product.slug}`} target="_blank" rel="noreferrer">
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="rounded-full"
+              >
+                <a
+                  href={`/s/${storeSlug}/products/${product.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <ExternalLink className="h-3.5 w-3.5" />
                   مشاهده
                 </a>
@@ -159,7 +172,11 @@ function ProductCard({
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)} disabled={deleteProduct.isPending}>
+            <Button
+              variant="outline"
+              onClick={() => setDeleteOpen(false)}
+              disabled={deleteProduct.isPending}
+            >
               انصراف
             </Button>
             <Button
@@ -214,7 +231,9 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
   if (isLoading) return <ProductListSkeleton />;
 
   const activeCount = products.filter((p) => p.isActive).length;
-  const lowStockCount = products.filter((p) => p.stock > 0 && p.stock <= 5).length;
+  const lowStockCount = products.filter(
+    (p) => p.stock > 0 && p.stock <= 5,
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -248,7 +267,9 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
         onOpenChange={handleOpenChange}
         title={editingProduct ? "ویرایش محصول" : "محصول جدید"}
         description={
-          editingProduct ? "اطلاعات محصول را ویرایش کنید" : "اطلاعات محصول را وارد کنید"
+          editingProduct
+            ? "اطلاعات محصول را ویرایش کنید"
+            : "اطلاعات محصول را وارد کنید"
         }
       >
         {open && (
@@ -274,7 +295,7 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
           </Button>
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 grid-cols-2 xl:grid-cols-3">
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -282,7 +303,11 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
               storeId={storeId}
               storeSlug={storeSlug}
               onEdit={openEdit}
-              onDeleted={() => queryClient.invalidateQueries({ queryKey: ["products", storeId] })}
+              onDeleted={() =>
+                queryClient.invalidateQueries({
+                  queryKey: ["products", storeId],
+                })
+              }
             />
           ))}
         </div>
