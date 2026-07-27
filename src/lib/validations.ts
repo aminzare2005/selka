@@ -13,7 +13,7 @@ export const createStoreSchema = z.object({
 export const updateStoreSchema = createStoreSchema.partial();
 
 export const updateStoreThemeSchema = z.object({
-  themeId: z.string().refine(isRegisteredTheme, "تم انتخاب‌شده معتبر نیست"),
+  themeId: z.string().refine(isRegisteredTheme, "تم انتخاب‌شده معتبر نیست").optional(),
   settings: z
     .object({
       tokens: z

@@ -9,7 +9,6 @@ import {
   type NavItem,
 } from "@/components/layout/dashboard-nav";
 import { StoreProvider } from "@/components/dashboard/store-context";
-import { StoreHeader } from "@/components/dashboard/store-header";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -26,16 +25,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <AppShell user={session.user} sections={sections}>
-      <StoreProvider store={store}>
-        {store ? (
-          <>
-            <StoreHeader store={store} />
-            <div className="mt-8">{children}</div>
-          </>
-        ) : (
-          children
-        )}
-      </StoreProvider>
+      <StoreProvider store={store}>{children}</StoreProvider>
     </AppShell>
   );
 }

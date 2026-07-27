@@ -6,6 +6,7 @@ import {
   CreditCard,
   Package,
   Palette,
+  Settings,
   ShoppingBag,
   Store,
   TrendingUp,
@@ -83,9 +84,15 @@ export default async function DashboardPage() {
     },
     {
       href: "/dashboard/theme",
-      label: "تنظیمات تم",
-      description: "ظاهر، رنگ و تم فروشگاه",
+      label: "تم",
+      description: "انتخاب ساختار و چیدمان فروشگاه",
       icon: Palette,
+    },
+    {
+      href: "/dashboard/settings",
+      label: "تنظیمات",
+      description: "نام، رنگ، لوگو و صفحه اصلی",
+      icon: Settings,
     },
     {
       href: "/dashboard/gateways",

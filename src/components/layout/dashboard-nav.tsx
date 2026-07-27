@@ -6,6 +6,7 @@ import {
   Package,
   ShoppingBag,
   Images,
+  Settings,
 } from "lucide-react";
 
 export type NavActiveRule = "exact" | "prefix";
@@ -30,6 +31,7 @@ export const dashboardNavItems: NavItem[] = [
   { href: "/dashboard/gallery", label: "گالری", icon: <Images className="h-4 w-4" /> },
   { href: "/dashboard/theme", label: "تم", icon: <Palette className="h-4 w-4" /> },
   { href: "/dashboard/gateways", label: "درگاه‌ها", icon: <CreditCard className="h-4 w-4" /> },
+  { href: "/dashboard/settings", label: "تنظیمات", icon: <Settings className="h-4 w-4" /> },
 ];
 
 export function buildDashboardSections(

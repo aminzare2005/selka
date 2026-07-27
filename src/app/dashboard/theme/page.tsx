@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth-server";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
-import { StoreThemeSettings } from "@/components/dashboard/store-theme-settings";
+import { StoreThemePicker } from "@/components/dashboard/store-theme-picker";
 import { PageHeader } from "@/components/ui/page-header";
 
 export default async function ThemePage() {
@@ -14,18 +14,11 @@ export default async function ThemePage() {
   return (
     <div>
       <PageHeader
-        title="تنظیمات تم"
-        description="رنگ‌ها، متن‌ها و تم کلی فروشگاه را مدیریت کنید"
+        title="تم"
+        description="ساختار و چیدمان کلی فروشگاه را با انتخاب تم عوض کنید"
       />
       <div className="mt-6 max-w-5xl">
-        <StoreThemeSettings
-          store={{
-            id: store.id,
-            slug: store.slug,
-            themeId: store.themeId,
-            settings: (store.settings ?? {}) as Record<string, unknown>,
-          }}
-        />
+        <StoreThemePicker store={{ id: store.id, themeId: store.themeId }} />
       </div>
     </div>
   );
