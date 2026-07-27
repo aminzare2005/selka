@@ -50,7 +50,7 @@ export default async function HomePage() {
               <span className="font-semibold text-foreground">
                 {storeCount.toLocaleString("fa-IR")}
               </span>{" "}
-              فروشگاه روی مارتی ساخته شده
+              فروشگاه روی سلکا ساخته شده
             </p>
           </div>
         )}

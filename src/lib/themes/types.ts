@@ -17,4 +17,4 @@ export type {
   StorefrontLayoutProps,
   ThemeComponents,
   ThemePackage,
-} from "@marty/theme-sdk";
+} from "@selka/theme-sdk";

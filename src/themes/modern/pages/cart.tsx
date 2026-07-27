@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Trash2 } from "lucide-react";
-import type { CartPageProps } from "@marty/theme-sdk";
+import type { CartPageProps } from "@selka/theme-sdk";
 import { useCart } from "@/hooks/storefront/use-cart";
 import { Button } from "@/components/ui/button";
 import { PriceDisplay } from "@/components/storefront/price-display";

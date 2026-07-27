@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CheckCircle2, XCircle } from "lucide-react";
-import type { CheckoutResultPageProps } from "@marty/theme-sdk";
+import type { CheckoutResultPageProps } from "@selka/theme-sdk";
 import { Button } from "@/components/ui/button";
 import { storePath } from "@/lib/storefront-url";
 

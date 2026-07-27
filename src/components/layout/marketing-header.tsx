@@ -9,7 +9,7 @@ export function MarketingHeader() {
           href="/"
           className="font-display text-xl font-bold tracking-tight"
         >
-          مارتی
+          سلکا
         </Link>
         <nav className="flex items-center gap-2">
           <Button variant="ghost" size="sm" asChild>

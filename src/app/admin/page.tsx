@@ -22,7 +22,7 @@ export default async function AdminPage() {
     <AppShell
       user={session.user}
       sections={[{ items: adminNavItems }]}
-      brand="مارتی ادمین"
+      brand="سلکا ادمین"
       brandHref="/admin"
     >
       <PageHeader title="پنل ادمین" description="آمار کلی پلتفرم" />

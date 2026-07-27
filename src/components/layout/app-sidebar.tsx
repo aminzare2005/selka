@@ -29,7 +29,7 @@ type AppSidebarProps = {
 export function AppSidebar({
   sections,
   user,
-  brand = "مارتی",
+  brand = "سلکا",
   brandHref = "/dashboard",
 }: AppSidebarProps) {
   const pathname = usePathname();

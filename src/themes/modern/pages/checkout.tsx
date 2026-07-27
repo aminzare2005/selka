@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { CheckoutPageProps } from "@marty/theme-sdk";
+import type { CheckoutPageProps } from "@selka/theme-sdk";
 import { useCheckout } from "@/hooks/storefront/use-checkout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

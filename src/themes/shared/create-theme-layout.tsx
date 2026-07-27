@@ -5,7 +5,7 @@ import type {
   StorefrontPage,
   ThemePageComponents,
   ThemeShellComponents,
-} from "@marty/theme-sdk";
+} from "@selka/theme-sdk";
 import { SectionRenderer } from "@/components/storefront/section-renderer";
 
 type CreateThemeLayoutOptions = ThemeShellComponents &

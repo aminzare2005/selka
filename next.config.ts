@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@marty-theme/shalom", "@marty/theme-sdk"],
+  transpilePackages: ["@selka/theme-sdk"],
   async rewrites() {
     return [
       { source: "/@:slug", destination: "/s/:slug" },

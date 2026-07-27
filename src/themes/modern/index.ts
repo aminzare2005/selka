@@ -1,4 +1,4 @@
-import type { ThemePackage } from "@marty/theme-sdk";
+import type { ThemePackage } from "@selka/theme-sdk";
 import { createThemeLayout } from "@/themes/shared/create-theme-layout";
 import { ModernHero } from "./sections/hero";
 import { ModernProductGrid } from "./sections/product-grid";

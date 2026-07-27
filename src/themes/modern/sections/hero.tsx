@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import type { SectionProps } from "@marty/theme-sdk";
+import type { SectionProps } from "@selka/theme-sdk";
 import { storePath } from "@/lib/storefront-url";
 
 export function ModernHero({ store, settings }: SectionProps) {

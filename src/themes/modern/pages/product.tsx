@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { ProductPageProps } from "@marty/theme-sdk";
+import type { ProductPageProps } from "@selka/theme-sdk";
 import { useAddToCart } from "@/hooks/storefront/use-add-to-cart";
 import { Button } from "@/components/ui/button";
 import { PriceDisplay } from "@/components/storefront/price-display";

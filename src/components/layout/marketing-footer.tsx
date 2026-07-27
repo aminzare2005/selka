@@ -6,7 +6,7 @@ export function MarketingFooter() {
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
-            <p className="font-display text-lg font-bold">مارتی</p>
+            <p className="font-display text-lg font-bold">سلکا</p>
             <p className="mt-2 max-w-sm text-sm text-muted-foreground">
               پلتفرم فروشگاه‌ساز فارسی برای ساخت، مدیریت و فروش آنلاین.
             </p>
@@ -45,7 +45,7 @@ export function MarketingFooter() {
           </div>
         </div>
         <div className="mt-12 border-t border-border pt-8 text-center text-caption">
-          © {new Date().getFullYear()} مارتی — تمامی حقوق محفوظ است
+          © {new Date().getFullYear()} سلکا — تمامی حقوق محفوظ است
         </div>
       </div>
     </footer>

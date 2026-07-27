@@ -1,11 +1,11 @@
 # Theme SDK
 
-قرارداد مشترک برای ساخت تم‌های مارتی — داخل یا خارج از ریپو اصلی.
+قرارداد مشترک برای ساخت تم‌های سلکا — داخل یا خارج از ریپو اصلی.
 
 ## ThemePackage
 
 ```ts
-import type { ThemePackage } from "@marty/theme-sdk";
+import type { ThemePackage } from "@selka/theme-sdk";
 
 const myTheme: ThemePackage = {
   definition: {

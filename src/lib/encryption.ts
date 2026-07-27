@@ -4,7 +4,7 @@ const ALGORITHM = "aes-256-gcm";
 
 function getKey(): Buffer {
   const secret = process.env.ENCRYPTION_KEY ?? "dev-encryption-key-change-me!";
-  return scryptSync(secret, "marty-salt", 32);
+  return scryptSync(secret, "selka-salt", 32);
 }
 
 export function encrypt(text: string): string {

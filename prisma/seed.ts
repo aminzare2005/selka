@@ -27,19 +27,19 @@ async function main() {
   console.log("🌱 Seeding database...");
 
   const admin = await createUserWithAuth(
-    "admin@marty.ir",
+    "admin@selka.ir",
     "admin123",
     "ادمین پلتفرم",
     "PLATFORM_ADMIN",
   );
-  console.log("✅ Admin: admin@marty.ir / admin123");
+  console.log("✅ Admin: admin@selka.ir / admin123");
 
   const demo = await createUserWithAuth(
-    "demo@marty.ir",
+    "demo@selka.ir",
     "demo123",
     "فروشنده نمونه",
   );
-  console.log("✅ Demo: demo@marty.ir / demo123");
+  console.log("✅ Demo: demo@selka.ir / demo123");
 
   await db.paymentGateway.upsert({
     where: { slug: "zibal" },
@@ -70,7 +70,7 @@ async function main() {
         ownerId: demo.id,
         themeId: "modern",
         settings: {
-          heroTitle: "فروشگاه نمونه مارتی",
+          heroTitle: "فروشگاه نمونه سلکا",
           heroSubtitle: "بهترین محصولات با بهترین قیمت",
           tokens: { colors: { primary: "#0F766E" } },
         },

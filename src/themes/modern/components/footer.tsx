@@ -1,4 +1,4 @@
-import type { SectionProps } from "@marty/theme-sdk";
+import type { SectionProps } from "@selka/theme-sdk";
 
 export function ModernFooter({ store }: SectionProps) {
   return (

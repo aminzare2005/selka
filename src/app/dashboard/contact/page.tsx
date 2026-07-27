@@ -14,7 +14,7 @@ export default async function ContactPage() {
     <div>
       <PageHeader
         title="ارتباط با ما"
-        description="تیم پشتیبانی مارتی آماده پاسخگویی است"
+        description="تیم پشتیبانی سلکا آماده پاسخگویی است"
       />
 
       <div className="mt-8 max-w-lg space-y-6">
@@ -31,9 +31,9 @@ export default async function ContactPage() {
               </p>
             </div>
             <Button variant="outline" asChild>
-              <a href="mailto:support@marty.ir">
+              <a href="mailto:support@selka.ir">
                 <Mail className="h-4 w-4" />
-                support@marty.ir
+                support@selka.ir
               </a>
             </Button>
           </CardContent>

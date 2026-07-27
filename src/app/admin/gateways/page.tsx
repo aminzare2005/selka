@@ -18,7 +18,7 @@ export default async function AdminGatewaysPage() {
     <AppShell
       user={session.user}
       sections={[{ items: adminNavItems }]}
-      brand="مارتی ادمین"
+      brand="سلکا ادمین"
       brandHref="/admin"
     >
       <PageHeader

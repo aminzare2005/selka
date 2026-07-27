@@ -18,7 +18,7 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "مارتی — پلتفرم فروشگاه‌ساز",
+  title: "سلکا — پلتفرم فروشگاه‌ساز",
   description: "فروشگاه آنلاین خود را بسازید و بفروشید",
 };
 

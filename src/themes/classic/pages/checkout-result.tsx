@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CheckoutResultPageProps } from "@marty/theme-sdk";
+import type { CheckoutResultPageProps } from "@selka/theme-sdk";
 import { storePath } from "@/lib/storefront-url";
 
 export function ClassicCheckoutResultPage({ store, status, orderId }: CheckoutResultPageProps) {

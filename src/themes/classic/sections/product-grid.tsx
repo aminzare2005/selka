@@ -1,5 +1,5 @@
 import { ProductCard } from "@/components/storefront/product-card";
-import type { SectionProps } from "@marty/theme-sdk";
+import type { SectionProps } from "@selka/theme-sdk";
 
 export function ClassicProductGrid({ store, products }: SectionProps) {
   return (

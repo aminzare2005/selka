@@ -1,4 +1,4 @@
-import type { ThemeDefinition, ThemePackage } from "@marty/theme-sdk";
+import type { ThemeDefinition, ThemePackage } from "@selka/theme-sdk";
 import { themesConfig, DEFAULT_THEME_ID } from "../../../themes.config";
 
 export { DEFAULT_THEME_ID };
