@@ -83,8 +83,8 @@ export function MediaPickerDialog({
                     className={cn(
                       "group relative aspect-square overflow-hidden rounded-lg border-2 transition-all",
                       isSelected
-                        ? "border-foreground ring-2 ring-foreground/20"
-                        : "border-transparent hover:border-foreground/30",
+                        ? "border-brand-400 ring-2 ring-brand-200"
+                        : "border-transparent hover:border-brand-300",
                     )}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}

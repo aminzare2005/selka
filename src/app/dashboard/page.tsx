@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   Clock,
   CreditCard,
+  ExternalLink,
   Package,
   Palette,
   Settings,
@@ -18,27 +19,51 @@ import { CreateStoreSheet } from "@/components/dashboard/create-store-sheet";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { toneSurface } from "@/components/ui/tone";
 import { formatPrice } from "@/lib/utils";
+import { storePath } from "@/lib/storefront-url";
+
+function greeting() {
+  const hour = Number(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Tehran",
+      hour: "numeric",
+      hour12: false,
+    }).format(new Date()),
+  );
+  if (hour < 5) return "شب‌بخیر";
+  if (hour < 12) return "صبح‌بخیر";
+  if (hour < 17) return "ظهرت بخیر";
+  if (hour < 21) return "عصرت بخیر";
+  return "شب‌بخیر";
+}
 
 export default async function DashboardPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
+  const firstName = session.user.name?.trim().split(/\s+/)[0] ?? "";
   const store = await getPrimaryStoreForUser(session.user.id);
 
   if (!store) {
     return (
-      <div className="flex flex-col items-center py-16 text-center animate-slide-up">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary">
-          <Store className="h-8 w-8 text-muted-foreground" />
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-h2">
+            {greeting()}
+            {firstName ? `، ${firstName}` : ""} 👋
+          </h1>
+          <p className="mt-1 text-muted-foreground">
+            یک قدم تا فروشگاه خودت فاصله داری.
+          </p>
         </div>
-        <h2 className="mt-6 text-lg font-semibold">فروشگاهت رو بساز</h2>
-        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-          اولین فروشگاه آنلاین خود را بساز و محصولاتت را بفروش.
-        </p>
-        <div className="mt-6">
-          <CreateStoreSheet />
-        </div>
+        <EmptyState
+          icon={<Store />}
+          title="بیا اولین فروشگاهت رو بسازیم"
+          description="فقط یک اسم لازم داری. بقیه‌اش با ما — محصول، پرداخت و ظاهر فروشگاه رو هر وقت خواستی عوض کن."
+          action={<CreateStoreSheet />}
+        />
       </div>
     );
   }
@@ -59,61 +84,110 @@ export default async function DashboardPage() {
   const totalRevenue = revenue._sum.totalAmount ?? 0;
 
   const stats = [
-    { label: "محصولات", value: productCount.toLocaleString("fa-IR"), icon: Package },
-    { label: "سفارش موفق", value: paidOrders.toLocaleString("fa-IR"), icon: ShoppingBag },
-    { label: "در انتظار پرداخت", value: pendingOrders.toLocaleString("fa-IR"), icon: Clock },
-    { label: "درآمد", value: formatPrice(totalRevenue), icon: TrendingUp },
-  ];
+    {
+      label: "محصولات",
+      value: productCount.toLocaleString("fa-IR"),
+      icon: Package,
+      tone: "brand",
+    },
+    {
+      label: "سفارش موفق",
+      value: paidOrders.toLocaleString("fa-IR"),
+      icon: ShoppingBag,
+      tone: "mint",
+    },
+    {
+      label: "در انتظار پرداخت",
+      value: pendingOrders.toLocaleString("fa-IR"),
+      icon: Clock,
+      tone: "sun",
+    },
+    {
+      label: "درآمد",
+      value: formatPrice(totalRevenue),
+      icon: TrendingUp,
+      tone: "ocean",
+    },
+  ] as const;
 
   const quickLinks = [
     {
       href: "/dashboard/products",
       label: "محصولات",
-      description: "افزودن، ویرایش و مدیریت موجودی",
+      description: "محصول اضافه کن یا موجودی‌ها را به‌روز کن",
       icon: Package,
+      tone: "brand",
       count: productCount,
       countLabel: "محصول",
     },
     {
       href: "/dashboard/orders",
       label: "سفارش‌ها",
-      description: "پیگیری و مدیریت سفارش‌های مشتریان",
+      description: "ببین مشتری‌ها چی سفارش داده‌اند",
       icon: ShoppingBag,
+      tone: "mint",
       count: orderCount,
       countLabel: "سفارش",
     },
     {
       href: "/dashboard/theme",
       label: "تم",
-      description: "انتخاب ساختار و چیدمان فروشگاه",
+      description: "ظاهر و چیدمان فروشگاه را عوض کن",
       icon: Palette,
+      tone: "ocean",
     },
     {
       href: "/dashboard/settings",
       label: "تنظیمات",
-      description: "نام، رنگ، لوگو و صفحه اصلی",
+      description: "اسم، رنگ، لوگو و صفحه اصلی",
       icon: Settings,
+      tone: "sun",
     },
     {
       href: "/dashboard/gateways",
       label: "درگاه‌های پرداخت",
-      description: "فعال‌سازی زیبال و سایر درگاه‌ها",
+      description: "زیبال و بقیه درگاه‌ها را وصل کن",
       icon: CreditCard,
+      tone: "brand",
     },
-  ];
+  ] as const;
+
+  const isFresh = productCount === 0;
 
   return (
     <div className="space-y-8">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-h2">
+            {greeting()}
+            {firstName ? `، ${firstName}` : ""} 👋
+          </h1>
+          <p className="mt-1 text-muted-foreground">
+            {isFresh
+              ? `«${store.name}» آماده‌ست، فقط محصول‌هات مانده.`
+              : `امروز «${store.name}» چطور پیش می‌رود؟`}
+          </p>
+        </div>
+        <Button variant="outline" size="sm" asChild>
+          <a href={storePath(store.slug)} target="_blank" rel="noreferrer">
+            <ExternalLink className="h-4 w-4" />
+            دیدن فروشگاه
+          </a>
+        </Button>
+      </div>
+
+      <div className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card key={stat.label}>
-            <CardContent className="flex items-center gap-4 p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
-                <stat.icon className="h-5 w-5 text-muted-foreground" />
+            <CardContent className="flex items-center gap-3.5 p-5">
+              <div
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${toneSurface[stat.tone]}`}
+              >
+                <stat.icon className="h-5 w-5" />
               </div>
               <div className="min-w-0">
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <p className="mt-0.5 truncate text-xl font-bold">{stat.value}</p>
+                <p className="mt-0.5 truncate text-xl font-extrabold">{stat.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -121,13 +195,20 @@ export default async function DashboardPage() {
       </div>
 
       {pendingOrders > 0 && (
-        <Card variant="flat" className="border-amber-200 bg-amber-50">
+        <Card className="animate-pop-in border-sun-100 bg-sun-100/50 shadow-none">
           <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-amber-900">
-              <span className="font-medium">{pendingOrders.toLocaleString("fa-IR")} سفارش</span>{" "}
-              در انتظار پرداخت است.
-            </p>
-            <Button variant="outline" size="sm" asChild className="border-amber-300 bg-white hover:bg-amber-50">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-card text-sun-600">
+                <Clock className="h-5 w-5" />
+              </span>
+              <p className="text-sm text-sun-800">
+                <span className="font-bold">
+                  {pendingOrders.toLocaleString("fa-IR")} سفارش
+                </span>{" "}
+                منتظر پرداخته — یک سر بهشان بزن.
+              </p>
+            </div>
+            <Button variant="outline" size="sm" asChild className="shrink-0">
               <Link href="/dashboard/orders">مشاهده سفارش‌ها</Link>
             </Button>
           </CardContent>
@@ -135,28 +216,34 @@ export default async function DashboardPage() {
       )}
 
       <div>
-        <h2 className="text-lg font-semibold">مدیریت فروشگاه</h2>
-        <p className="mt-1 text-sm text-muted-foreground">بخش‌های مختلف فروشگاه را از اینجا مدیریت کنید.</p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <h2 className="text-h3">میان‌بُرها</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          هر بخش از فروشگاه یک کلیک با تو فاصله دارد.
+        </p>
+        <div className="stagger mt-4 grid gap-3 sm:grid-cols-2">
           {quickLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="group">
+            <Link key={link.href} href={link.href} className="group block">
               <Card variant="interactive" className="h-full">
-                <CardContent className="flex items-center gap-4 p-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-foreground/5">
+                <CardContent className="flex items-center gap-3.5 p-5">
+                  <div
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${toneSurface[link.tone]}`}
+                  >
                     <link.icon className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="font-medium">{link.label}</p>
-                      {link.count !== undefined && link.count > 0 && (
-                        <Badge variant="secondary" className="text-[10px]">
+                      <p className="font-bold">{link.label}</p>
+                      {"count" in link && link.count > 0 && (
+                        <Badge variant="secondary">
                           {link.count.toLocaleString("fa-IR")} {link.countLabel}
                         </Badge>
                       )}
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">{link.description}</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">
+                      {link.description}
+                    </p>
                   </div>
-                  <ArrowLeft className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-x-0.5" />
+                  <ArrowLeft className="h-4 w-4 shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-brand-600" />
                 </CardContent>
               </Card>
             </Link>

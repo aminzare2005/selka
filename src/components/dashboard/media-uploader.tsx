@@ -157,20 +157,20 @@ export function MediaUploader({
         className={cn(
           "flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-colors",
           dragOver
-            ? "border-foreground bg-secondary/50"
-            : "border-border bg-secondary/20 hover:border-foreground/30 hover:bg-secondary/30",
+            ? "border-brand-400 bg-brand-50"
+            : "border-border bg-secondary/20 hover:border-brand-300 hover:bg-brand-50/60",
           upload.isPending && "pointer-events-none opacity-60",
         )}
       >
         {upload.isPending ? (
           <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" />
         ) : (
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary">
-            <ImageIcon className="h-7 w-7 text-muted-foreground" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-100 text-brand-600">
+            <ImageIcon className="h-6 w-6" />
           </div>
         )}
         <div className="text-center">
-          <p className="text-sm font-medium">
+          <p className="text-sm font-semibold">
             {upload.isPending ? "در حال آپلود..." : "تصویر را اینجا رها کنید"}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">

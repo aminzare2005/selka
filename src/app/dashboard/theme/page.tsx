@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth-server";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
 import { StoreThemePicker } from "@/components/dashboard/store-theme-picker";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default async function ThemePage() {
   const session = await getSession();
@@ -13,10 +14,7 @@ export default async function ThemePage() {
 
   return (
     <div>
-      <PageHeader
-        title="تم"
-        description="ساختار و چیدمان کلی فروشگاه را با انتخاب تم عوض کنید"
-      />
+      <PageHeader {...dashboardPageMeta.theme} />
       <div className="mt-6 max-w-5xl">
         <StoreThemePicker store={{ id: store.id, themeId: store.themeId }} />
       </div>

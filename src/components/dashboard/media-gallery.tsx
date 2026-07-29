@@ -18,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn, formatFileSize } from "@/lib/utils";
 import { toast } from "sonner";
@@ -152,7 +153,7 @@ export function MediaGallery() {
         className={cn(
           "flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed p-10 transition-colors",
           dragOver
-            ? "border-foreground bg-secondary/50"
+            ? "border-brand-400 bg-brand-50"
             : "border-border bg-secondary/20",
           upload.isPending && "pointer-events-none opacity-60",
         )}
@@ -160,12 +161,12 @@ export function MediaGallery() {
         {upload.isPending ? (
           <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" />
         ) : (
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary">
-            <Upload className="h-8 w-8 text-muted-foreground" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-brand-100 text-brand-600">
+            <Upload className="h-7 w-7" />
           </div>
         )}
         <div className="text-center">
-          <p className="font-medium">
+          <p className="font-bold">
             {upload.isPending ? "در حال آپلود..." : "تصاویر را اینجا رها کنید"}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -197,18 +198,18 @@ export function MediaGallery() {
       {isLoading ? (
         <GallerySkeleton />
       ) : media.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border py-16 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary">
-            <ImageIcon className="h-8 w-8 text-muted-foreground" />
-          </div>
-          <p className="text-muted-foreground">هنوز تصویری آپلود نکرده‌اید.</p>
-        </div>
+        <EmptyState
+          icon={<ImageIcon />}
+          tone="ocean"
+          title="گالری هنوز خالیه"
+          description="هر تصویری که آپلود کنی اینجا می‌ماند تا بعداً برای محصول‌ها و صفحه اصلی استفاده‌اش کنی."
+        />
       ) : (
         <>
           <p className="text-sm text-muted-foreground">
-            {media.length} تصویر
+            {media.length.toLocaleString("fa-IR")} تصویر
           </p>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="stagger grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {media.map((item) => (
               <MediaCard key={item.id} item={item} onDelete={setDeleteTarget} />
             ))}
@@ -225,7 +226,7 @@ export function MediaGallery() {
               این عمل قابل بازگشت نیست.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <div className="flex items-start gap-3 rounded-2xl border border-sun-100 bg-sun-100/60 p-3 text-sm text-sun-800">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <p>
               اگر این تصویر در محصولات یا تنظیمات فروشگاه استفاده شده باشد،

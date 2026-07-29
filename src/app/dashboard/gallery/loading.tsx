@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/ui/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 function GallerySkeleton() {
   return (
@@ -14,7 +15,7 @@ function GallerySkeleton() {
 export default function GalleryLoading() {
   return (
     <>
-      <PageHeader title="گالری" description="مدیریت تصاویر آپلودشده" />
+      <PageHeader {...dashboardPageMeta.gallery} />
       <div className="mt-6 space-y-6">
         <Skeleton className="h-40 w-full rounded-2xl" />
         <GallerySkeleton />

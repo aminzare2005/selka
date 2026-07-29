@@ -83,8 +83,8 @@ export function GatewayForm({ storeId, gateway, onSuccess }: GatewayFormProps) {
               className={cn(
                 "rounded-xl border p-3 text-start transition-colors",
                 isEnabled === option.value
-                  ? "border-foreground bg-secondary/50"
-                  : "border-border hover:border-foreground/30",
+                  ? "border-brand-300 bg-brand-50"
+                  : "border-border hover:border-brand-200 hover:bg-brand-50/50",
               )}
             >
               <p className="font-medium">{option.label}</p>
@@ -112,7 +112,7 @@ export function GatewayForm({ storeId, gateway, onSuccess }: GatewayFormProps) {
       )}
 
       {!isEnabled && gateway.isEnabled && (
-        <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-900">
+        <p className="rounded-xl bg-sun-100 px-3 py-2 text-xs text-sun-800">
           با غیرفعال کردن، مشتریان دیگر نمی‌توانند از این درگاه پرداخت کنند.
         </p>
       )}

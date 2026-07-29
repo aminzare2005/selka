@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth-server";
 import { MediaGallery } from "@/components/dashboard/media-gallery";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default async function GalleryPage() {
   const session = await getSession();
@@ -9,10 +10,7 @@ export default async function GalleryPage() {
 
   return (
     <div>
-      <PageHeader
-        title="گالری"
-        description="مدیریت تصاویر آپلودشده — از اینجا می‌توانید تصاویر را آپلود، مشاهده و حذف کنید"
-      />
+      <PageHeader {...dashboardPageMeta.gallery} />
       <div className="mt-6">
         <MediaGallery />
       </div>

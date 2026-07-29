@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth-server";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
 import { StoreGateways } from "@/components/dashboard/store-gateways";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default async function GatewaysPage() {
   const session = await getSession();
@@ -13,10 +14,7 @@ export default async function GatewaysPage() {
 
   return (
     <div>
-      <PageHeader
-        title="درگاه‌های پرداخت"
-        description="درگاه پرداخت فروشگاه را فعال و تنظیم کنید"
-      />
+      <PageHeader {...dashboardPageMeta.gateways} />
       <div className="mt-6">
         <StoreGateways storeId={store.id} />
       </div>

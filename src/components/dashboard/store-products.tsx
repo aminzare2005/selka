@@ -22,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { EmptyState } from "@/components/ui/empty-state";
 import { FormSheet } from "@/components/ui/form-sheet";
 import { ProductForm } from "@/components/dashboard/product-form";
 import { ProductListSkeleton } from "@/components/ui/dashboard-skeletons";
@@ -77,14 +78,14 @@ function ProductCard({
 
   return (
     <>
-      <Card className="overflow-hidden">
-        <div className="relative aspect-[4/3] bg-secondary/60">
+      <Card className="group overflow-hidden">
+        <div className="relative aspect-[4/3] overflow-hidden bg-secondary/60">
           {product.images[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={product.images[0]}
               alt={product.title}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-500 ease-spring group-hover:scale-105"
             />
           ) : (
             <div className="flex h-full flex-col items-center justify-center text-muted-foreground">
@@ -104,19 +105,19 @@ function ProductCard({
         </div>
 
         <CardContent className="p-4">
-          <h3 className="font-semibold leading-snug line-clamp-2">
+          <h3 className="line-clamp-2 font-bold leading-snug">
             {product.title}
           </h3>
 
-          <div>
+          <div className="mt-2">
             <p className="text-lg font-bold">{formatPrice(product.price)}</p>
             <p
               className={cn(
                 "text-xs",
                 isOutOfStock
-                  ? "text-destructive"
+                  ? "text-coral-600"
                   : isLowStock
-                    ? "text-amber-700"
+                    ? "text-sun-600"
                     : "text-muted-foreground",
               )}
             >
@@ -124,7 +125,7 @@ function ProductCard({
             </p>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
+          <div className="mt-4 flex flex-wrap gap-2 border-t border-divider pt-4">
             <Button
               variant="outline"
               size="sm"
@@ -155,7 +156,7 @@ function ProductCard({
               variant="outline"
               size="sm"
               onClick={() => setDeleteOpen(true)}
-              className="rounded-full text-destructive hover:bg-red-50 hover:text-destructive"
+              className="rounded-full text-coral-600 hover:border-coral-100 hover:bg-coral-100 hover:text-coral-800"
             >
               <Trash2 className="h-3.5 w-3.5" />
               حذف
@@ -254,7 +255,7 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
           {lowStockCount > 0 && (
             <>
               <span>·</span>
-              <span className="flex items-center gap-1 text-amber-700">
+              <span className="flex items-center gap-1 text-sun-600">
                 <AlertTriangle className="h-3.5 w-3.5" />
                 {lowStockCount.toLocaleString("fa-IR")} با موجودی کم
               </span>
@@ -284,19 +285,19 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
       </FormSheet>
 
       {products.length === 0 ? (
-        <div className="flex flex-col items-center rounded-xl border border-dashed border-border py-16 text-center">
-          <Package className="h-10 w-10 text-muted-foreground" />
-          <p className="mt-4 font-medium">هنوز محصولی ثبت نشده</p>
-          <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-            اولین محصول فروشگاهت را اضافه کن و شروع به فروش کن.
-          </p>
-          <Button onClick={openCreate} className="mt-6 rounded-full">
-            <Plus className="h-4 w-4" />
-            افزودن اولین محصول
-          </Button>
-        </div>
+        <EmptyState
+          icon={<Package />}
+          title="قفسه‌ها هنوز خالی‌اند"
+          description="اولین محصولت رو اضافه کن تا فروشگاه راه بیفتد. کمتر از یک دقیقه طول می‌کشد."
+          action={
+            <Button onClick={openCreate}>
+              <Plus className="h-4 w-4" />
+              افزودن اولین محصول
+            </Button>
+          }
+        />
       ) : (
-        <div className="grid gap-4 grid-cols-2 xl:grid-cols-3">
+        <div className="stagger grid grid-cols-2 gap-4 xl:grid-cols-3">
           {products.map((product) => (
             <ProductCard
               key={product.id}

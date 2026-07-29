@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FormSheet } from "@/components/ui/form-sheet";
 import { GatewayForm } from "@/components/dashboard/gateway-form";
+import { EmptyState } from "@/components/ui/empty-state";
 import { GatewayListSkeleton } from "@/components/ui/dashboard-skeletons";
 
 type Gateway = {
@@ -31,11 +32,11 @@ function GatewayCard({
       <CardContent className="p-0">
         <div className="flex items-start justify-between gap-3 border-b border-border px-5 py-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary">
-              <CreditCard className="h-5 w-5 text-muted-foreground" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand-100 text-brand-600">
+              <CreditCard className="h-5 w-5" />
             </div>
             <div className="min-w-0">
-              <p className="font-semibold">{gateway.name}</p>
+              <p className="font-bold">{gateway.name}</p>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{gateway.description}</p>
               <p className="mt-1 w-fit text-caption" dir="ltr">
                 {gateway.slug}
@@ -51,7 +52,7 @@ function GatewayCard({
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             {gateway.hasCredentials ? (
               <>
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                <ShieldCheck className="h-3.5 w-3.5 text-mint-600" />
                 <span>شناسه پذیرنده ثبت شده</span>
               </>
             ) : (
@@ -96,13 +97,12 @@ export function StoreGateways({ storeId }: { storeId: string }) {
 
   if (gateways.length === 0) {
     return (
-      <div className="flex flex-col items-center rounded-xl border border-dashed border-border py-16 text-center">
-        <CreditCard className="h-10 w-10 text-muted-foreground" />
-        <p className="mt-4 font-medium">درگاه پرداختی فعال نیست</p>
-        <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-          درگاه پرداختی در پلتفرم فعال نیست. با ادمین تماس بگیرید.
-        </p>
-      </div>
+      <EmptyState
+        icon={<CreditCard />}
+        tone="ocean"
+        title="فعلاً درگاهی در دسترس نیست"
+        description="هیچ درگاه پرداختی روی پلتفرم فعال نشده. یک پیام به پشتیبانی بده تا برایت فعالش کنیم."
+      />
     );
   }
 
@@ -136,7 +136,7 @@ export function StoreGateways({ storeId }: { storeId: string }) {
         )}
       </FormSheet>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="stagger grid gap-4 sm:grid-cols-2">
         {gateways.map((gateway) => (
           <GatewayCard key={gateway.id} gateway={gateway} onEdit={openEdit} />
         ))}

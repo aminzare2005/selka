@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth-server";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
 import { StoreOrders } from "@/components/dashboard/store-orders";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default async function OrdersPage() {
   const session = await getSession();
@@ -13,7 +14,7 @@ export default async function OrdersPage() {
 
   return (
     <div>
-      <PageHeader title="سفارش‌ها" description="لیست سفارش‌های دریافتی از این فروشگاه" />
+      <PageHeader {...dashboardPageMeta.orders} />
       <div className="mt-6">
         <StoreOrders storeId={store.id} />
       </div>

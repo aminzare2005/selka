@@ -128,7 +128,7 @@ export function StoreThemePicker({
         )}
       </div>
 
-      <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+      <div className="flex items-start gap-3 rounded-2xl border border-sun-100 bg-sun-100/60 p-4 text-sm text-sun-800">
         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
         <p>
           تم فعلی:{" "}
@@ -153,8 +153,8 @@ export function StoreThemePicker({
               className={cn(
                 "group rounded-xl border bg-card p-3 text-start transition-all",
                 isSelected
-                  ? "border-foreground ring-2 ring-foreground/20"
-                  : "border-border hover:border-foreground/30 hover:shadow-sm",
+                  ? "border-brand-400 ring-2 ring-brand-200"
+                  : "border-border hover:border-brand-300 hover:shadow-sm",
                 applyTheme.isPending && "pointer-events-none opacity-60",
               )}
             >

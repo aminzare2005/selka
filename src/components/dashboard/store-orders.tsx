@@ -9,6 +9,7 @@ import {
   Package,
   Pencil,
   Phone,
+  ShoppingBag,
   User,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +23,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { EmptyState } from "@/components/ui/empty-state";
 import { OrderListSkeleton } from "@/components/ui/dashboard-skeletons";
 import { cn, formatPrice, formatDate } from "@/lib/utils";
 import { toast } from "sonner";
@@ -222,7 +224,7 @@ function OrderCard({
               <Button variant="outline" size="sm" onClick={handleCopy} className="rounded-full">
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-emerald-600" />
+                    <Check className="h-3.5 w-3.5 text-mint-600" />
                     کپی شد
                   </>
                 ) : (
@@ -262,23 +264,23 @@ function OrderCard({
                   type="button"
                   onClick={() => setSelectedStatus(s)}
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border p-3 text-start transition-colors",
+                    "flex items-start gap-3 rounded-xl border p-3 text-start transition-colors duration-200",
                     isSelected
-                      ? "border-foreground bg-secondary/50"
-                      : "border-border hover:border-foreground/30",
+                      ? "border-brand-300 bg-brand-50"
+                      : "border-border hover:border-brand-200 hover:bg-brand-50/50",
                   )}
                 >
                   <div
                     className={cn(
-                      "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border",
-                      isSelected ? "border-foreground bg-foreground" : "border-muted-foreground",
+                      "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors duration-200",
+                      isSelected ? "border-brand-600 bg-brand-600" : "border-muted-foreground",
                     )}
                   >
-                    {isSelected && <Check className="h-2.5 w-2.5 text-background" />}
+                    {isSelected && <Check className="h-2.5 w-2.5 text-white" />}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium">{config.label}</span>
+                      <span className="font-semibold">{config.label}</span>
                       {isCurrent && (
                         <Badge variant="outline" className="text-[10px]">
                           فعلی
@@ -293,7 +295,7 @@ function OrderCard({
           </div>
 
           {needsConfirm && selectedStatus !== order.status && (
-            <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-900">
+            <p className="rounded-xl bg-sun-100 px-3 py-2 text-xs text-sun-800">
               این وضعیت معمولاً برای سفارش‌های لغو‌شده یا ناموفق استفاده می‌شود.
             </p>
           )}
@@ -332,16 +334,17 @@ export function StoreOrders({ storeId }: { storeId: string }) {
 
   if (orders.length === 0) {
     return (
-      <div className="flex flex-col items-center rounded-xl border border-dashed border-border py-16 text-center">
-        <Package className="h-10 w-10 text-muted-foreground" />
-        <p className="mt-4 font-medium">هنوز سفارشی ثبت نشده</p>
-        <p className="mt-1 text-sm text-muted-foreground">سفارش‌های مشتریان اینجا نمایش داده می‌شوند.</p>
-      </div>
+      <EmptyState
+        icon={<ShoppingBag />}
+        tone="mint"
+        title="هنوز سفارشی نیامده"
+        description="به محض اینکه اولین مشتری خرید کند، سفارشش را همین‌جا می‌بینی."
+      />
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="stagger space-y-4">
       {orders.map((order) => (
         <OrderCard
           key={order.id}

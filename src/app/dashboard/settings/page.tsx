@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth-server";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
 import { StoreSettings } from "@/components/dashboard/store-settings";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default async function SettingsPage() {
   const session = await getSession();
@@ -13,10 +14,7 @@ export default async function SettingsPage() {
 
   return (
     <div>
-      <PageHeader
-        title="تنظیمات"
-        description="اطلاعات فروشگاه، رنگ، لوگو و محتوای صفحه اصلی را مدیریت کنید"
-      />
+      <PageHeader {...dashboardPageMeta.settings} />
       <div className="mt-6">
         <StoreSettings
           store={{

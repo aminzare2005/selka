@@ -1,13 +1,11 @@
 import { GatewayListSkeleton } from "@/components/ui/dashboard-skeletons";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default function GatewaysLoading() {
   return (
     <>
-      <PageHeader
-        title="درگاه‌های پرداخت"
-        description="درگاه پرداخت فروشگاه را فعال و تنظیم کنید"
-      />
+      <PageHeader {...dashboardPageMeta.gateways} />
       <div className="mt-6">
         <GatewayListSkeleton />
       </div>

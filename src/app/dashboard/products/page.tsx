@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth-server";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
 import { StoreProducts } from "@/components/dashboard/store-products";
 import { PageHeader } from "@/components/ui/page-header";
+import { dashboardPageMeta } from "@/components/layout/dashboard-page-meta";
 
 export default async function ProductsPage() {
   const session = await getSession();
@@ -13,7 +14,7 @@ export default async function ProductsPage() {
 
   return (
     <div>
-      <PageHeader title="محصولات" description="افزودن، ویرایش و حذف محصولات فروشگاه" />
+      <PageHeader {...dashboardPageMeta.products} />
       <div className="mt-6">
         <StoreProducts storeId={store.id} storeSlug={store.slug} />
       </div>
