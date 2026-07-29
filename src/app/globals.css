@@ -1,29 +1,82 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Tokens
+   ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  /* Brand ramp */
+  --brand-50: #f7f4ff;
+  --brand-100: #eee8ff;
+  --brand-200: #ddd2ff;
+  --brand-300: #c3aeff;
+  --brand-400: #a582fb;
+  --brand-500: #8a5cf3;
+  --brand-600: #6d38e0;
+  --brand-700: #5a2bbd;
+  --brand-900: #341878;
+
+  /* Supporting hues — one soft tint + one readable ink per hue */
+  --mint-100: #d7f6e8;
+  --mint-600: #0f9d6e;
+  --mint-800: #0a6148;
+
+  --sun-100: #ffeed0;
+  --sun-600: #b97903;
+  --sun-800: #7a4d00;
+
+  --ocean-100: #dcedff;
+  --ocean-600: #0b73d3;
+  --ocean-800: #084a88;
+
+  --coral-100: #ffe3e6;
+  --coral-600: #dc3a4e;
+  --coral-800: #971529;
+
+  /* Surfaces */
+  --background: #fbfaff;
+  --foreground: #171320;
   --card: #ffffff;
-  --card-foreground: #0a0a0a;
-  --primary: #0a0a0a;
+  --card-foreground: #171320;
+
+  --primary: #6d38e0;
   --primary-foreground: #ffffff;
-  --secondary: #f5f5f5;
-  --secondary-foreground: #0a0a0a;
-  --muted: #737373;
-  --muted-foreground: #737373;
-  --accent: #f5f5f5;
-  --accent-foreground: #0a0a0a;
-  --destructive: #dc2626;
+  --secondary: #f3f1fa;
+  --secondary-foreground: #2b2438;
+  --muted: #6b6480;
+  --muted-foreground: #6b6480;
+  --accent: #f1ecfd;
+  --accent-foreground: #4a2ba8;
+
+  --destructive: #dc3a4e;
   --destructive-foreground: #ffffff;
-  --border: #e5e5e5;
-  --divider: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #0a0a0a;
-  --radius: 0.75rem;
+  --success: #0f9d6e;
+  --success-foreground: #ffffff;
+  --warning: #b97903;
+  --warning-foreground: #ffffff;
+
+  --border: #eae5f5;
+  --divider: #f2effa;
+  --input: #e2dcf1;
+  --ring: #8a5cf3;
+
+  /* Generous corners read as friendly */
   --radius-full: 9999px;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
-  --shadow-card:
-    0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+
+  /* Elevation — tinted with the brand ink, never neutral black */
+  --shadow-xs: 0 1px 2px 0 rgb(35 22 74 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(35 22 74 / 0.05), 0 1px 3px 0 rgb(35 22 74 / 0.04);
+  --shadow-card: 0 1px 2px 0 rgb(35 22 74 / 0.04), 0 6px 16px -8px rgb(35 22 74 / 0.1);
+  --shadow-lift: 0 2px 4px 0 rgb(35 22 74 / 0.04), 0 16px 32px -12px rgb(35 22 74 / 0.18);
+  --shadow-float: 0 8px 40px -12px rgb(35 22 74 / 0.22);
+  --shadow-brand: 0 4px 14px -4px rgb(109 56 224 / 0.35);
+
+  /* Motion — critically damped by default, overshoot only for momentum */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --duration-fast: 140ms;
+  --duration: 220ms;
+  --duration-slow: 340ms;
 }
 
 @theme inline {
@@ -41,16 +94,59 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-border: var(--border);
   --color-divider: var(--divider);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-900: var(--brand-900);
+
+  --color-mint-100: var(--mint-100);
+  --color-mint-600: var(--mint-600);
+  --color-mint-800: var(--mint-800);
+  --color-sun-100: var(--sun-100);
+  --color-sun-600: var(--sun-600);
+  --color-sun-800: var(--sun-800);
+  --color-ocean-100: var(--ocean-100);
+  --color-ocean-600: var(--ocean-600);
+  --color-ocean-800: var(--ocean-800);
+  --color-coral-100: var(--coral-100);
+  --color-coral-600: var(--coral-600);
+  --color-coral-800: var(--coral-800);
+
   --font-sans: var(--font-vazirmatn);
   --font-display: var(--font-rubik);
-  --radius-lg: var(--radius);
+
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
   --radius-full: var(--radius-full);
+
+  --shadow-xs: var(--shadow-xs);
   --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-card);
+  --shadow-lg: var(--shadow-lift);
+  --shadow-xl: var(--shadow-float);
   --shadow-card: var(--shadow-card);
+
+  --ease-out: var(--ease-out);
+  --ease-spring: var(--ease-spring);
+  --ease-bounce: var(--ease-bounce);
 }
 
 @layer base {
@@ -69,41 +165,64 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Persian script is cursive: letters join, so tracking must stay at 0.
+     Hierarchy comes from weight + size + leading instead. */
+  :lang(fa),
+  [dir="rtl"] {
+    letter-spacing: normal;
+  }
+
+  ::selection {
+    background: var(--brand-200);
+    color: var(--brand-900);
+  }
+
+  button,
+  [role="button"],
+  a[href] {
+    cursor: pointer;
+  }
 }
 
-/* Typography scale */
+/* ------------------------------------------------------------------
+   Typography scale
+   ------------------------------------------------------------------ */
 .text-display {
   font-family: var(--font-rubik), var(--font-vazirmatn), sans-serif;
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .text-h1 {
   font-family: var(--font-rubik), var(--font-vazirmatn), sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .text-h2 {
   font-family: var(--font-rubik), var(--font-vazirmatn), sans-serif;
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  line-height: 1.45;
+}
+
+.text-h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .text-body {
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 .text-caption {
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: 1.7;
   color: var(--muted);
 }
 
@@ -111,7 +230,15 @@
   font-family: var(--font-rubik), var(--font-vazirmatn), sans-serif;
 }
 
-/* Subtle animations */
+/* Latin numerals and IDs inside RTL copy keep a touch of tracking for legibility */
+.text-mono-id {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* ------------------------------------------------------------------
+   Motion
+   ------------------------------------------------------------------ */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -132,20 +259,133 @@
   }
 }
 
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* `backwards`, not `both`: a finished entrance must not pin transform/opacity,
+   or it would override the element's own hover and active states. */
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out forwards;
+  animation: fade-in var(--duration-slow) var(--ease-out) backwards;
 }
 
 .animate-slide-up {
-  animation: slide-up 0.5s ease-out forwards;
+  animation: slide-up 0.45s var(--ease-spring) backwards;
+}
+
+.animate-pop-in {
+  animation: pop-in 0.4s var(--ease-spring) backwards;
+}
+
+/* Entrance stagger: children arrive in sequence instead of all at once. */
+.stagger > * {
+  animation: pop-in 0.4s var(--ease-spring) backwards;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 45ms;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 90ms;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 135ms;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 180ms;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 225ms;
+}
+.stagger > *:nth-child(n + 7) {
+  animation-delay: 270ms;
+}
+
+/* ------------------------------------------------------------------
+   Surfaces
+   ------------------------------------------------------------------ */
+
+/* Translucent chrome — content scrolls underneath instead of being clipped
+   by an opaque strip. */
+.surface-glass {
+  background: color-mix(in srgb, var(--background) 78%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Soft brand wash used behind the sidebar and page headers. */
+.brand-wash {
+  background-image: radial-gradient(
+      120% 80% at 100% 0%,
+      color-mix(in srgb, var(--brand-200) 45%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      90% 70% at 0% 100%,
+      color-mix(in srgb, var(--ocean-100) 55%, transparent) 0%,
+      transparent 55%
+    );
+}
+
+/* Skeletons read as content arriving, not as a blinking box. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--secondary);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, #ffffff 70%, transparent),
+    transparent
+  );
+  animation: shimmer 1.6s var(--ease-out) infinite;
+}
+
+.gradient-mesh {
+  background:
+    radial-gradient(at 40% 20%, var(--brand-100) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, var(--brand-200) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, var(--ocean-100) 0px, transparent 50%),
+    var(--background);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
-  .animate-slide-up {
+  .animate-slide-up,
+  .animate-pop-in,
+  .stagger > * {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .skeleton::after {
+    display: none;
   }
 
   *,
@@ -157,11 +397,10 @@
   }
 }
 
-/* Gradient mesh for auth panels */
-.gradient-mesh {
-  background:
-    radial-gradient(at 40% 20%, rgb(245 245 245) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, rgb(229 229 229) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgb(250 250 250) 0px, transparent 50%),
-    var(--background);
+@media (prefers-reduced-transparency: reduce) {
+  .surface-glass {
+    background: var(--background);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
