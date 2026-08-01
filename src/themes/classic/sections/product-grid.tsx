@@ -25,6 +25,7 @@ export function ClassicProductGrid({ store, products }: SectionProps) {
                 image={product.images[0]}
                 storeSlug={store.slug}
                 layout="list"
+                stock={product.stock}
               />
             ))}
           </div>

@@ -78,6 +78,7 @@ export type StorefrontContext = {
     price: number;
     compareAtPrice: number | null;
     images: string[];
+    stock?: number;
   }>;
   settings: Record<string, unknown>;
 };

@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { storePath } from "@/lib/storefront-url";
 
 export function useAddToCart(storeSlug: string) {
   const queryClient = useQueryClient();
@@ -18,8 +19,15 @@ export function useAddToCart(storeSlug: string) {
       return json;
     },
     onSuccess: () => {
-      toast.success("به سبد خرید اضافه شد");
       queryClient.invalidateQueries({ queryKey: ["cart", storeSlug] });
+      toast.success("به سبد اضافه شد", {
+        action: {
+          label: "مشاهده سبد",
+          onClick: () => {
+            window.location.href = storePath(storeSlug, "/cart");
+          },
+        },
+      });
     },
     onError: (err: Error) => toast.error(err.message),
   });

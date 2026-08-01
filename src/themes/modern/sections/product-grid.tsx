@@ -24,6 +24,7 @@ export function ModernProductGrid({ store, products }: SectionProps) {
                 compareAtPrice={product.compareAtPrice}
                 image={product.images[0]}
                 storeSlug={store.slug}
+                stock={product.stock}
               />
             ))}
           </div>
