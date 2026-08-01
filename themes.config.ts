@@ -16,6 +16,10 @@ export type ThemeConfigEntry = {
 
 export const themesConfig: ThemeConfigEntry[] = [
   {
+    id: "default",
+    loader: () => import("@/themes/default"),
+  },
+  {
     id: "modern",
     loader: () => import("@/themes/modern"),
   },
@@ -25,4 +29,9 @@ export const themesConfig: ThemeConfigEntry[] = [
   },
 ];
 
-export const DEFAULT_THEME_ID = "modern";
+export const DEFAULT_THEME_ID = "default";
+
+/** Legacy id used before rename — maps to `default`. */
+export const THEME_ID_ALIASES: Record<string, string> = {
+  nova: "default",
+};
