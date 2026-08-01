@@ -127,7 +127,7 @@ openssl rand -base64 32
 - اگر فقط `https://selka.vercel.app` داری → همان را بگذار
 - اگر دامنهٔ سفارشی وصل کردی → URL دامنهٔ سفارشی را بگذار و بعد از تغییر دامنه، env را آپدیت و Redeploy کن
 
-در HTTPS، better-auth از کوکی `__Secure-better-auth.session_token` استفاده می‌کند؛ middleware پروژه هر دو نام را می‌خواند.
+در HTTPS، better-auth از کوکی `__Secure-better-auth.session_token` استفاده می‌کند؛ proxy پروژه هر دو نام را می‌خواند.
 
 ### Preview deployments
 

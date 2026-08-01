@@ -13,7 +13,7 @@ Persian multi-tenant storefront builder. Repo folder may be `tix`; npm package n
 - Next.js `16.2.10` App Router, React `19.2.4`, TypeScript
 - Tailwind CSS v4 — design tokens in `src/app/globals.css`
 - Prisma 7 + PostgreSQL (`@prisma/adapter-pg`), client generated to `src/generated/prisma`
-- better-auth (email/password), TanStack Query, Zod v4, Radix + CVA UI
+- better-auth (phone + password; OTP-ready via phoneNumber plugin), TanStack Query, Zod v4, Radix + CVA UI
 - Local theme package `@selka/theme-sdk` (`file:./packages/theme-sdk`)
 
 Path alias: `@/*` → `src/*`. Root layout is `lang="fa" dir="rtl"`.
@@ -34,9 +34,9 @@ Stop DB: `npx prisma dev stop selka`. List: `npx prisma dev ls`.
 ## Directory map
 
 ```
-themes.config.ts          theme registry (modern, classic)
+themes.config.ts          theme registry (default, modern, classic)
 next.config.ts            /@slug ↔ /s/[slug] rewrites, transpilePackages
-src/middleware.ts         session cookie gate for /dashboard, /admin
+src/proxy.ts              session cookie gate for /dashboard, /admin
 prisma/                   schema.prisma, seed.ts
 packages/theme-sdk/       ThemePackage contract
 src/
@@ -51,7 +51,7 @@ src/
     layout/               AppShell, AppSidebar, dashboard-nav, dashboard-page-meta
     dashboard/            merchant features
     storefront/           shared storefront pieces
-  themes/modern|classic|shared/
+  themes/default|modern|classic|shared/
   lib/                    auth, db, store-access, payments, storage, themes, api helpers
   generated/prisma/       DO NOT hand-edit
 ```
@@ -60,13 +60,17 @@ src/
 
 | Piece | Path |
 |--------|------|
-| Config | `src/lib/auth.ts` |
+| Config | `src/lib/auth.ts` — `phoneNumber` plugin + internal credential email |
+| Phone helpers | `src/lib/phone.ts` (UI `09…` ↔ DB `+98…`), `src/lib/auth-phone.ts` |
+| Register API | `src/app/api/auth/phone-register/route.ts` |
 | API | `src/app/api/auth/[...all]/route.ts` |
 | Server | `src/lib/auth-server.ts` — `getSession`, `requireSession`, `requirePlatformAdmin` |
-| Client | `src/lib/auth-client.ts` |
-| Gate | `src/middleware.ts` — cookies `better-auth.session_token` / `__Secure-…` |
+| Client | `src/lib/auth-client.ts` — `phoneNumberClient()` |
+| Gate | `src/proxy.ts` — cookies `better-auth.session_token` / `__Secure-…` |
 
-Roles: `USER` | `PLATFORM_ADMIN`. Seed accounts: see README.
+Identifier is Iranian mobile (required). UI uses `09XXXXXXXXX`; DB stores E.164 `+989XXXXXXXXX`. better-auth still keeps a hidden email `{digits}@phone.selka.local` — never show it in UI. Future OTP: implement SMS in `sendOTP`, then `authClient.phoneNumber.sendOtp` / `verify` (wrappers in `auth-phone.ts`).
+
+Roles: `USER` | `PLATFORM_ADMIN`. Seed accounts: `09000000000` / `09000000001` — see README.
 
 ## Multi-tenant stores
 
@@ -75,6 +79,16 @@ Roles: `USER` | `PLATFORM_ADMIN`. Seed accounts: see README.
 - Public URLs: `src/lib/storefront-url.ts` — `storePath(slug)` → `/@${slug}`. Never link to `/s/...` (redirects to `/@...`).
 - Dashboard is single-store primary UX via `getPrimaryStoreForUser` unless building explicit multi-store switching.
 - Nested `dashboard/stores/[storeId]/…` may still exist; nav uses flat `/dashboard/*`.
+
+### Buyer (customer) surface
+
+- Global `User` auth; per-store profile in `StoreCustomer` (`src/lib/store-customer.ts`)
+- Routes: `/@slug/login`, `/@slug/register`, `/@slug/dashboard`, `/orders`, `/profile`
+- APIs: `/api/s/[slug]/me`, `/me/orders`, `/me/orders/[orderId]`
+- Guest checkout remains; logged-in checkout prefills + upserts `StoreCustomer`
+- Cart guest→user merge in `getOrCreateCart`
+- Default theme: `default` (`src/themes/default/`, `DEFAULT_THEME_ID` in `themes.config.ts`). Legacy `nova` aliases to `default`.
+- Shared storefront UX (product/cart): `ProductPageView` / `CartPageView` in `src/components/storefront/` — themes skin via `classNames`, do not fork purchase flow
 
 ## Themes
 
@@ -122,9 +136,9 @@ Preserve this look; do not regress to generic SaaS chrome.
 - Page titles: `dashboardPageMeta` + `PageHeader` (keep `loading.tsx` in sync)
 - `Card variant="interactive"` — soft hover only (`translate-y-px`), no harsh scale/lift
 - Desktop sidebar: fixed **right**, glass/brand wash, soft active (`bg-brand-100 text-brand-700`), not solid primary fill
-- User footer: **name + email only** — no avatar / initials placeholder
+- User footer: **name + phone only** — no avatar / initials placeholder
 - Mobile nav: fixed header; hamburger on the **right** (first in RTL flex); menu is a **full-height panel under the header** `h-[calc(100dvh-4rem)]` — not a side drawer (`src/components/layout/app-sidebar.tsx`)
-- Copy is conversational Persian; LTR for emails/URLs (`dir="ltr"`)
+- Copy is conversational Persian; LTR for phones/URLs (`dir="ltr"`)
 - Settings identity block uses a tinted brand surface; address input is a combined `/@` + slug control
 
 ## Scripts
@@ -149,7 +163,7 @@ Production deploy (Vercel + external Postgres): see `docs/DEPLOYMENT.md`.
 ## Pitfalls agents hit
 
 1. **Do not invent Next APIs from training data** — read `node_modules/next/dist/docs/` (and `…/02-guides/ai-agents.md`).
-2. Middleware naming is migrating toward Proxy (`proxy.ts`) in Next 16 docs; this repo still uses `src/middleware.ts` — migrate only with the current local guide.
+2. Request gate lives in `src/proxy.ts` (Next 16 Proxy convention; `middleware.ts` is deprecated).
 3. `params` / `searchParams` are async.
 4. `@selka/theme-sdk` is a local `file:` package; keep `transpilePackages`.
 5. No `window` / `matchMedia` during SSR render — follow `src/hooks/use-is-mobile.ts` pattern.
