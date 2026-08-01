@@ -13,6 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { toUiIranMobile } from "@/lib/phone";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -77,7 +78,7 @@ function formatOrderForCopy(order: Order) {
     "",
     "——— مشتری ———",
     `نام: ${order.customerName}`,
-    `تلفن: ${order.customerPhone}`,
+    `تلفن: ${toUiIranMobile(order.customerPhone)}`,
     `آدرس: ${order.customerAddress}`,
     "",
     "——— محصولات ———",
@@ -182,7 +183,7 @@ function OrderCard({
                 <div>
                   <p className="text-xs text-muted-foreground">تلفن</p>
                   <p className="w-fit font-medium" dir="ltr">
-                    {order.customerPhone}
+                    {toUiIranMobile(order.customerPhone)}
                   </p>
                 </div>
               </div>

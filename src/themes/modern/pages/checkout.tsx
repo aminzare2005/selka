@@ -5,6 +5,7 @@ import type { CheckoutPageProps } from "@selka/theme-sdk";
 import { useCheckout } from "@/hooks/storefront/use-checkout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatPrice } from "@/lib/utils";
@@ -52,7 +53,7 @@ export function ModernCheckoutPage({ store }: CheckoutPageProps) {
         </div>
         <div className="space-y-2">
           <Label>شماره تماس</Label>
-          <Input value={phone} onChange={(e) => setPhone(e.target.value)} required dir="ltr" />
+          <PhoneInput value={phone} onChange={setPhone} required />
         </div>
         <div className="space-y-2">
           <Label>آدرس</Label>

@@ -6,6 +6,7 @@ import { getOrCreateCart, calculateCartTotal } from "@/lib/cart";
 import { checkoutSchema } from "@/lib/validations";
 import { getPaymentProvider } from "@/lib/payments";
 import { decrypt } from "@/lib/encryption";
+import { ensureStoreCustomer, updateStoreCustomer } from "@/lib/store-customer";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -52,6 +53,15 @@ export async function POST(request: NextRequest, { params }: Params) {
     credentials = JSON.parse(decrypt(storeGateway.credentials));
   } catch {
     return apiError("تنظیمات درگاه نامعتبر است", 500);
+  }
+
+  if (session?.user.id) {
+    await ensureStoreCustomer(store.id, session.user.id);
+    await updateStoreCustomer(store.id, session.user.id, {
+      name: parsed.data.customerName,
+      phone: parsed.data.customerPhone,
+      address: parsed.data.customerAddress,
+    });
   }
 
   const order = await db.order.create({

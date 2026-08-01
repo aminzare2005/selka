@@ -1,17 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 type Gateway = { slug: string; name: string };
 type CartData = { items: unknown[]; total: number };
+type Profile = { name: string | null; phone: string | null; address: string | null };
 
 export function useCheckout(storeSlug: string) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [gatewaySlug, setGatewaySlug] = useState("");
+  const [prefilled, setPrefilled] = useState(false);
 
   const { data: cart } = useQuery<CartData>({
     queryKey: ["cart", storeSlug],
@@ -28,6 +30,26 @@ export function useCheckout(storeSlug: string) {
       return res.json();
     },
   });
+
+  const { data: profile } = useQuery<Profile | null>({
+    queryKey: ["store-me", storeSlug],
+    queryFn: async () => {
+      const res = await fetch(`/api/s/${storeSlug}/me`);
+      if (res.status === 401) return null;
+      const json = await res.json();
+      if (!res.ok) return null;
+      return json;
+    },
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (!profile || prefilled) return;
+    if (profile.name) setName(profile.name);
+    if (profile.phone) setPhone(profile.phone);
+    if (profile.address) setAddress(profile.address);
+    setPrefilled(true);
+  }, [profile, prefilled]);
 
   const checkout = useMutation({
     mutationFn: async () => {
