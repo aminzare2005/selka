@@ -3,7 +3,7 @@ import type { NavSection } from "./dashboard-nav";
 
 type AppShellProps = {
   children: React.ReactNode;
-  user: { name: string; email: string };
+  user: { name: string; phoneNumber?: string | null; email?: string | null };
   sections: NavSection[];
   brand?: string;
   brandHref?: string;

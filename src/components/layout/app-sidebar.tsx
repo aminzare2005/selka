@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { LogOut, Menu, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
+import { toUiIranMobile } from "@/lib/phone";
 import { Button } from "@/components/ui/button";
 import type { NavItem, NavSection } from "@/components/layout/dashboard-nav";
 
@@ -20,7 +21,7 @@ function isItemActive(item: NavItem, pathname: string) {
 
 type AppSidebarProps = {
   sections: NavSection[];
-  user: { name: string; email: string };
+  user: { name: string; phoneNumber?: string | null; email?: string | null };
   brand?: string;
   brandHref?: string;
 };
@@ -117,7 +118,7 @@ export function AppSidebar({
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold text-foreground">{user.name}</p>
         <p className="mt-0.5 truncate text-xs text-muted-foreground" dir="ltr">
-          {user.email}
+          {toUiIranMobile(user.phoneNumber) || "—"}
         </p>
       </div>
       <Button

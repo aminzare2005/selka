@@ -118,7 +118,7 @@ export async function createStoreWithOwnerMembership(data: {
       name: data.name,
       slug: data.slug,
       ownerId: data.ownerId,
-      themeId: data.themeId ?? "modern",
+      themeId: data.themeId ?? "default",
       settings: data.settings ?? {},
       memberships: {
         create: {

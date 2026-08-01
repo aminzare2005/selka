@@ -37,22 +37,25 @@ enum PaymentStatus {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  emailVerified Boolean   @default(false)
-  image         String?
-  role          UserRole  @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                  String    @id @default(cuid())
+  name                String
+  email               String    @unique
+  emailVerified       Boolean   @default(false)
+  image               String?
+  phoneNumber         String?   @unique
+  phoneNumberVerified Boolean   @default(false)
+  role                UserRole  @default(USER)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   sessions    Session[]
   accounts    Account[]
   stores      Store[]
   memberships StoreMembership[]
-  carts       Cart[]
-  orders      Order[]
-  media       Media[]
+  carts           Cart[]
+  orders          Order[]
+  media           Media[]
+  storeCustomers  StoreCustomer[]
 
   @@map("user")
 }
@@ -107,7 +110,7 @@ model Store {
   slug      String      @unique
   ownerId   String
   owner     User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  themeId   String      @default("modern")
+  themeId   String      @default("default")
   settings  Json        @default("{}")
   status    StoreStatus @default(ACTIVE)
   createdAt DateTime    @default(now())
@@ -118,8 +121,26 @@ model Store {
   orders                Order[]
   storePaymentGateways  StorePaymentGateway[]
   memberships           StoreMembership[]
+  customers             StoreCustomer[]
 
   @@map("store")
+}
+
+model StoreCustomer {
+  id        String   @id @default(cuid())
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String?
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([storeId, userId])
+  @@index([userId])
+  @@map("store_customer")
 }
 
 model StoreMembership {

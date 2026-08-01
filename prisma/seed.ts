@@ -1,45 +1,79 @@
 import "dotenv/config";
 import { db } from "../src/lib/db";
 import { auth } from "../src/lib/auth";
+import { phoneToInternalEmail, toE164IranMobile } from "../src/lib/phone";
 
-async function createUserWithAuth(
-  email: string,
+const LEGACY_EMAIL_BY_UI_PHONE: Record<string, string> = {
+  "09000000000": "admin@selka.ir",
+  "09000000001": "demo@selka.ir",
+};
+
+async function createUserWithPhone(
+  uiPhone: string,
   password: string,
   name: string,
   role: "USER" | "PLATFORM_ADMIN" = "USER",
 ) {
-  const existing = await db.user.findUnique({ where: { email } });
-  if (existing) return existing;
+  const e164 = toE164IranMobile(uiPhone);
+  if (!e164) throw new Error(`Invalid seed phone: ${uiPhone}`);
+  const email = phoneToInternalEmail(e164);
+  const legacyEmail = LEGACY_EMAIL_BY_UI_PHONE[uiPhone];
+
+  const existing = await db.user.findFirst({
+    where: {
+      OR: [
+        { phoneNumber: e164 },
+        { email },
+        ...(legacyEmail ? [{ email: legacyEmail }] : []),
+      ],
+    },
+  });
+  if (existing) {
+    return db.user.update({
+      where: { id: existing.id },
+      data: {
+        role,
+        name,
+        email,
+        phoneNumber: e164,
+        phoneNumberVerified: true,
+        emailVerified: true,
+      },
+    });
+  }
 
   await auth.api.signUpEmail({
     body: { email, password, name },
   });
 
-  const user = await db.user.update({
+  return db.user.update({
     where: { email },
-    data: { role, emailVerified: true },
+    data: {
+      role,
+      phoneNumber: e164,
+      phoneNumberVerified: true,
+      emailVerified: true,
+    },
   });
-
-  return user;
 }
 
 async function main() {
   console.log("🌱 Seeding database...");
 
-  const admin = await createUserWithAuth(
-    "admin@selka.ir",
+  await createUserWithPhone(
+    "09000000000",
     "admin123",
     "ادمین پلتفرم",
     "PLATFORM_ADMIN",
   );
-  console.log("✅ Admin: admin@selka.ir / admin123");
+  console.log("✅ Admin: 09000000000 / admin123");
 
-  const demo = await createUserWithAuth(
-    "demo@selka.ir",
+  const demo = await createUserWithPhone(
+    "09000000001",
     "demo123",
     "فروشنده نمونه",
   );
-  console.log("✅ Demo: demo@selka.ir / demo123");
+  console.log("✅ Demo: 09000000001 / demo123");
 
   await db.paymentGateway.upsert({
     where: { slug: "zibal" },
@@ -68,11 +102,10 @@ async function main() {
         name: "فروشگاه نمونه",
         slug: "demo-shop",
         ownerId: demo.id,
-        themeId: "modern",
+        themeId: "default",
         settings: {
           heroTitle: "فروشگاه نمونه سلکا",
-          heroSubtitle: "بهترین محصولات با بهترین قیمت",
-          tokens: { colors: { primary: "#0F766E" } },
+          heroSubtitle: "منتخب‌ها، با سادگی و دقت",
         },
         memberships: {
           create: { userId: demo.id, role: "OWNER" },
@@ -119,12 +152,36 @@ async function main() {
       create: { storeId: demoStore.id, userId: demo.id, role: "OWNER" },
       update: {},
     });
+    if (demoStore.ownerId !== demo.id || demoStore.themeId !== "default") {
+      const settings =
+        demoStore.settings && typeof demoStore.settings === "object"
+          ? { ...(demoStore.settings as Record<string, unknown>) }
+          : {};
+      // Drop legacy chromatic token overrides so default monochrome theme shows correctly
+      if (settings.tokens) delete settings.tokens;
+
+      await db.store.update({
+        where: { id: demoStore.id },
+        data: {
+          ownerId: demo.id,
+          themeId: "default",
+          settings,
+        },
+      });
+    }
   }
 
-  // Backfill any legacy stores without membership rows
   const { backfillOwnerMemberships } = await import("../src/lib/store-access");
   await backfillOwnerMemberships();
   console.log("✅ Owner memberships backfilled");
+
+  const legacyTheme = await db.store.updateMany({
+    where: { themeId: "nova" },
+    data: { themeId: "default" },
+  });
+  if (legacyTheme.count > 0) {
+    console.log(`✅ Migrated ${legacyTheme.count} store(s) from nova → default`);
+  }
 
   console.log("🎉 Seed completed!");
 }

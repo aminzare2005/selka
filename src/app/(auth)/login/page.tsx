@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
-import { authClient } from "@/lib/auth-client";
+import { signInWithPhone } from "@/lib/auth-phone";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { AuthLayout } from "@/components/layout/auth-layout";
 import { toast } from "sonner";
 
@@ -20,10 +21,10 @@ function LoginForm() {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string;
     const password = formData.get("password") as string;
 
-    const { error } = await authClient.signIn.email({ email, password });
+    const { error } = await signInWithPhone(phone, password);
     setLoading(false);
 
     if (error) {
@@ -32,16 +33,16 @@ function LoginForm() {
     }
 
     toast.success("خوش آمدید!");
-    router.push(callbackUrl);
+    router.push(callbackUrl.startsWith("/") ? callbackUrl : "/dashboard");
     router.refresh();
   }
 
   return (
-    <AuthLayout title="ورود" subtitle="ایمیل و رمز عبور خود را وارد کنید">
+    <AuthLayout title="ورود" subtitle="شماره موبایل و رمز عبور خود را وارد کنید">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="email">ایمیل</Label>
-          <Input id="email" name="email" type="email" required dir="ltr" placeholder="you@example.com" />
+          <Label htmlFor="phone">شماره موبایل</Label>
+          <PhoneInput id="phone" name="phone" required />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">رمز عبور</Label>
@@ -53,7 +54,14 @@ function LoginForm() {
       </form>
       <p className="mt-6 text-center text-sm text-muted-foreground">
         حساب ندارید؟{" "}
-        <Link href="/register" className="font-medium text-foreground hover:underline">
+        <Link
+          href={
+            callbackUrl.startsWith("/@")
+              ? `/register?callbackUrl=${encodeURIComponent(callbackUrl)}`
+              : "/register"
+          }
+          className="font-medium text-foreground hover:underline"
+        >
           ثبت‌نام
         </Link>
       </p>

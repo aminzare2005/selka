@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { isRegisteredTheme } from "@/lib/themes/registry";
+import { iranMobileE164Schema } from "@/lib/phone";
 
 export const createStoreSchema = z.object({
   name: z.string().min(2, "نام فروشگاه باید حداقل ۲ کاراکتر باشد"),
@@ -72,9 +73,15 @@ export const updateCartItemSchema = z.object({
 
 export const checkoutSchema = z.object({
   customerName: z.string().min(2, "نام گیرنده الزامی است"),
-  customerPhone: z.string().min(10, "شماره تماس معتبر نیست"),
+  customerPhone: iranMobileE164Schema,
   customerAddress: z.string().min(5, "آدرس الزامی است"),
   gatewaySlug: z.string().min(1, "درگاه پرداخت را انتخاب کنید"),
+});
+
+export const storeCustomerProfileSchema = z.object({
+  name: z.string().min(2, "نام الزامی است").optional(),
+  phone: iranMobileE164Schema.optional(),
+  address: z.string().min(5, "آدرس الزامی است").optional(),
 });
 
 export const updateOrderStatusSchema = z.object({
