@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Label } from "@/components/ui/label";
@@ -55,55 +54,86 @@ export default function BuyerProfilePage() {
       return json;
     },
     onSuccess: () => {
-      toast.success("پروفایل این فروشگاه ذخیره شد");
+      toast.success("اطلاعات تحویل ذخیره شد");
       queryClient.invalidateQueries({ queryKey: ["store-me", slug] });
     },
     onError: (err: Error) => toast.error(err.message),
   });
 
   if (isLoading) {
-    return <p className="text-[var(--color-muted)]">در حال بارگذاری...</p>;
+    return <p className="text-[13px] text-[var(--color-muted)]">در حال بارگذاری...</p>;
   }
 
   return (
-    <form
-      className="max-w-lg space-y-5"
-      onSubmit={(e) => {
-        e.preventDefault();
-        save.mutate();
-      }}
-    >
-      <p className="text-sm text-[var(--color-muted)]">
-        این اطلاعات فقط برای «همین فروشگاه» ذخیره می‌شود.
-        {data?.accountPhone ? (
-          <>
-            {" "}
-            شماره حساب: <span dir="ltr">{data.accountPhone}</span>
-          </>
-        ) : null}
-      </p>
+    <div className="max-w-lg space-y-6">
+      <header>
+        <h1
+          className="text-2xl font-semibold tracking-tight sm:text-3xl"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          اطلاعات تحویل
+        </h1>
+        <p className="mt-2 text-[14px] leading-relaxed text-[var(--color-muted)]">
+          این مشخصات فقط برای همین فروشگاه ذخیره می‌شود و هنگام تسویه پیش‌پر می‌شود
+          {data?.accountPhone ? (
+            <>
+              . شماره ورود حساب:{" "}
+              <span dir="ltr" className="tabular-nums">
+                {data.accountPhone}
+              </span>
+            </>
+          ) : (
+            "."
+          )}
+        </p>
+      </header>
 
-      <div className="space-y-2">
-        <Label htmlFor="name">نام تحویل‌گیرنده</Label>
-        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="phone">شماره تماس</Label>
-        <PhoneInput id="phone" value={phone} onChange={setPhone} required />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="address">آدرس</Label>
-        <Textarea
-          id="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-          rows={4}
-        />
-      </div>
-      <Button type="submit" className="rounded-full" disabled={save.isPending}>
-        {save.isPending ? "در حال ذخیره..." : "ذخیره تغییرات"}
-      </Button>
-    </form>
+      <form
+        className="space-y-5 rounded-2xl border border-[var(--color-muted)]/15 p-5 sm:p-6"
+        onSubmit={(e) => {
+          e.preventDefault();
+          save.mutate();
+        }}
+      >
+        <div className="space-y-2">
+          <Label htmlFor="name">نام تحویل‌گیرنده</Label>
+          <Input
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="rounded-xl border-[var(--color-muted)]/25 bg-transparent hover:border-[var(--color-muted)]/40 focus-visible:border-[var(--color-foreground)] focus-visible:ring-[var(--color-foreground)]/10"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="phone">شماره تماس</Label>
+          <PhoneInput
+            id="phone"
+            value={phone}
+            onChange={setPhone}
+            required
+            className="rounded-xl border-[var(--color-muted)]/25 bg-transparent hover:border-[var(--color-muted)]/40 focus-visible:border-[var(--color-foreground)] focus-visible:ring-[var(--color-foreground)]/10"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="address">آدرس</Label>
+          <Textarea
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+            rows={4}
+            className="rounded-xl border-[var(--color-muted)]/25 bg-transparent hover:border-[var(--color-muted)]/40 focus-visible:border-[var(--color-foreground)] focus-visible:ring-[var(--color-foreground)]/10"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={save.isPending}
+          className="inline-flex h-11 w-full items-center justify-center rounded-full bg-[var(--color-foreground)] px-6 text-[13px] font-medium text-[var(--color-background)] transition-opacity hover:opacity-90 disabled:opacity-50 sm:w-auto sm:min-w-40"
+        >
+          {save.isPending ? "در حال ذخیره..." : "ذخیره تغییرات"}
+        </button>
+      </form>
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { Package } from "lucide-react";
 import { getSession } from "@/lib/auth-server";
 import { db } from "@/lib/db";
-import { formatPrice, formatDate } from "@/lib/utils";
 import { storePath } from "@/lib/storefront-url";
-import { ORDER_STATUS_LABEL } from "@/lib/order-labels";
+import { BuyerOrderRow } from "@/components/storefront/buyer-order-row";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -21,40 +21,52 @@ export default async function BuyerOrdersPage({ params }: Params) {
     orderBy: { createdAt: "desc" },
   });
 
-  if (orders.length === 0) {
-    return (
-      <p className="rounded-2xl border border-dashed border-[var(--color-muted)]/25 p-10 text-center text-[var(--color-muted)]">
-        سفارشی ثبت نشده.{" "}
-        <Link href={storePath(slug)} className="underline">
-          شروع خرید
-        </Link>
-      </p>
-    );
-  }
-
   return (
-    <ul className="space-y-3">
-      {orders.map((order) => (
-        <li key={order.id}>
+    <div className="space-y-6">
+      <header>
+        <h1
+          className="text-2xl font-semibold tracking-tight sm:text-3xl"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          سفارش‌ها
+        </h1>
+        <p className="mt-2 text-[14px] text-[var(--color-muted)]">
+          همه خریدهایت از این فروشگاه در یک جا
+          {orders.length > 0
+            ? ` — ${orders.length.toLocaleString("fa-IR")} مورد`
+            : ""}
+        </p>
+      </header>
+
+      {orders.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-[var(--color-muted)]/25 px-5 py-14 text-center">
+          <Package className="mx-auto h-8 w-8 text-[var(--color-muted)]" />
+          <p className="mt-3 text-[14px] text-[var(--color-muted)]">هنوز سفارشی نداری</p>
           <Link
-            href={storePath(slug, `/dashboard/orders/${order.id}`)}
-            className="block rounded-2xl border border-[var(--color-muted)]/15 p-5 hover:bg-[var(--color-accent)]/40"
+            href={storePath(slug, "/products")}
+            className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-[var(--color-foreground)] px-5 text-[13px] text-[var(--color-background)]"
           >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="font-bold">{ORDER_STATUS_LABEL[order.status] ?? order.status}</p>
-                <p className="mt-1 text-sm text-[var(--color-muted)]">{formatDate(order.createdAt)}</p>
-                <p className="mt-2 text-sm text-[var(--color-muted)]">
-                  {order.items.length.toLocaleString("fa-IR")} قلم
-                </p>
-              </div>
-              <p className="font-semibold text-[var(--color-primary)]">
-                {formatPrice(order.totalAmount)}
-              </p>
-            </div>
+            شروع خرید
           </Link>
-        </li>
-      ))}
-    </ul>
+        </div>
+      ) : (
+        <ul className="divide-y divide-[var(--color-muted)]/15 overflow-hidden rounded-2xl border border-[var(--color-muted)]/15">
+          {orders.map((order) => (
+            <li key={order.id} className="px-4">
+              <BuyerOrderRow
+                storeSlug={slug}
+                order={{
+                  id: order.id,
+                  status: order.status,
+                  totalAmount: order.totalAmount,
+                  createdAt: order.createdAt,
+                  itemCount: order.items.length,
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
