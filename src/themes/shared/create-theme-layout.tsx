@@ -24,6 +24,8 @@ export function createThemeLayout(options: CreateThemeLayoutOptions) {
     Header,
     Footer,
     ProductPage,
+    ProductsPage,
+    AboutPage,
     CartPage,
     CheckoutPage,
     CheckoutResultPage,
@@ -49,6 +51,10 @@ export function createThemeLayout(options: CreateThemeLayoutOptions) {
       switch (page.type) {
         case "product":
           return <ProductPage {...context} product={page.product} />;
+        case "products":
+          return <ProductsPage {...context} />;
+        case "about":
+          return <AboutPage {...context} />;
         case "cart":
           return <CartPage {...context} />;
         case "checkout":

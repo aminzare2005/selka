@@ -42,6 +42,7 @@ export const updateStoreThemeSchema = z.object({
       heroTitle: z.string().optional(),
       heroSubtitle: z.string().optional(),
       heroImage: z.string().optional(),
+      aboutText: z.string().max(10000).optional(),
     })
     .optional(),
 });

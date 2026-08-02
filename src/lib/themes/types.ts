@@ -11,6 +11,8 @@ export type {
   StorefrontPage,
   SectionProps,
   ProductPageProps,
+  ProductsPageProps,
+  AboutPageProps,
   CartPageProps,
   CheckoutPageProps,
   CheckoutResultPageProps,

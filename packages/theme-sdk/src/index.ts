@@ -37,6 +37,7 @@ export type StoreSettings = {
   heroTitle?: string;
   heroSubtitle?: string;
   heroImage?: string;
+  aboutText?: string;
 };
 
 export type ThemeDefinition = {
@@ -93,6 +94,10 @@ export type ProductPageProps = SectionProps & {
 
 export type CartPageProps = SectionProps;
 
+export type ProductsPageProps = SectionProps;
+
+export type AboutPageProps = SectionProps;
+
 export type CheckoutPageProps = SectionProps;
 
 export type CheckoutResultPageProps = SectionProps & {
@@ -103,12 +108,16 @@ export type CheckoutResultPageProps = SectionProps & {
 export type StorefrontPage =
   | { type: "home" }
   | { type: "product"; product: StorefrontProduct }
+  | { type: "products" }
+  | { type: "about" }
   | { type: "cart" }
   | { type: "checkout" }
   | { type: "checkout-result"; status?: string; orderId?: string };
 
 export type ThemePageComponents = {
   ProductPage: ComponentType<ProductPageProps>;
+  ProductsPage: ComponentType<ProductsPageProps>;
+  AboutPage: ComponentType<AboutPageProps>;
   CartPage: ComponentType<CartPageProps>;
   CheckoutPage: ComponentType<CheckoutPageProps>;
   CheckoutResultPage: ComponentType<CheckoutResultPageProps>;
