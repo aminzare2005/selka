@@ -32,10 +32,16 @@ export function StoreHeader({ storeName, storeSlug, logo }: StoreHeaderProps) {
             خانه
           </Link>
           <Link
-            href={`${storePath(storeSlug)}#products`}
+            href={storePath(storeSlug, "/products")}
             className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
           >
             محصولات
+          </Link>
+          <Link
+            href={storePath(storeSlug, "/about-us")}
+            className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
+          >
+            درباره ما
           </Link>
           <Link
             href={storePath(storeSlug, "/cart")}

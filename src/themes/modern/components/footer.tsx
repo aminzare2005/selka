@@ -1,11 +1,13 @@
 import type { SectionProps } from "@selka/theme-sdk";
+import { StorefrontFooter } from "@/components/storefront/storefront-footer";
 
-export function ModernFooter({ store }: SectionProps) {
+export function ModernFooter(props: SectionProps) {
   return (
-    <footer className="border-t border-[var(--color-muted)]/10 py-8">
-      <div className="mx-auto max-w-6xl px-6 text-center text-sm text-[var(--color-muted)]">
-        © {new Date().getFullYear()} {store.name}
-      </div>
-    </footer>
+    <StorefrontFooter
+      store={props.store}
+      classNames={{
+        inner: "max-w-6xl",
+      }}
+    />
   );
 }

@@ -23,8 +23,11 @@ export function ModernHeader({ store, theme }: SectionProps) {
           <Link href={storePath(store.slug)} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
             خانه
           </Link>
-          <Link href={`${storePath(store.slug)}#products`} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
+          <Link href={storePath(store.slug, "/products")} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
             محصولات
+          </Link>
+          <Link href={storePath(store.slug, "/about-us")} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">
+            درباره ما
           </Link>
           <Link
             href={storePath(store.slug, "/cart")}

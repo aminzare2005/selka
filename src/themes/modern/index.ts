@@ -5,6 +5,8 @@ import { ModernProductGrid } from "./sections/product-grid";
 import { ModernHeader } from "./components/header";
 import { ModernFooter } from "./components/footer";
 import { ModernProductPage } from "./pages/product";
+import { ModernProductsPage } from "./pages/products";
+import { ModernAboutPage } from "./pages/about";
 import { ModernCartPage } from "./pages/cart";
 import { ModernCheckoutPage } from "./pages/checkout";
 import { ModernCheckoutResultPage } from "./pages/checkout-result";
@@ -43,6 +45,8 @@ const modernTheme: ThemePackage = {
     Header: ModernHeader,
     Footer: ModernFooter,
     ProductPage: ModernProductPage,
+    ProductsPage: ModernProductsPage,
+    AboutPage: ModernAboutPage,
     CartPage: ModernCartPage,
     CheckoutPage: ModernCheckoutPage,
     CheckoutResultPage: ModernCheckoutResultPage,
@@ -53,6 +57,8 @@ const modernTheme: ThemePackage = {
     Header: ModernHeader,
     Footer: ModernFooter,
     ProductPage: ModernProductPage,
+    ProductsPage: ModernProductsPage,
+    AboutPage: ModernAboutPage,
     CartPage: ModernCartPage,
     CheckoutPage: ModernCheckoutPage,
     CheckoutResultPage: ModernCheckoutResultPage,

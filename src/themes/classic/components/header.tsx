@@ -20,8 +20,11 @@ export function ClassicHeader({ store, theme }: SectionProps) {
           <Link href={storePath(store.slug)} className="border-b-2 border-transparent hover:border-[var(--color-primary)]">
             خانه
           </Link>
-          <Link href={`${storePath(store.slug)}#products`} className="border-b-2 border-transparent hover:border-[var(--color-primary)]">
+          <Link href={storePath(store.slug, "/products")} className="border-b-2 border-transparent hover:border-[var(--color-primary)]">
             محصولات
+          </Link>
+          <Link href={storePath(store.slug, "/about-us")} className="border-b-2 border-transparent hover:border-[var(--color-primary)]">
+            درباره ما
           </Link>
           <Link href={storePath(store.slug, "/cart")} className="border-b-2 border-transparent hover:border-[var(--color-primary)]">
             سبد خرید

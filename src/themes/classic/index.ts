@@ -5,6 +5,8 @@ import { ClassicProductGrid } from "./sections/product-grid";
 import { ClassicHeader } from "./components/header";
 import { ClassicFooter } from "./components/footer";
 import { ClassicProductPage } from "./pages/product";
+import { ClassicProductsPage } from "./pages/products";
+import { ClassicAboutPage } from "./pages/about";
 import { ClassicCartPage } from "./pages/cart";
 import { ClassicCheckoutPage } from "./pages/checkout";
 import { ClassicCheckoutResultPage } from "./pages/checkout-result";
@@ -43,6 +45,8 @@ const classicTheme: ThemePackage = {
     Header: ClassicHeader,
     Footer: ClassicFooter,
     ProductPage: ClassicProductPage,
+    ProductsPage: ClassicProductsPage,
+    AboutPage: ClassicAboutPage,
     CartPage: ClassicCartPage,
     CheckoutPage: ClassicCheckoutPage,
     CheckoutResultPage: ClassicCheckoutResultPage,
@@ -55,6 +59,8 @@ const classicTheme: ThemePackage = {
     Header: ClassicHeader,
     Footer: ClassicFooter,
     ProductPage: ClassicProductPage,
+    ProductsPage: ClassicProductsPage,
+    AboutPage: ClassicAboutPage,
     CartPage: ClassicCartPage,
     CheckoutPage: ClassicCheckoutPage,
     CheckoutResultPage: ClassicCheckoutResultPage,

@@ -6,6 +6,8 @@ import { DefaultTrustStrip } from "./sections/trust-strip";
 import { DefaultHeader } from "./components/header";
 import { DefaultFooter } from "./components/footer";
 import { DefaultProductPage } from "./pages/product";
+import { DefaultProductsPage } from "./pages/products";
+import { DefaultAboutPage } from "./pages/about";
 import { DefaultCartPage } from "./pages/cart";
 import { DefaultCheckoutPage } from "./pages/checkout";
 import { DefaultCheckoutResultPage } from "./pages/checkout-result";
@@ -34,26 +36,31 @@ const defaultTheme: ThemePackage = {
         display: "Vazirmatn, ui-sans-serif, system-ui, sans-serif",
         body: "Vazirmatn, ui-sans-serif, system-ui, sans-serif",
       },
-      radius: "0px",
+      radius: "16px",
     },
     defaultSections: [{ type: "hero" }, { type: "trust-strip" }, { type: "product-grid" }],
-    googleFonts: [{ family: "Vazirmatn", weights: ["400", "700"] }],
+    googleFonts: [{ family: "Vazirmatn", weights: ["400", "500", "700", "800"] }],
   },
   Layout: createThemeLayout({
     Header: DefaultHeader,
     Footer: DefaultFooter,
     ProductPage: DefaultProductPage,
+    ProductsPage: DefaultProductsPage,
+    AboutPage: DefaultAboutPage,
     CartPage: DefaultCartPage,
     CheckoutPage: DefaultCheckoutPage,
     CheckoutResultPage: DefaultCheckoutResultPage,
     sectionMap,
-    wrapperClassName: "flex min-h-screen flex-col bg-[var(--color-background)] text-[var(--color-foreground)] antialiased",
+    wrapperClassName:
+      "flex min-h-screen flex-col bg-[var(--color-background)] text-[var(--color-foreground)] antialiased [font-feature-settings:'ss01']",
   }),
   sections: sectionMap,
   components: {
     Header: DefaultHeader,
     Footer: DefaultFooter,
     ProductPage: DefaultProductPage,
+    ProductsPage: DefaultProductsPage,
+    AboutPage: DefaultAboutPage,
     CartPage: DefaultCartPage,
     CheckoutPage: DefaultCheckoutPage,
     CheckoutResultPage: DefaultCheckoutResultPage,

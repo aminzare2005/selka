@@ -8,6 +8,7 @@ import { ExternalLink, Link2, Palette, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { MediaUploader } from "@/components/dashboard/media-uploader";
 import { storePath, storePrefix } from "@/lib/storefront-url";
 import { toast } from "sonner";
@@ -34,6 +35,7 @@ export function StoreSettings({ store }: StoreSettingsProps) {
   const [primary, setPrimary] = useState(colors.primary ?? "#0a0a0a");
   const [heroTitle, setHeroTitle] = useState((settings.heroTitle as string) ?? "");
   const [heroSubtitle, setHeroSubtitle] = useState((settings.heroSubtitle as string) ?? "");
+  const [aboutText, setAboutText] = useState((settings.aboutText as string) ?? "");
   const [logo, setLogo] = useState((settings.logo as string) ?? "");
   const [heroImage, setHeroImage] = useState((settings.heroImage as string) ?? "");
 
@@ -66,6 +68,7 @@ export function StoreSettings({ store }: StoreSettingsProps) {
             tokens: { colors: { primary } },
             heroTitle: heroTitle || undefined,
             heroSubtitle: heroSubtitle || undefined,
+            aboutText,
             logo: logo || undefined,
             heroImage: heroImage || undefined,
           },
@@ -167,7 +170,7 @@ export function StoreSettings({ store }: StoreSettingsProps) {
           <div>
             <h2 className="font-bold text-foreground">ظاهر فروشگاه</h2>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              رنگ، متن‌ها، لوگو و تصویر صفحه اصلی
+              رنگ، متن‌ها، لوگو، تصویر صفحه اصلی و درباره ما
             </p>
           </div>
         </div>
@@ -210,6 +213,25 @@ export function StoreSettings({ store }: StoreSettingsProps) {
               onChange={(e) => setHeroSubtitle(e.target.value)}
               placeholder="بهترین محصولات با بهترین قیمت"
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="aboutText">درباره فروشگاه</Label>
+            <Textarea
+              id="aboutText"
+              value={aboutText}
+              onChange={(e) => setAboutText(e.target.value)}
+              placeholder="داستان فروشگاهت را اینجا بنویس؛ این متن در صفحه درباره ما نمایش داده می‌شود."
+              rows={6}
+              className="min-h-32 resize-y"
+            />
+            <p className="text-xs text-muted-foreground">
+              در صفحه عمومی{" "}
+              <span dir="ltr" className="font-mono">
+                {storePath(slug || store.slug, "/about-us")}
+              </span>{" "}
+              دیده می‌شود.
+            </p>
           </div>
 
           <MediaUploader
