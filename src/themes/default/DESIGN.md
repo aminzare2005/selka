@@ -1,6 +1,6 @@
 # Default Theme — Design System
 
-White-cube storefront. Interface is near-total absence of color; photography and product imagery carry visual weight. Typography does the structural work.
+White-cube storefront with Apple-inspired materials: soft continuous corners, translucent chrome, breathing space. Photography and type carry the brand; chrome stays quiet.
 
 ## Tokens
 
@@ -10,34 +10,36 @@ White-cube storefront. Interface is near-total absence of color; photography and
 | Paper | `#ffffff` | `--color-background` |
 | Graphite | `#727272` | `--color-muted`, `--color-secondary` |
 | Stone | `#f5f5f5` | `--color-accent` |
-| Smoke | `#e6e6e6` | hairlines |
-| Ash | `#b6b6b6` | placeholders / quiet icons |
+| Smoke | soft hairlines / `black/4` | chrome edges |
 
-**Radius:** `0` everywhere. **Elevation:** none — no shadows on tiles.
+**Radius:** `16px` theme token; large surfaces `22–28px`; CTAs `rounded-full`.  
+**Elevation:** prefer fill + blur over hard borders; no heavy shadows.
 
 ## Typography
 
-- Body / UI: Vazirmatn 400
-- Wordmark only: Vazirmatn 700
-- Section titles: 400 at ~22–30px (anti-bold)
+- Body: Vazirmatn 400–500, comfortable leading (~1.6–1.8)
+- Display: 700–800, tight tracking (`-0.02em` to `-0.03em`) on large sizes
 - Captions: 13px
 
 ## Layout
 
 - Max width ~1280px
-- Section breathing 48–72px
-- Product grid: 2 / 3 / 4 columns, 24px gap
-- Header: three-zone (nav · wordmark · utilities)
-- Footer: inverted carbon surface
+- Soft section gaps; hero/trust as rounded stone panels
+- Product grid: 2 / 3 / 4 columns with rounded media
+- Header: frosted material (`backdrop-blur`) — content can breathe under it
+- Footer: inverted carbon
 
-## Functional surfaces (built)
+## Interactions (Apple-aligned)
 
-Home: hero, trust-strip, product-grid  
-Shell: header, footer  
-Pages: product, cart, checkout, checkout-result
+- Links: color / opacity — never underline
+- Feedback on press: `active:scale-[0.97]`, ~150ms
+- Primary CTA: solid carbon pill
+- Secondary: stone fill pill
+- Prefer materials over 1px hard dividers
+- Reduced motion: keep opacity/color; avoid large slides when `prefers-reduced-motion`
 
 ## Shared storefront UX
 
-Product/cart IA lives in `src/components/storefront/*-page-view.tsx`.
-This theme only skins via `classNames` (sharp corners, carbon CTA).
+Product/cart IA lives in `src/components/storefront/*-page-view.tsx`.  
+This theme skins via `classNames` (soft radius, pill CTAs).  
 Do not fork product purchase flows inside the theme.

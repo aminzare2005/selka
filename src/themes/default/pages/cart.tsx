@@ -8,10 +8,11 @@ export function DefaultCartPage(props: CartPageProps) {
     <CartPageView
       {...props}
       classNames={{
-        cta: "rounded-none bg-[var(--color-foreground)]",
-        stepper: "rounded-none",
-        image: "rounded-none",
-        summary: "rounded-none",
+        cta: "rounded-full bg-[var(--color-foreground)] active:scale-[0.97]",
+        stepper: "rounded-full",
+        image: "rounded-2xl",
+        summary: "rounded-[24px]",
+        item: "rounded-2xl",
       }}
     />
   );

@@ -86,7 +86,7 @@ export function ProductCard({
     >
       <div
         className={cn(
-          "relative aspect-[3/4] overflow-hidden bg-[var(--color-accent)] sm:aspect-square",
+          "relative aspect-square overflow-hidden bg-[var(--color-accent)]",
           "rounded-[var(--radius,0.75rem)]",
           imageClassName,
         )}

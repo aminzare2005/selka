@@ -24,7 +24,7 @@ export function ModernHero({ store, settings }: SectionProps) {
             className="mt-8 rounded-full bg-[var(--color-primary)] text-white hover:opacity-90"
             size="lg"
           >
-            <Link href={`${storePath(store.slug)}#products`}>مشاهده محصولات</Link>
+            <Link href={storePath(store.slug, "/products")}>مشاهده محصولات</Link>
           </Button>
         </div>
         {heroImage && (

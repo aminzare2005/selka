@@ -8,11 +8,11 @@ export function DefaultProductPage(props: ProductPageProps) {
     <ProductPageView
       {...props}
       classNames={{
-        galleryFrame: "rounded-none",
-        thumb: "rounded-none",
-        cta: "rounded-none bg-[var(--color-foreground)]",
-        stepper: "rounded-none",
-        stickyBar: "rounded-none",
+        galleryFrame: "rounded-[24px]",
+        thumb: "rounded-xl",
+        cta: "rounded-full bg-[var(--color-foreground)] active:scale-[0.97]",
+        stepper: "rounded-full",
+        stickyBar: "rounded-2xl",
       }}
     />
   );

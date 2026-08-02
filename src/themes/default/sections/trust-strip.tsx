@@ -8,17 +8,20 @@ const items = [
 
 export function DefaultTrustStrip(_props: SectionProps) {
   return (
-    <section className="bg-[var(--color-accent)]">
-      <div className="mx-auto grid max-w-[1280px] gap-8 px-5 py-10 sm:grid-cols-3 sm:gap-6 sm:px-8 sm:py-12">
-        {items.map((item, i) => (
+    <section className="px-5 py-10 sm:px-8 sm:py-14">
+      <div className="mx-auto grid max-w-[1280px] gap-4 sm:grid-cols-3 sm:gap-5">
+        {items.map((item) => (
           <div
             key={item.title}
-            className={`text-center sm:text-start ${
-              i > 0 ? "border-t border-[#e6e6e6] pt-8 sm:border-t-0 sm:border-s sm:pt-0 sm:ps-6" : ""
-            }`}
+            className="rounded-[22px] bg-[var(--color-accent)] px-6 py-7 sm:px-7 sm:py-8"
           >
-            <p className="text-[13px] font-normal text-[var(--color-foreground)]">{item.title}</p>
-            <p className="mt-1 text-[13px] font-normal text-[var(--color-muted)]">{item.body}</p>
+            <p
+              className="text-[15px] font-bold tracking-tight text-[var(--color-foreground)]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              {item.title}
+            </p>
+            <p className="mt-2 text-[13px] leading-relaxed text-[var(--color-muted)]">{item.body}</p>
           </div>
         ))}
       </div>

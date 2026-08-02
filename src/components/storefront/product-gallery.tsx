@@ -49,7 +49,7 @@ export function ProductGallery({
     return (
       <div
         className={cn(
-          "flex aspect-[4/5] items-center justify-center bg-[var(--color-accent)] text-sm text-[var(--color-muted)] sm:aspect-square",
+          "flex aspect-square items-center justify-center bg-[var(--color-accent)] text-sm text-[var(--color-muted)]",
           frameClassName,
           className,
         )}
@@ -64,7 +64,7 @@ export function ProductGallery({
       <div
         ref={scrollerRef}
         className={cn(
-          "flex aspect-[4/5] snap-x snap-mandatory overflow-x-auto overscroll-x-contain bg-[var(--color-accent)] sm:aspect-square",
+          "flex aspect-square snap-x snap-mandatory overflow-x-auto overscroll-x-contain bg-[var(--color-accent)]",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
           frameClassName,
         )}
