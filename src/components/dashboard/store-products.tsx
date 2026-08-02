@@ -79,7 +79,7 @@ function ProductCard({
   return (
     <>
       <Card className="group overflow-hidden">
-        <div className="relative aspect-[4/3] overflow-hidden bg-secondary/60">
+        <div className="relative aspect-square overflow-hidden bg-secondary/60">
           {product.images[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -125,41 +125,39 @@ function ProductCard({
             </p>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-divider pt-4">
+          <div className="mt-4 flex items-center gap-2 border-t border-divider pt-4">
             <Button
               variant="outline"
-              size="sm"
+              size="icon-sm"
               onClick={() => onEdit(product)}
-              className="rounded-full"
+              aria-label="ویرایش"
             >
-              <Pencil className="h-3.5 w-3.5" />
-              ویرایش
+              <Pencil className="h-4 w-4" />
             </Button>
             {storeSlug && product.isActive && (
               <Button
                 variant="outline"
-                size="sm"
+                size="icon-sm"
                 asChild
-                className="rounded-full"
+                aria-label="مشاهده"
               >
                 <a
                   href={productPath(storeSlug, product.slug)}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <ExternalLink className="h-3.5 w-3.5" />
-                  مشاهده
+                  <ExternalLink className="h-4 w-4" />
                 </a>
               </Button>
             )}
             <Button
               variant="outline"
-              size="sm"
+              size="icon-sm"
               onClick={() => setDeleteOpen(true)}
-              className="rounded-full text-coral-600 hover:border-coral-100 hover:bg-coral-100 hover:text-coral-800"
+              aria-label="حذف"
+              className="text-coral-600 hover:border-coral-100 hover:bg-coral-100 hover:text-coral-800"
             >
-              <Trash2 className="h-3.5 w-3.5" />
-              حذف
+              <Trash2 className="h-4 w-4" />
             </Button>
           </div>
         </CardContent>
@@ -297,7 +295,7 @@ export function StoreProducts({ storeId, storeSlug }: StoreProductsProps) {
           }
         />
       ) : (
-        <div className="stagger grid grid-cols-2 gap-4 xl:grid-cols-3">
+        <div className="stagger grid gap-4 grid-cols-2 xl:grid-cols-3">
           {products.map((product) => (
             <ProductCard
               key={product.id}

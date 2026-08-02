@@ -10,8 +10,8 @@ import {
   Settings,
   ShoppingBag,
   Store,
-  TrendingUp,
 } from "lucide-react";
+import { DashboardStatsOverview } from "@/components/dashboard/dashboard-stats-overview";
 import { getSession } from "@/lib/auth-server";
 import { db } from "@/lib/db";
 import { getPrimaryStoreForUser } from "@/lib/store-access";
@@ -21,7 +21,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { toneSurface } from "@/components/ui/tone";
-import { formatPrice } from "@/lib/utils";
 import { storePath } from "@/lib/storefront-url";
 
 function greeting() {
@@ -83,33 +82,6 @@ export default async function DashboardPage() {
 
   const totalRevenue = revenue._sum.totalAmount ?? 0;
 
-  const stats = [
-    {
-      label: "محصولات",
-      value: productCount.toLocaleString("fa-IR"),
-      icon: Package,
-      tone: "brand",
-    },
-    {
-      label: "سفارش موفق",
-      value: paidOrders.toLocaleString("fa-IR"),
-      icon: ShoppingBag,
-      tone: "mint",
-    },
-    {
-      label: "در انتظار پرداخت",
-      value: pendingOrders.toLocaleString("fa-IR"),
-      icon: Clock,
-      tone: "sun",
-    },
-    {
-      label: "درآمد",
-      value: formatPrice(totalRevenue),
-      icon: TrendingUp,
-      tone: "ocean",
-    },
-  ] as const;
-
   const quickLinks = [
     {
       href: "/dashboard/products",
@@ -165,34 +137,17 @@ export default async function DashboardPage() {
           <p className="mt-1 text-muted-foreground">
             {isFresh
               ? `«${store.name}» آماده‌ست، فقط محصول‌هات مانده.`
-              : `امروز «${store.name}» چطور پیش می‌رود؟`}
+              : `${store.name} چطور پیش میره؟`}
           </p>
         </div>
-        <Button variant="outline" size="sm" asChild>
-          <a href={storePath(store.slug)} target="_blank" rel="noreferrer">
-            <ExternalLink className="h-4 w-4" />
-            دیدن فروشگاه
-          </a>
-        </Button>
       </div>
 
-      <div className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardContent className="flex items-center gap-3.5 p-5">
-              <div
-                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${toneSurface[stat.tone]}`}
-              >
-                <stat.icon className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <p className="mt-0.5 truncate text-xl font-extrabold">{stat.value}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <DashboardStatsOverview
+        productCount={productCount}
+        paidOrders={paidOrders}
+        pendingOrders={pendingOrders}
+        totalRevenue={totalRevenue}
+      />
 
       {pendingOrders > 0 && (
         <Card className="animate-pop-in border-sun-100 bg-sun-100/50 shadow-none">

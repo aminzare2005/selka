@@ -11,7 +11,7 @@ export default function DashboardLoading() {
         </div>
         <Skeleton className="h-9 w-32 rounded-full" />
       </div>
-      <StatsCardsSkeleton count={4} />
+      <StatsCardsSkeleton />
       <div className="space-y-4">
         <Skeleton className="h-6 w-28" />
         <div className="grid gap-3 sm:grid-cols-2">

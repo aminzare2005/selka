@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SelkaBrandMark } from "@/components/layout/selka-brand-mark";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -12,8 +13,8 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       {/* Form side */}
       <div className="flex w-full flex-col justify-center px-6 py-12 lg:w-1/2 lg:px-16">
         <div className="mx-auto w-full max-w-sm animate-slide-up">
-          <Link href="/" className="font-display text-xl font-bold">
-            سلکا
+          <Link href="/">
+            <SelkaBrandMark />
           </Link>
           <h1 className="mt-8 text-h2">{title}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>

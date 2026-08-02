@@ -24,7 +24,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const sections = buildDashboardSections(dashboardNavItems, extraItems);
 
   return (
-    <AppShell user={session.user} sections={sections}>
+    <AppShell user={session.user} sections={sections} storeSlug={store?.slug ?? null}>
       <StoreProvider store={store}>{children}</StoreProvider>
     </AppShell>
   );

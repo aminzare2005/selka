@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SelkaBrandMark } from "@/components/layout/selka-brand-mark";
 
 export function MarketingFooter() {
   return (
@@ -6,7 +7,7 @@ export function MarketingFooter() {
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
-            <p className="font-display text-lg font-bold">سلکا</p>
+            <SelkaBrandMark />
             <p className="mt-2 max-w-sm text-sm text-muted-foreground">
               پلتفرم فروشگاه‌ساز فارسی برای ساخت، مدیریت و فروش آنلاین.
             </p>
