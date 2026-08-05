@@ -6,7 +6,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Selka (سلکا) — agent guide
 
-Persian multi-tenant storefront builder. Repo folder may be `tix`; npm package name is `selka`.
+Persian multi-tenant storefront builder. Repo folder and npm package name are `selka`.
 
 ## Stack
 
